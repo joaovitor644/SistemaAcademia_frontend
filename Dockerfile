@@ -8,13 +8,12 @@ COPY package.json package-lock.json ./
 
 # Instala as dependências do projeto
 RUN npm install
-
 # Copia o restante dos arquivos do projeto para o container
 COPY . .
 
 # Expõe a porta padrão do React
-EXPOSE 3000
+EXPOSE 5173
 
 # Comando para iniciar a aplicação React
-CMD ["npm", "start"]
+CMD ["npm", "dev"]
 
