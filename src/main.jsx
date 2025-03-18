@@ -2,13 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Index from './Pages/Index';
+import Login from './Pages/Login';
 
-let router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Index />,
-  }
-]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -16,7 +11,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         		createBrowserRouter([
 				  {
 				    path: "/",
-				    element: <Index />,
+				    element: <Login />,
+				  },
+				  {
+				  	path: "/main",
+				  	element: <Index />
 				  }
 				])
 			}

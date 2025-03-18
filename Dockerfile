@@ -15,5 +15,5 @@ COPY . .
 EXPOSE 5173
 
 # Comando para iniciar a aplicação React
-CMD ["npm", "dev"]
+CMD ["npm","run", "dev"]
 
