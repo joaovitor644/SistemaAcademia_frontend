@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import '../Assets/HomePage.css'
+import imgAlter from '../Assets/alter.svg'
+import MenuBar from "../Components/MenuBar";
+import TopBar from "../Components/TopBar";
 
 export default function Index(){
     const navigate = useNavigate();
@@ -19,7 +23,13 @@ export default function Index(){
 
     return (
         <>
-            <h1> Hello React </h1>
+        <TopBar />
+        <div class="home-page">
+            <MenuBar />
+            <div class="svg-container">
+                <img src={imgAlter}  class="svg-icon" />
+            </div>
+        </div>
         </>
     );
 }
