@@ -19,5 +19,12 @@
     font-size: 1rem;
     font-weight: 500;
     color: #555;
+    text-align: center;
   }
-  
+
+  .user-info{
+    display: inherit;
+  }
+h3{
+  margin-right: 15px
+}

@@ -33,7 +33,9 @@
   background: #d0d0d0;
 }
 
-
+a {
+  text-decoration: none;
+}
 
 @media (max-width: 768px) {
   .frame-8 {

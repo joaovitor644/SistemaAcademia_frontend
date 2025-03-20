@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Index from './Pages/Index';
 import Login from './Pages/Login';
-
+import Aluno from './Pages/Aluno';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -16,6 +16,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 				  {
 				  	path: "/main",
 				  	element: <Index />
+				  },
+				  {
+					path: "/aluno",
+					element: <Aluno />
 				  }
 				])
 			}
