@@ -36,25 +36,27 @@ const TableComponent = ({ titulo, dados, headers }) => {
                 ))}
                 <th>Editar</th> {/* Coluna de edição */}
                 <th>Remover</th> {/* Coluna de remoção */}
-                <th>
-                  <button className='plusButton'>
-                    <img className = "icon" src= {plusIcon}/>
-                  </button>
-                </th>
                 
             </tr>
             </thead>
             <tbody>
             <tr>
                 <td colSpan={headers.length + 2}> {/* Colspan dinâmico */}
-                <input
+                  <div className="search-container"> 
+                  <input
                     type="text"
                     placeholder="Digite uma busca"
                     className="search-input"
                     value={busca}
                     onChange={(e) => setBusca(e.target.value)} // Atualiza o estado da busca
                 />
+                <button className='plusButton'>
+                    <img className = "icon" src= {plusIcon}/>
+                  </button>
+                  </div>
+                
                 </td>
+                  
             </tr>
             {dadosFiltrados.map((item) => (
                 <tr key={item.id}>
