@@ -43,13 +43,19 @@
     background-color: #f1f1f1;  
   }
   
+  .search-container {
+    display: flex; /* Use Flexbox to align items */
+    align-items: center; /* Vertically center the items */
+    gap: 10px; /* Add space between the search bar and the plus icon */
+    margin: 10px 0; /* Add margin for spacing */
+  }
+  
   .search-input {
-    width: 100%;
+    flex: 1; /* Allow the search bar to take up remaining space */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 7px;
     font-size: 1rem;
-    margin: 10px 0;
   }
 
   .icon{
@@ -60,17 +66,31 @@
 
 
   .table-scroll {
-    max-height: 600px; /* Altura máxima da tabela */
+    max-height: 95%; /* Altura máxima da tabela */
     overflow-y: auto; /* Habilitar rolagem vertical */
   }
 
   .plusButton {
-    background-color:#007bff; /* Alterado para FFB703 */
-    border:#007bff;    
+    background-color: #007bff;
+    border: none;
+    border-radius: 7px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 100ms ease-in-out;
   }
   
   .plusButton:hover {
     cursor: pointer;
+    background-color: #0056b3; /* Darker shade on hover */
+    transition: 200ms ease-in-out;
+  }
+  
+  .icon {
+    width: 24px;
+    height: 24px;
   }
 
   .whiteButton{
