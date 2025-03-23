@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../Assets/TableComponent.css'; // Importando o CSS para estilização
 import lixoIcon from "../Assets/lixo.png";
 import editIcon from "../Assets/editar.png";
+import plusIcon from "../Assets/add-64px.png"
 
 const TableComponent = ({ titulo, dados, headers }) => {
   const [busca, setBusca] = useState(''); // Estado para o valor da busca
@@ -10,9 +11,15 @@ const TableComponent = ({ titulo, dados, headers }) => {
   // Efeito para filtrar os dados sempre que o valor da busca mudar
   useEffect(() => {
     const resultadosFiltrados = dados.filter((item) =>
-      headers.some((header) =>
-        item[header.toLowerCase()].toLowerCase().includes(busca.toLowerCase())
-      )
+      headers.some((header) => {
+        const value = item[header.toLowerCase()];
+        // Check if value is a string before calling .toLowerCase()
+        if (typeof value === 'string') {
+          return value.toLowerCase().includes(busca.toLowerCase());
+        }
+        // If not a string, handle as you prefer (e.g., skip filtering or treat as empty string)
+        return String(value).toLowerCase().includes(busca.toLowerCase());
+      })
     );
     setDadosFiltrados(resultadosFiltrados);
   }, [busca, dados, headers]);
@@ -29,6 +36,12 @@ const TableComponent = ({ titulo, dados, headers }) => {
                 ))}
                 <th>Editar</th> {/* Coluna de edição */}
                 <th>Remover</th> {/* Coluna de remoção */}
+                <th>
+                  <button className='plusButton'>
+                    <img className = "icon" src= {plusIcon}/>
+                  </button>
+                </th>
+                
             </tr>
             </thead>
             <tbody>
@@ -49,10 +62,15 @@ const TableComponent = ({ titulo, dados, headers }) => {
                     <td key={index}>{item[header.toLowerCase()]}</td> // Dados dinâmicos
                 ))}
                 <td>
+                  <button className='whiteButton'>
                     <img src={editIcon} alt="Editar" className="icon" />
+                  </button>
+                    
                 </td>
                 <td>
+                  <button className='whiteButton'>
                     <img src={lixoIcon} alt="Remover" className="icon" />
+                  </button>
                 </td>
                 </tr>
             ))}

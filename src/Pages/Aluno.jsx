@@ -5,6 +5,7 @@ import '../Assets/HomePage.css'
 import MenuBar from "../Components/MenuBar";
 import TableComponent from "../Components/TableContent";
 import TopBar from "../Components/TopBar";
+import FeedbackPopup from "../Components/FeedbackPopup";
 
 
 export default function Aluno(){
@@ -13,7 +14,9 @@ export default function Aluno(){
     const headers = ["Aluno", "Contato", "Status"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-
+    const closeFeedback = () => {
+        setFeedback({ message: '', type: '' });
+      };
 
     const dados = [
         { id: 1, aluno: 'Roberto da Silva Junior', contato: '9123912398', status: 'Pago' },
