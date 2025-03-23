@@ -56,6 +56,6 @@
 
 
   .table-scroll {
-    max-height: 390px; /* Altura máxima da tabela */
+    max-height: 600px; /* Altura máxima da tabela */
     overflow-y: auto; /* Habilitar rolagem vertical */
   }

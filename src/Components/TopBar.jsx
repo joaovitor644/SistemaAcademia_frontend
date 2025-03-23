@@ -1,16 +1,29 @@
-import "../Assets/TopBar.css"
-import Exit from "../Assets/sair.png"
-export default function TopBar(){
-    return (
-        <div class="top-bar">
-            <h3>Menu</h3>
-            <div class="title">Sistema Academia</div>
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import "../Assets/TopBar.css";
+import Exit from "../Assets/sair.png";
 
-            
-            <div class="user-info">
-                <h3>Usuário </h3>
-                <img src={Exit} />
-            </div>
-        </div>
-    );
+export default function TopBar({ Titulo , Username }) {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post('http://localhost:5000/logout', {}, { withCredentials: true });
+      navigate('/');
+    } catch (error) {
+      alert('Falha no logoff');
+    }
+  };
+
+  return (
+    <div className="top-bar">
+      <h3>Menu</h3>
+      <div className="title">{Titulo}</div>
+      <div className="user-info">
+        <h3>{Username}</h3>
+        <img src={Exit} alt="Logoff" onClick={handleLogout} />
+      </div>
+    </div>
+  );
 }

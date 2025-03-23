@@ -11,6 +11,10 @@ export default function Aluno(){
     const navigate = useNavigate();
     const titulo = "Tabela de Alunos";
     const headers = ["Aluno", "Contato", "Status"];
+    const [feedback, setFeedback] = useState({ message: '', type: '' });
+    const [username, setUsername] = useState('');
+
+
     const dados = [
         { id: 1, aluno: 'Roberto da Silva Junior', contato: '9123912398', status: 'Pago' },
         { id: 2, aluno: 'Pedro Paulo Batista Santos', contato: '1823912389', status: 'Pago' },
@@ -33,11 +37,12 @@ export default function Aluno(){
         { id: 19, aluno: 'Diego Alves', contato: '9876545566', status: 'Pendente' },
         { id: 20, aluno: 'Carolina Mendes', contato: '9988771234', status: 'Pago' },
       ];
+      
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
-                    
+                    setUsername(response.data.user);
                 } else {
                     navigate('/');
                 }
@@ -47,10 +52,11 @@ export default function Aluno(){
 
     return (
         <>
-        <TopBar />
+        <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
             <TableComponent titulo={titulo} dados={dados} headers={headers}/>
+            <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>
     );

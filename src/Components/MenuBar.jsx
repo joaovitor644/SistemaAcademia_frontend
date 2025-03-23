@@ -14,5 +14,6 @@ export default function MenuBar(){
             <div class="frame-item"><span>Visitantes</span></div>
             <div class="frame-item"><span>Material</span></div>
         </div>
+        
     );
 }

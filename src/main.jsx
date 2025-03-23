@@ -20,7 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 				  {
 					path: "/aluno",
 					element: <Aluno />
-				  }
+				  },
 				])
 			}
 		/>
