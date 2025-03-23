@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import FeedbackPopup from '../Components/FeedbackPopup';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [feedback, setFeedback] = useState({ message: '', type: '' });
+  const closeFeedback = () => {
+    setFeedback({ message: '', type: '' });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -18,7 +23,8 @@ const Login = () => {
           navigate('/main');
           }
         } catch (error) {
-            alert('Falha no login');
+          setFeedback({ message: 'Falha no login', type: 'error' });
+            //alert('Falha no login');
         }
     };
 
@@ -50,6 +56,7 @@ const Login = () => {
         </div>
         <button type="submit" style={styles.button}>Entrar</button>
       </form>
+      <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
     </div>
   );
 };
@@ -73,6 +80,8 @@ const styles = {
     padding: '10px',
     fontSize: '16px',
     width: '200px',
+    borderRadius: '7px',
+    border: '1px solid #ccc'
   },
   button: {
     padding: '10px',
@@ -80,7 +89,7 @@ const styles = {
     backgroundColor: '#007bff',
     color: 'white',
     border: 'none',
-    borderRadius: '5px',
+    borderRadius: '7px',
     cursor: 'pointer',
   },
 };

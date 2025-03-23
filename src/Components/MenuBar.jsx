@@ -11,7 +11,7 @@ export default function MenuBar(){
             <div class="frame-item"><span>Aulas</span></div>
             <div class="frame-item"><span>Planos</span></div>
             <div class="frame-item"><span>Avaliação Física</span></div>
-            <div class="frame-item"><span>Visitantes</span></div>
+            <a href="/visitante"><div class="frame-item"><span>Visitantes</span></div></a>
             <div class="frame-item"><span>Material</span></div>
         </div>
         
