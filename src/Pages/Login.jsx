@@ -16,8 +16,8 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/auth', {
-        username,
-        password
+        'username': username,
+        'password': password
       }, { withCredentials: true });
         if (response.status === 200) {
           navigate('/main');

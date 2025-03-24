@@ -3,25 +3,20 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import '../Assets/HomePage.css'
 import MenuBar from "../Components/MenuBar";
-import TableComponent from "../Components/TableContent";
 import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
+import Forms from "../Components/Forms";
 
 
-
-export default function Aluno({AddPath}){
+export default function Cadastro({fields ,submitUrl}){
     const navigate = useNavigate();
-    const headers = ["Nome", "Telefone", "CPF"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [alunos,setAlunos] = useState('')
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
 
-    
-      
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -34,24 +29,12 @@ export default function Aluno({AddPath}){
             .catch(() => navigate('/'));
     }, [navigate]);
 
-    useEffect(() => {
-        axios.get('http://localhost:5000/ListarAluno', { withCredentials: true })
-            .then(response => {
-                if (response.data.alunos) {
-                    setAlunos(response.data.alunos);
-                }
-            })
-            .catch(() => {
-                // Tratar erro (se necessário)
-            });
-    }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={alunos.length >0 ? alunos : []} headers={headers} titulo={"Tabela de Alunos"} AddPath={AddPath} urlView={"/aluno/view"} keyUnique={"matricula"} urlEdit={"/aluno/edit/"}/>
+            <Forms fields={fields} submitUrl={submitUrl} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>
