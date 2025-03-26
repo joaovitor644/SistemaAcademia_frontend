@@ -4,7 +4,7 @@ import axios from 'axios';
 import "../Assets/TopBar.css";
 import Exit from "../Assets/sair.png";
 
-export default function TopBar({ Titulo , Username }) {
+export default function TopBar({ Titulo , Username ,IsAdmin}) {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -21,7 +21,7 @@ export default function TopBar({ Titulo , Username }) {
       <h3>Menu</h3>
       <div className="title">{Titulo}</div>
       <div className="user-info">
-        <h3>{Username}</h3>
+        <h3>{Username} - {IsAdmin ? "Administrador" : "Instrutor"}</h3>
         <img src={Exit} alt="Logoff" onClick={handleLogout} />
       </div>
     </div>

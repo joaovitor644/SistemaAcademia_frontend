@@ -14,6 +14,9 @@ export default function Aluno({AddPath}){
     const headers = ["Nome", "Telefone", "CPF"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
+
+
     const [alunos,setAlunos] = useState('')
 
     const closeFeedback = () => {
@@ -27,6 +30,7 @@ export default function Aluno({AddPath}){
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
@@ -48,7 +52,7 @@ export default function Aluno({AddPath}){
 
     return (
         <>
-        <TopBar Titulo={"Sistema Academia"} Username={username}/>
+        <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
             <TableComponent dados={alunos.length >0 ? alunos : []} headers={headers} titulo={"Tabela de Alunos"} AddPath={AddPath} urlView={"/aluno/view"} keyUnique={"matricula"} urlEdit={"/aluno/edit/"}/>

@@ -11,19 +11,14 @@ import FeedbackPopup from "../Components/FeedbackPopup";
 export default function Planos(){
     const navigate = useNavigate();
     const titulo = "Tabela de Planos";
-    const headers = ["Nome", "Custo", "Descrição"];
+    const headers = ["Nome", "Valor", "Descricao"];
+    const [planos,setPlanos] = useState('')
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
-
-      const dados = [
-        { nome: "Plano Básico", custo: "R$ 99,99", descrição: "Acesso à academia durante o horário comercial" },
-        { nome: "Plano Premium", custo: "R$ 149,99", descrição: "Acesso 24h, aulas de grupo e descontos em produtos" },
-        { nome: "Plano VIP", custo: "R$ 199,99", descrição: "Acesso 24h, aulas de grupo, personal trainer e estacionamento grátis" }
-      ];
-    
     
     
     
@@ -32,6 +27,7 @@ export default function Planos(){
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
@@ -39,12 +35,28 @@ export default function Planos(){
             .catch(() => navigate('/'));
     }, [navigate]);
 
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarPlano', { withCredentials: true })
+            .then(response => {
+                if (response.data.planos) {
+                    setPlanos(response.data.planos)
+                    console.log(response.data.planos)
+                } else {
+                    setPlanos([])
+                }
+            })
+            .catch(() => {
+                setPlanos([])
+            });
+    }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
+
     return (
         <>
-        <TopBar Titulo={"Sistema Academia"} Username={username}/>
+        <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={dados} headers={headers}/>
+            <TableComponent titulo={titulo} dados={planos} headers={headers} AddPath={"/planos/cadastro"} urlEdit={"/planos/edit/"} urlView={"/planos/view"} keyUnique={"id"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

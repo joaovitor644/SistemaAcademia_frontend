@@ -54,6 +54,7 @@ const Forms = ({ fields, submitUrl }) => {
               />
             );
           case 'select':
+            console.log("Options: " , field)
             return (
               <select
                 id={field.name}

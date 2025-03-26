@@ -9,12 +9,14 @@ import TopBar from "../Components/TopBar";
 export default function Index(){
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
 
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
@@ -24,7 +26,7 @@ export default function Index(){
 
     return (
         <>
-        <TopBar Titulo={"Sistema Academia"} Username={username}/>
+        <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
             <div class="svg-container">
