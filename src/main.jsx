@@ -23,7 +23,8 @@ const AppRouter = () => {
         { path: "/aluno", element: <Aluno AddPath="/aluno/cadastro" /> },
         { path: "/visitante", element: <Visitante /> },
         { path: "/planos", element: <Planos /> },
-		{ path: "/aluno/cadastro", element: <CadastroAluno submitUrl={"http://localhost:5000/CadastrarAluno"}/> },
+		    { path: "/aluno/cadastro", element: <CadastroAluno submitUrl={"http://localhost:5000/CadastrarAluno"}/> },
+        { path: "/dev", element: <CadastroAluno submitUrl={"http://localhost:5000/CadastrarAluno"}/> }
       ])}
     />
   );

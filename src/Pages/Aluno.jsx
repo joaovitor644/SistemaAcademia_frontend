@@ -24,7 +24,7 @@ export default function Aluno({AddPath}){
       };
 
     
-      
+      /*
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -49,7 +49,7 @@ export default function Aluno({AddPath}){
                 // Tratar erro (se necessário)
             });
     }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-
+    */
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>

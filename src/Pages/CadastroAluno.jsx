@@ -17,7 +17,7 @@ export default function CadastroAluno({ submitUrl }) {
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
     };
-
+    /*
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -42,6 +42,9 @@ export default function CadastroAluno({ submitUrl }) {
             .catch(() => navigate('/'));
     }, [navigate]);
 
+
+    */
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevData => ({ ...prevData, [name]: value }));
@@ -57,7 +60,6 @@ export default function CadastroAluno({ submitUrl }) {
                 setFeedback({ message: 'Erro ao cadastrar aluno!', type: 'error' });
             });
     };
-
     return (
         <>
             <TopBar Titulo={"Sistema Academia"} Username={username} />

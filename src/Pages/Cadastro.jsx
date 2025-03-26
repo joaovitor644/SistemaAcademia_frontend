@@ -16,7 +16,7 @@ export default function Cadastro({fields ,submitUrl}){
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
-
+    /*
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -28,7 +28,7 @@ export default function Cadastro({fields ,submitUrl}){
             })
             .catch(() => navigate('/'));
     }, [navigate]);
-
+    */
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username}/>

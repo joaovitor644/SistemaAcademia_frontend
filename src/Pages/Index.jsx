@@ -10,7 +10,7 @@ export default function Index(){
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [IsAdmin,setIsAdmin] = useState('')
-
+    /*
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -22,7 +22,7 @@ export default function Index(){
                 }
             })
             .catch(() => navigate('/'));
-    }, [navigate]);
+    }, [navigate]);*/
 
     return (
         <>

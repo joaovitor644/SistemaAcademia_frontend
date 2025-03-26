@@ -31,7 +31,7 @@ export default function Visitante(){
     ];
     
     
-    
+    /*
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -43,7 +43,7 @@ export default function Visitante(){
             })
             .catch(() => navigate('/'));
     }, [navigate]);
-
+    */
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username}/>

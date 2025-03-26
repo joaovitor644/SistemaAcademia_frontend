@@ -35,7 +35,7 @@ export default function Planos(){
             .catch(() => navigate('/'));
     }, [navigate]);
 
-
+    /*
     useEffect(() => {
         axios.get('http://localhost:5000/ListarPlano', { withCredentials: true })
             .then(response => {
@@ -50,7 +50,7 @@ export default function Planos(){
                 setPlanos([])
             });
     }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-
+    */
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
