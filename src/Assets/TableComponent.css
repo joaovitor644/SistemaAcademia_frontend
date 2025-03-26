@@ -94,6 +94,12 @@
     height: 24px;
   }
 
+  .plusIcon {
+    width: 24px;
+    height: 24px;
+    filter: invert();
+  }
+
   .whiteButton{
     background-color: #ffffff;
     border: #ffffff;

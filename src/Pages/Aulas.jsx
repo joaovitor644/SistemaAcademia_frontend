@@ -8,10 +8,10 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Planos(){
+export default function Aulas(){
     const navigate = useNavigate();
-    const titulo = "Tabela de Planos";
-    const headers = ["Nome", "Valor", "Descricao"];
+    const titulo = "Tabela de Aulas";
+    const headers = ["Tipo", "Horario", "Sala"];
     const [planos,setPlanos] = useState('')
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
@@ -20,7 +20,13 @@ export default function Planos(){
         setFeedback({ message: '', type: '' });
       };
     
-    
+      const aulas = [
+        { tipo: "Musculação", horario: "06:00 - 07:00", sala: "A" },
+        { tipo: "Yoga", horario: "07:30 - 08:30", sala: "B" },
+        { tipo: "Pilates", horario: "09:00 - 10:00", sala: "C" },
+        { tipo: "Zumba", horario: "10:30 - 11:30", sala: "A" },
+        { tipo: "Spinning", horario: "12:00 - 13:00", sala: "B" }
+      ];
     
     /*useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
@@ -56,7 +62,7 @@ export default function Planos(){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={planos} headers={headers} AddPath={"/planos/cadastro"} urlEdit={"/planos/edit/"} urlView={"/planos/view"} keyUnique={"id"} />
+            <TableComponent titulo={titulo} dados={aulas} headers={headers} AddPath={"/aulas/cadastro"} urlEdit={"/aulas/edit/"} urlView={"/aulas/view"} keyUnique={"id"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

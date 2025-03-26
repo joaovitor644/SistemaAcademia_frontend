@@ -8,55 +8,44 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Planos(){
+export default function Material(){
     const navigate = useNavigate();
-    const titulo = "Tabela de Planos";
-    const headers = ["Nome", "Valor", "Descricao"];
-    const [planos,setPlanos] = useState('')
+    const titulo = "Tabela de Materiais";
+    const headers = ["Nome", "Quantidade", "Disponibilidade"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
+
+      const dados = [
+        { nome: "Halteres 5kg", quantidade: 10, disponibilidade: "Disponível" },
+        { nome: "Bicicleta Ergométrica", quantidade: 4, disponibilidade: "Indisponível" },
+        { nome: "Corda de Pular", quantidade: 15, disponibilidade: "Disponível" },
+        { nome: "Kettlebell 8kg", quantidade: 6, disponibilidade: "Disponível" },
+        { nome: "Colchonete", quantidade: 12, disponibilidade: "Disponível" }
+      ];
     
     
-    
-    /*useEffect(() => {
+    /*
+    useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
-                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
             })
             .catch(() => navigate('/'));
-    }, [navigate]);*/
-
-    /*
-    useEffect(() => {
-        axios.get('http://localhost:5000/ListarPlano', { withCredentials: true })
-            .then(response => {
-                if (response.data.planos) {
-                    setPlanos(response.data.planos)
-                    console.log(response.data.planos)
-                } else {
-                    setPlanos([])
-                }
-            })
-            .catch(() => {
-                setPlanos([])
-            });
-    }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
+    }, [navigate]);
     */
     return (
         <>
-        <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
+        <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={planos} headers={headers} AddPath={"/planos/cadastro"} urlEdit={"/planos/edit/"} urlView={"/planos/view"} keyUnique={"id"} />
+            <TableComponent titulo={titulo} dados={dados} headers={headers}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>
