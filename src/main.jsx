@@ -16,6 +16,8 @@ import Aulas from './Pages/Aulas';
 import Material from './Pages/Material';
 import Avaliacao from './Pages/AvaliacaoFisica';
 import Treinos from './Pages/Treino';
+import CadastroAvFisica from './Pages/CadastroAvFisica'
+import CadastroFuncionario from './Pages/CadastroFuncionario';
 
 const submitUrl1 = 'http://localhost:5000/CadastrarPlano';
 const planosApiUrl = 'http://localhost:5000/ListarPlano';
@@ -36,7 +38,7 @@ const AppRouter = () => {
         { path: "/material", element: <Material/>},
         { path: "/avaliacao", element: <Avaliacao/> },
         { path: "/treino", element: <Treinos/>},
-        { path: "/dev", element: <ProfilePage/> },
+        { path: "/dev", element:<CadastroFuncionario submitUrl={"http://localhost:5000/CadastroAvFisica"}/> },
         
         { path: "/novo", element: <ShowInfo labels={["nome", "sobrenome"]} data={{nome: ["nome1"], sobrenome: ["dois"]}} /> }
       ])}
