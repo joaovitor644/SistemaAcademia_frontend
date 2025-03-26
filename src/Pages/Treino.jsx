@@ -8,10 +8,10 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Planos(){
+export default function Treinos(){
     const navigate = useNavigate();
-    const titulo = "Tabela de Planos";
-    const headers = ["Nome", "Valor", "Descricao"];
+    const titulo = "Tabela de Treinos";
+    const headers = ["Objetivo", "Dificuldade"];
     const [planos,setPlanos] = useState('')
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
@@ -19,7 +19,12 @@ export default function Planos(){
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
-    
+      
+      const dados = [
+        { objetivo: "Emagrecimento", dificuldade: "Média" },
+        { objetivo: "Aumento de massa muscular", dificuldade: "Alta" },
+        { objetivo: "Melhora da resistência", dificuldade: "Baixa" }
+      ];
     
     
     /*useEffect(() => {
@@ -56,7 +61,7 @@ export default function Planos(){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={planos} headers={headers} AddPath={"/planos/cadastro"} urlEdit={"/planos/edit/"} urlView={"/planos/view"} keyUnique={"id"} />
+            <TableComponent titulo={titulo} dados={dados} headers={headers} AddPath={"/treino/cadastro"} urlEdit={"/treino/edit/"} urlView={"/treino/view"} keyUnique={"id"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

@@ -8,21 +8,31 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Planos(){
+
+export default function Funcionario({AddPath}){
     const navigate = useNavigate();
-    const titulo = "Tabela de Planos";
-    const headers = ["Nome", "Valor", "Descricao"];
-    const [planos,setPlanos] = useState('')
+    const headers = ["Nome", "NIT", "Cargo"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
     const [IsAdmin,setIsAdmin] = useState('')
+
+
+    const dados = [
+        { nome: "João Silva", nit: "123456789", cargo: "Instrutor" },
+        { nome: "Maria Oliveira", nit: "987654321", cargo: "Administrador" },
+        { nome: "Carlos Santos", nit: "456789123", cargo: "Instrutor" },
+        { nome: "Ana Pereira", nit: "321654987", cargo: "Administrador" }
+      ];
+
+    const [alunos,setAlunos] = useState('')
+
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
+
     
-    
-    
-    /*useEffect(() => {
+      /*
+    useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
@@ -33,21 +43,17 @@ export default function Planos(){
                 }
             })
             .catch(() => navigate('/'));
-    }, [navigate]);*/
+    }, [navigate]);
 
-    /*
     useEffect(() => {
-        axios.get('http://localhost:5000/ListarPlano', { withCredentials: true })
+        axios.get('http://localhost:5000/ListarAluno', { withCredentials: true })
             .then(response => {
-                if (response.data.planos) {
-                    setPlanos(response.data.planos)
-                    console.log(response.data.planos)
-                } else {
-                    setPlanos([])
+                if (response.data.alunos) {
+                    setAlunos(response.data.alunos);
                 }
             })
             .catch(() => {
-                setPlanos([])
+                // Tratar erro (se necessário)
             });
     }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
     */
@@ -56,7 +62,7 @@ export default function Planos(){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={planos} headers={headers} AddPath={"/planos/cadastro"} urlEdit={"/planos/edit/"} urlView={"/planos/view"} keyUnique={"id"} />
+            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Funcionários"} AddPath={AddPath} urlView={"funcionarios/view/"} keyUnique={"matricula"} urlEdit={"funcionarios/edit/"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

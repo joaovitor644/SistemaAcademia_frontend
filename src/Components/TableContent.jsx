@@ -61,7 +61,7 @@ const TableComponent = ({ titulo, dados = [], headers, AddPath, urlView, keyUniq
                   />
                   <button className="plusButton">
                     <a href={AddPath}>
-                      <img className="icon" src={plusIcon} alt="Adicionar" />
+                      <img className="plusIcon" src={plusIcon} alt="Adicionar" />
                     </a>
                   </button>
                 </div>
