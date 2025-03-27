@@ -27,8 +27,9 @@ export default function CadastroAluno({ submitUrl }) {
         bairro: '',
         cidade: '',
         plano_id: '',
+        aulas: []
     });
-    const [planos, setPlanos] = useState([]);
+    const [planos, setPlanos] = useState([{id:'1',nome:"base"},{id:'2',nome:"base2"}]);
     const [aulas, setAulas] = useState([]);
     const [aulaSelecionada, setAulaSelecionada] = useState('');
 
@@ -66,13 +67,15 @@ export default function CadastroAluno({ submitUrl }) {
             aulas, // Add selected classes (aulas) here
         };
 
-        axios.post(submitUrl, dataToSubmit)
+        /*axios.post(submitUrl, dataToSubmit)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })
             .catch((error) => {
                 setFeedback({ message: 'Erro ao cadastrar aluno!', type: 'error' });
-            });
+            });*/
+
+            console.log(dataToSubmit)
     };
 
     return (
@@ -294,6 +297,7 @@ export default function CadastroAluno({ submitUrl }) {
                                 ))
                             ) : (
                                 <option value="">Carregando...</option>
+                                
                             )}
                         </select>
                     </div>
