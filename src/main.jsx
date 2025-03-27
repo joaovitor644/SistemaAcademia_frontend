@@ -24,9 +24,70 @@ import CadastroVisitante from './Pages/CadastroVisitante';
 import CadastroMaterial from './Pages/CadastroMaterial';
 import CadastroPlano from './Pages/CadastroPlano';
 import CadastroAula from './Pages/CadastroAula';
+import EditarFuncionario from './Pages/EditarFuncionario'
+import EditarAula from './Pages/EditarAula';
+import EditarTreino from './Pages/EditarTreino';
+import EditarAvFisica from './Pages/EditarAvFisica';
+import EditarVisitante from './Pages/EditarVisitante';
+import EditarPlano from './Pages/EditarPlano';
+import EditarMaterial from './Pages/EditarMaterial';
 
-const submitUrl1 = 'http://localhost:5000/CadastrarPlano';
-const planosApiUrl = 'http://localhost:5000/ListarPlano';
+const submitUrlCadPlano = 'http://localhost:5000/CadastrarPlano';
+const submitUrlCadAluno = 'http://localhost:5000/CadastrarPlano';
+const submitUrlCadFuncionario = 'http://localhost:5000/CadastrarPlano';
+const submitUrlCadAvFisica = 'http://localhost:5000/CadastrarPlano';
+const submitUrlCadAula = 'http://localhost:5000/CadastrarPlano';
+const submitUrlCadVisitante = 'http://localhost:5000/CadastrarPlano';
+const submitUrlCadMaterial = 'http://localhost:5000/CadastrarPlano';
+const submitUrlCadTreino = 'http://localhost:5000/CadastrarPlano';
+
+const submitUrlEditPlano = 'http://localhost:5000/CadastrarPlano';
+const submitUrlEditAluno = 'http://localhost:5000/CadastrarPlano';
+const submitUrlEditFuncionario = 'http://localhost:5000/CadastrarPlano';
+const submitUrlEditAvFisica = 'http://localhost:5000/CadastrarPlano';
+const submitUrlEditAula = 'http://localhost:5000/CadastrarPlano';
+const submitUrlEditVisitante = 'http://localhost:5000/CadastrarPlano';
+const submitUrlEditMaterial = 'http://localhost:5000/CadastrarPlano';
+const submitUrlEditTreino = 'http://localhost:5000/CadastrarPlano';
+
+const submitUrlRemovePlano = 'http://localhost:5000/CadastrarPlano';
+const submitUrlRemoveAluno = 'http://localhost:5000/CadastrarPlano';
+const submitUrlRemoveFuncionario = 'http://localhost:5000/CadastrarPlano';
+const submitUrlRemoveAvFisica = 'http://localhost:5000/CadastrarPlano';
+const submitUrlRemoveAula = 'http://localhost:5000/CadastrarPlano';
+const submitUrlRemoveVisitante = 'http://localhost:5000/CadastrarPlano';
+const submitUrlRemoveMaterial = 'http://localhost:5000/CadastrarPlano';
+const submitUrlRemoveTreino = 'http://localhost:5000/CadastrarPlano';
+
+const submitUrlViewPlano = 'http://localhost:5000/CadastrarPlano';
+const submitUrlViewAluno = 'http://localhost:5000/CadastrarPlano';
+const submitUrlViewFuncionario = 'http://localhost:5000/CadastrarPlano';
+const submitUrlViewAvFisica = 'http://localhost:5000/CadastrarPlano';
+const submitUrlViewAula = 'http://localhost:5000/CadastrarPlano';
+const submitUrlViewVisitante = 'http://localhost:5000/CadastrarPlano';
+const submitUrlViewMaterial = 'http://localhost:5000/CadastrarPlano';
+const submitUrlViewTreino = 'http://localhost:5000/CadastrarPlano';
+
+const dataAluno = {
+  "matricula": "123456",
+  "nome": "João Silva",
+  "data_nascimento": "1995-05-15",
+  "cpf": "123.456.789-00",
+  "email": "joao.silva@email.com",
+  "telefone": "(11) 98765-4321",
+  "logradouro": "Rua das Flores",
+  "cep": "12345-678",
+  "rua": "Rua das Flores",
+  "num_casa": "123",
+  "bairro": "Jardim Primavera",
+  "cidade": "São Paulo",
+  "plano_id": "1",
+  "aulas": [
+      "matematica",
+      "fisica",
+      "literatura"
+  ]
+}
 
 const AppRouter = () => {
 
@@ -36,41 +97,33 @@ const AppRouter = () => {
         { path: "/", element: <Login /> },
         { path: "/main", element: <Index /> },
         { path: "/aluno", element: <Aluno AddPath="/aluno/cadastro" /> },
-        { path: "/visitante", element: <Visitante AddPath="/visitante/cadastro"/> },
-        { path: "/visitante/cadastro", element: <CadastroVisitante submitUrl={"http://localhost:5000/CadastroVisitante"}/>},
-        { path: "/planos", element: <Planos AddPath="/planos/cadastro"/> },
-        { path: "/planos/cadastro", element: <CadastroPlano/>},
-		    { path: "/aluno/cadastro", element: <CadastroAluno submitUrl={"http://localhost:5000/CadastrarAluno"}/> },
-        { path: "/aluno/edit/:id" , element: <EditarAluno submitUrl={"http://localhost:5000/CadastrarAluno"} />},
-        { path: "/funcionarios", element: <Funcionario/>},
         { path: "/aulas", element: <Aulas AddPath="/aulas/cadastro"/> },
-        { path: "/aulas/cadastro", element: <CadastroAula/>},
+        { path: "/funcionarios", element: <Funcionario AddPath={"/funcionario/cadastro"}/>},
+        { path: "/visitante", element: <Visitante AddPath="/visitante/cadastro"/> },
+        { path: "/planos", element: <Planos AddPath="/planos/cadastro"/> },
+        { path: "/avaliacao", element: <Avaliacao AddPath="/avaliacao/cadastro"/> },
         { path: "/material", element: <Material AddPath="/material/cadastro"/>},
-        { path: "/material/cadastro", element: <CadastroMaterial />},
-        { path: "/avaliacao", element: <Avaliacao/> },
-        { path: "/treino", element: <Treinos/>},
-        { path: "/dev", element:<CadastroTreino submitUrl={"http://localhost:5000/CadastroAvFisica"}  DataAluno={{
-          "matricula": "123456",
-          "nome": "João Silva",
-          "data_nascimento": "1995-05-15",
-          "cpf": "123.456.789-00",
-          "email": "joao.silva@email.com",
-          "telefone": "(11) 98765-4321",
-          "logradouro": "Rua das Flores",
-          "cep": "12345-678",
-          "rua": "Rua das Flores",
-          "num_casa": "123",
-          "bairro": "Jardim Primavera",
-          "cidade": "São Paulo",
-          "plano_id": "1",
-          "aulas": [
-              "matematica",
-              "fisica",
-              "literatura"
-          ]
-      }
-      }/> },
-        
+        { path: "/treino", element: <Treinos AddPath="/treino/cadastro"/>},
+
+        { path: "/planos/cadastro", element: <CadastroPlano submitUrl={submitUrlCadPlano}/>},
+		    { path: "/aluno/cadastro", element: <CadastroAluno submitUrl={submitUrlCadAluno}/> },
+        { path: "/aulas/cadastro", element: <CadastroAula submitUrl={submitUrlCadAula}/>},
+        { path: "/material/cadastro", element: <CadastroMaterial submitUrl={submitUrlCadMaterial}/>},
+        { path: "/visitante/cadastro", element: <CadastroVisitante submitUrl={submitUrlCadVisitante}/>},
+        { path: "/avaliacao/cadastro", element: <CadastroFuncionario submitUrl={submitUrlCadAvFisica}/>},
+        { path: "/treino/cadastro" , element: <CadastroTreino submitUrl={submitUrlCadTreino} />},
+        { path: "/funcionario/cadastro", element: <CadastroFuncionario submitUrl={submitUrlCadFuncionario} />},
+
+        { path: "/aluno/edit/:id" , element: <EditarAluno submitUrl={submitUrlEditAluno} />},
+        { path: "/funcionario/edit/:id" , element: <EditarFuncionario submitUrl={submitUrlEditFuncionario} />},
+        { path: "/aulas/edit/:id" , element: <EditarAula submitUrl={submitUrlEditAula} />},
+        { path: "/treino/edit/:id" , element: <EditarTreino submitUrl={submitUrlEditTreino} />},
+        { path: "/avaliacao/edit/:id" , element: <EditarAvFisica submitUrl={submitUrlEditAvFisica} />},
+        { path: "/visitante/edit/:id" , element: <EditarVisitante submitUrl={submitUrlEditVisitante} />},
+        { path: "/plano/edit/:id" , element: <EditarPlano submitUrl={submitUrlEditPlano} />},
+        { path: "/material/edit/:id" , element: <EditarMaterial submitUrl={submitUrlEditMaterial} />},
+
+        { path: "/dev", element:<CadastroTreino submitUrl={"http://localhost:5000/CadastroAvFisica"}  DataAluno={dataAluno}/> },
         { path: "/novo", element: <ShowInfo labels={["nome", "sobrenome"]} data={{nome: ["nome1"], sobrenome: ["dois"]}} /> }
       ])}
     />

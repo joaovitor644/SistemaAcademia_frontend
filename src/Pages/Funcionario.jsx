@@ -9,7 +9,7 @@ import FeedbackPopup from "../Components/FeedbackPopup";
 
 
 
-export default function Funcionario({AddPath}){
+export default function Funcionario({AddPath , urlView , urlEdit}){
     const navigate = useNavigate();
     const headers = ["Nome", "NIT", "Cargo"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });

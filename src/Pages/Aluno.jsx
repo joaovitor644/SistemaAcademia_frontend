@@ -9,7 +9,7 @@ import FeedbackPopup from "../Components/FeedbackPopup";
 
 
 
-export default function Aluno({AddPath}){
+export default function Aluno({AddPath , urlView , urlEdit}){
     const navigate = useNavigate();
     const headers = ["Nome", "Telefone", "CPF"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });

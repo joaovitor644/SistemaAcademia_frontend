@@ -31,7 +31,7 @@ const TableComponent = ({ titulo, dados = [], headers, AddPath, urlView, keyUniq
   };
 
   const ClickEdit = (id) => {
-    navigate(urlEdit + `${id}`);
+    navigate(urlEdit + `/${id}`);
   };
 
   return (

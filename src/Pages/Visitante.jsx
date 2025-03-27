@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Visitante({AddPath}){
+export default function Visitante({AddPath , urlView , urlEdit}){
     const navigate = useNavigate();
     const titulo = "Tabela de Visitantes";
     const headers = ["Aluno", "Contato", "Visitas", "Ultima"];
@@ -49,7 +49,7 @@ export default function Visitante({AddPath}){
         <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Visitantes"} AddPath={AddPath} urlView={"visitante/view/"} keyUnique={"matricula"} urlEdit={"visitante/edit/"}/>
+            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Visitantes"} AddPath={AddPath} urlView={"visitante/view/"} keyUnique={"matricula"} urlEdit={"/visitante/edit/"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Material({AddPath}){
+export default function Material({AddPath, urlView , urlEdit}){
     const navigate = useNavigate();
     const titulo = "Tabela de Materiais";
     const headers = ["Nome", "Quantidade", "Disponibilidade"];

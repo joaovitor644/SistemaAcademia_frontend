@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Treinos(){
+export default function Treinos(AddPath){
     const navigate = useNavigate();
     const titulo = "Tabela de Treinos";
     const headers = ["Objetivo", "Dificuldade"];
@@ -61,7 +61,7 @@ export default function Treinos(){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={dados} headers={headers} AddPath={"/treino/cadastro"} urlEdit={"/treino/edit/"} urlView={"/treino/view"} keyUnique={"id"} />
+            <TableComponent titulo={titulo} dados={dados} headers={headers} AddPath={AddPath} urlEdit={"/treino/edit/"} urlView={"/treino/view"} keyUnique={"id"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

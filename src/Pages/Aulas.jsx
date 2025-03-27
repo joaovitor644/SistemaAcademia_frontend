@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Aulas(){
+export default function Aulas({AddPath, urlView , urlEdit}){
     const navigate = useNavigate();
     const titulo = "Tabela de Aulas";
     const headers = ["Tipo", "Horario", "Sala"];
@@ -21,7 +21,7 @@ export default function Aulas(){
       };
     
       const aulas = [
-        { tipo: "Musculação", horario: "06:00 - 07:00", sala: "A" },
+        { id: 1,tipo: "Musculação", horario: "06:00 - 07:00", sala: "A" },
         { tipo: "Yoga", horario: "07:30 - 08:30", sala: "B" },
         { tipo: "Pilates", horario: "09:00 - 10:00", sala: "C" },
         { tipo: "Zumba", horario: "10:30 - 11:30", sala: "A" },
@@ -62,7 +62,7 @@ export default function Aulas(){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={aulas} headers={headers} AddPath={"/aulas/cadastro"} urlEdit={"/aulas/edit/"} urlView={"/aulas/view"} keyUnique={"id"} />
+            <TableComponent titulo={titulo} dados={aulas} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={urlView} keyUnique={"id"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>
