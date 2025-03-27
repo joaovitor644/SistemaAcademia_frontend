@@ -30,8 +30,10 @@ export default function CadastroFuncionario({ submitUrl }) {
         senha:'',
         salario:'',
         data_contratacao:'',
-        duracao_contrato:''
-
+        data_final:'',
+        is_admin: false,  // Inicializando como false
+        nivel_graduacao: '',
+        cargo: '' // Adicionando o campo 'cargo'
     });
     const [planos, setPlanos] = useState([]);
     const [aulas, setAulas] = useState([]);
@@ -43,8 +45,11 @@ export default function CadastroFuncionario({ submitUrl }) {
 
     // Handle form data changes
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({ ...prevData, [name]: value }));
+        const { name, value, type, checked } = e.target;
+        setFormData(prevData => ({
+            ...prevData,
+            [name]: type === 'checkbox' ? checked : value // Verificando se é checkbox
+        }));
     };
 
     // Handle aula selection
@@ -243,6 +248,7 @@ export default function CadastroFuncionario({ submitUrl }) {
                         />
                     </div>
 
+                    {/* Usuario */}
                     <div className="form-group">
                         <label htmlFor="usuario">Usuario</label>
                         <input
@@ -255,6 +261,7 @@ export default function CadastroFuncionario({ submitUrl }) {
                         />
                     </div>
 
+                    {/* Senha */}
                     <div className="form-group">
                         <label htmlFor="senha">Senha</label>
                         <input
@@ -267,31 +274,82 @@ export default function CadastroFuncionario({ submitUrl }) {
                         />
                     </div>
 
+                    {/* Salário */}
                     <div className="form-group">
                         <label htmlFor="salario">Salário</label>
                         <input
                             type="number"
                             id="salario"
                             name="salario"
-                            value={formData.usuario}
+                            value={formData.salario}
                             onChange={handleChange}
                             required
                         />
                     </div>
 
+                    {/* Data de Contratação */}
                     <div className="form-group">
                         <label htmlFor="data_contratacao">Data de Contratação</label>
                         <input
                             type="date"
                             id="data_contratacao"
                             name="data_contratacao"
-                            value={formData.data_nascimento}
+                            value={formData.data_contratacao}
                             onChange={handleChange}
                             required
                         />
                     </div>
 
-                    
+                    <div className="form-group">
+                        <label htmlFor="data_final">Data de Final de Contrato</label>
+                        <input
+                            type="date"
+                            id="data_final"
+                            name="data_final"
+                            value={formData.data_final}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+
+                    {/* Checkbox is_admin */}
+                    <div className="form-group">
+                        <label htmlFor="is_admin">
+                            <input
+                                type="checkbox"
+                                id="is_admin"
+                                name="is_admin"
+                                checked={formData.is_admin}
+                                onChange={handleChange}
+                            />
+                            Administrador
+                        </label>
+                    </div>
+
+                    {/* Cargo ou Grau de Graduação */}
+                    {formData.is_admin ? (
+                        <div className="form-group">
+                            <label htmlFor="cargo">Cargo</label>
+                            <input
+                                type="text"
+                                id="cargo"
+                                name="cargo"
+                                value={formData.cargo}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    ) : (
+                        <div className="form-group">
+                            <label htmlFor="nivel_graduacao">Grau de Graduação</label>
+                            <input
+                                type="text"
+                                id="nivel_graduacao"
+                                name="nivel_graduacao"
+                                value={formData.nivel_graduacao}
+                                onChange={handleChange}
+                            />
+                        </div>
+                    )}
 
                     <button type="submit">Cadastrar</button>
                 </form>
