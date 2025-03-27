@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Material(){
+export default function Material({AddPath}){
     const navigate = useNavigate();
     const titulo = "Tabela de Materiais";
     const headers = ["Nome", "Quantidade", "Disponibilidade"];
@@ -45,7 +45,7 @@ export default function Material(){
         <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={dados} headers={headers}/>
+            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Materiais"} AddPath={AddPath} urlView={"material/view/"} keyUnique={"id"} urlEdit={"material/edit/"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

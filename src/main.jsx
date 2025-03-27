@@ -20,6 +20,10 @@ import CadastroAvFisica from './Pages/CadastroAvFisica'
 import CadastroFuncionario from './Pages/CadastroFuncionario';
 import EditarAluno from './Pages/EditarAluno';
 import CadastroTreino from './Pages/CadastroTreino';
+import CadastroVisitante from './Pages/CadastroVisitante';
+import CadastroMaterial from './Pages/CadastroMaterial';
+import CadastroPlano from './Pages/CadastroPlano';
+import CadastroAula from './Pages/CadastroAula';
 
 const submitUrl1 = 'http://localhost:5000/CadastrarPlano';
 const planosApiUrl = 'http://localhost:5000/ListarPlano';
@@ -32,13 +36,17 @@ const AppRouter = () => {
         { path: "/", element: <Login /> },
         { path: "/main", element: <Index /> },
         { path: "/aluno", element: <Aluno AddPath="/aluno/cadastro" /> },
-        { path: "/visitante", element: <Visitante /> },
-        { path: "/planos", element: <Planos /> },
+        { path: "/visitante", element: <Visitante AddPath="/visitante/cadastro"/> },
+        { path: "/visitante/cadastro", element: <CadastroVisitante submitUrl={"http://localhost:5000/CadastroVisitante"}/>},
+        { path: "/planos", element: <Planos AddPath="/planos/cadastro"/> },
+        { path: "/planos/cadastro", element: <CadastroPlano/>},
 		    { path: "/aluno/cadastro", element: <CadastroAluno submitUrl={"http://localhost:5000/CadastrarAluno"}/> },
         { path: "/aluno/edit/:id" , element: <EditarAluno submitUrl={"http://localhost:5000/CadastrarAluno"} />},
         { path: "/funcionarios", element: <Funcionario/>},
-        { path: "/aulas", element: <Aulas/> },
-        { path: "/material", element: <Material/>},
+        { path: "/aulas", element: <Aulas AddPath="/aulas/cadastro"/> },
+        { path: "/aulas/cadastro", element: <CadastroAula/>},
+        { path: "/material", element: <Material AddPath="/material/cadastro"/>},
+        { path: "/material/cadastro", element: <CadastroMaterial />},
         { path: "/avaliacao", element: <Avaliacao/> },
         { path: "/treino", element: <Treinos/>},
         { path: "/dev", element:<CadastroTreino submitUrl={"http://localhost:5000/CadastroAvFisica"}  DataAluno={{
