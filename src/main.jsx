@@ -18,6 +18,8 @@ import Avaliacao from './Pages/AvaliacaoFisica';
 import Treinos from './Pages/Treino';
 import CadastroAvFisica from './Pages/CadastroAvFisica'
 import CadastroFuncionario from './Pages/CadastroFuncionario';
+import EditarAluno from './Pages/EditarAluno';
+import CadastroTreino from './Pages/CadastroTreino';
 
 const submitUrl1 = 'http://localhost:5000/CadastrarPlano';
 const planosApiUrl = 'http://localhost:5000/ListarPlano';
@@ -33,12 +35,33 @@ const AppRouter = () => {
         { path: "/visitante", element: <Visitante /> },
         { path: "/planos", element: <Planos /> },
 		    { path: "/aluno/cadastro", element: <CadastroAluno submitUrl={"http://localhost:5000/CadastrarAluno"}/> },
+        { path: "/aluno/edit/:id" , element: <EditarAluno submitUrl={"http://localhost:5000/CadastrarAluno"} />},
         { path: "/funcionarios", element: <Funcionario/>},
         { path: "/aulas", element: <Aulas/> },
         { path: "/material", element: <Material/>},
         { path: "/avaliacao", element: <Avaliacao/> },
         { path: "/treino", element: <Treinos/>},
-        { path: "/dev", element:<CadastroFuncionario submitUrl={"http://localhost:5000/CadastroAvFisica"}/> },
+        { path: "/dev", element:<CadastroTreino submitUrl={"http://localhost:5000/CadastroAvFisica"}  DataAluno={{
+          "matricula": "123456",
+          "nome": "João Silva",
+          "data_nascimento": "1995-05-15",
+          "cpf": "123.456.789-00",
+          "email": "joao.silva@email.com",
+          "telefone": "(11) 98765-4321",
+          "logradouro": "Rua das Flores",
+          "cep": "12345-678",
+          "rua": "Rua das Flores",
+          "num_casa": "123",
+          "bairro": "Jardim Primavera",
+          "cidade": "São Paulo",
+          "plano_id": "1",
+          "aulas": [
+              "matematica",
+              "fisica",
+              "literatura"
+          ]
+      }
+      }/> },
         
         { path: "/novo", element: <ShowInfo labels={["nome", "sobrenome"]} data={{nome: ["nome1"], sobrenome: ["dois"]}} /> }
       ])}
