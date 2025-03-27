@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Planos(){
+export default function Planos({AddPath}){
     const navigate = useNavigate();
     const titulo = "Tabela de Planos";
     const headers = ["Nome", "Valor", "Descricao"];
@@ -56,7 +56,7 @@ export default function Planos(){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={planos} headers={headers} AddPath={"/planos/cadastro"} urlEdit={"/planos/edit/"} urlView={"/planos/view"} keyUnique={"id"} />
+            <TableComponent titulo={titulo} dados={planos} headers={headers} AddPath={AddPath} urlEdit={"/planos/edit/"} urlView={"/planos/view"} keyUnique={"id"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>
