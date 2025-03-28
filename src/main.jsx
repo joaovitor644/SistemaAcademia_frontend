@@ -34,6 +34,9 @@ import EditarMaterial from './Pages/EditarMaterial';
 import Exercicio from './Pages/Exercicio';
 import CadastroExercicio from './Pages/CadastroExercicio';
 import EditarExercicio from './Pages/EditarExercicio';
+import ShowAluno from './Pages/ShowAluno';
+import ShowFuncionario from './Pages/ShowFuncionario';
+import ShowTreino from './Pages/ShowTreino';
 
 const submitUrlCadPlano = 'http://localhost:5000/CadastrarPlano';
 const submitUrlCadAluno = 'http://localhost:5000/CadastrarPlano';
@@ -99,7 +102,6 @@ const AppRouter = () => {
   return (
     <RouterProvider
       router={createBrowserRouter([
-
         { path: "/", element: <Login /> },
         { path: "/main", element: <Index /> },
         { path: "/aluno", element: <Aluno AddPath="/aluno/cadastro" /> },
@@ -117,7 +119,7 @@ const AppRouter = () => {
         { path: "/aulas/cadastro", element: <CadastroAula submitUrl={submitUrlCadAula}/>},
         { path: "/material/cadastro", element: <CadastroMaterial submitUrl={submitUrlCadMaterial}/>},
         { path: "/visitante/cadastro", element: <CadastroVisitante submitUrl={submitUrlCadVisitante}/>},
-        { path: "/avaliacao/cadastro", element: <CadastroFuncionario submitUrl={submitUrlCadAvFisica}/>},
+        { path: "/avaliacao/cadastro", element: <CadastroAvFisica submitUrl={submitUrlCadAvFisica}/>},
         { path: "/treino/cadastro" , element: <CadastroTreino submitUrl={submitUrlCadTreino} />},
         { path: "/funcionario/cadastro", element: <CadastroFuncionario submitUrl={submitUrlCadFuncionario} />},
         { path: "/exercicio/cadastro", element: <CadastroExercicio submitUrl={submitUrlCadExercicio} />},
@@ -132,7 +134,7 @@ const AppRouter = () => {
         { path: "/material/edit/:id" , element: <EditarMaterial submitUrl={submitUrlEditMaterial} />},
         { path: "/Exercicio/edit/:id" , element: <EditarExercicio submitUrl={submitUrlEditExercicio} />},
 
-        { path: "/dev", element:<CadastroTreino submitUrl={"http://localhost:5000/CadastroAvFisica"}  DataAluno={dataAluno}/> },
+        { path: "/dev", element:<ShowTreino/> },
         { path: "/novo", element: <ShowInfo labels={["nome", "sobrenome"]} data={{nome: ["nome1"], sobrenome: ["dois"]}} /> }
       ])}
     />

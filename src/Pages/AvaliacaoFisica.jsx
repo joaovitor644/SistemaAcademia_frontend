@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Avaliacao(){
+export default function Avaliacao({AddPath, urlView , urlEdit}){
     const navigate = useNavigate();
     const titulo = "Tabela de Avaliação Física";
     const headers = ["Nome", "CPF", "Data"];
@@ -43,7 +43,7 @@ export default function Avaliacao(){
         <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={dados} headers={headers}/>
+            <TableComponent titulo={titulo} dados={dados} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={urlView}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>
