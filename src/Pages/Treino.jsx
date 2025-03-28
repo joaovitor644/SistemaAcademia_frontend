@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Treinos(AddPath){
+export default function Treinos({AddPath, urlView , urlEdit}){
     const navigate = useNavigate();
     const titulo = "Tabela de Treinos";
     const headers = ["Objetivo", "Dificuldade"];
