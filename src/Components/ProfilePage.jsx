@@ -1,20 +1,44 @@
 import React, { useState } from 'react';
-import "../Assets/ProfilePage.css"
-const ProfilePage = ({ProfileData}) => {
-  const [activeTab, setActiveTab] = useState('Endereço');
+import "../Assets/ProfilePage.css";
 
-  // Dados fictícios para cada seção
-  const data = {
-    Endereço: ['Rua: Av. Paulista', 'Cidade: São Paulo', 'CEP: 01310-000'],
-    Contrato: ['Tipo: CLT', 'Início: 01/01/2020', 'Status: Ativo'],
-    Perfil: ['Cargo: Gerente', 'Departamento: TI', 'Acesso: Total'],
+const ProfilePage = ({ ProfileData }) => {
+  const [activeTab, setActiveTab] = useState(Object.keys(ProfileData)[0]);
+
+  const renderContent = (data) => {
+    if (Array.isArray(data)) {
+      return (
+        <ul>
+          {data.map((item, index) => (
+            <li key={index}>
+              {typeof item === 'object' ? (
+                <ul>
+                  {Object.entries(item).map(([key, value]) => (
+                    <li key={key}><strong>{key}:</strong> {value}</li>
+                  ))}
+                </ul>
+              ) : item}
+            </li>
+          ))}
+        </ul>
+      );
+    } else if (typeof data === 'object') {
+      return (
+        <ul>
+          {Object.entries(data).map(([key, value]) => (
+            <li key={key}><strong>{key}:</strong> {value}</li>
+          ))}
+        </ul>
+      );
+    } else {
+      return <p>{data}</p>;
+    }
   };
 
   return (
     <div className="profile-page">
       {/* Barra de Navegação (Tabs) */}
       <div className="tabs">
-        {Object.keys(data).map((tab) => (
+        {Object.keys(ProfileData).map((tab) => (
           <button
             key={tab}
             className={activeTab === tab ? 'active' : ''}
@@ -27,11 +51,7 @@ const ProfilePage = ({ProfileData}) => {
 
       {/* Conteúdo Dinâmico */}
       <div className="content">
-        <ul>
-          {data[activeTab].map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
+        {renderContent(ProfileData[activeTab])}
       </div>
     </div>
   );
