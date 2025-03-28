@@ -62,7 +62,7 @@ export default function Funcionario({AddPath , urlView , urlEdit}){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Funcionários"} AddPath={AddPath} urlView={"funcionarios/view/"} keyUnique={"NIT"} urlEdit={"funcionarios/edit/"}/>
+            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Funcionários"} AddPath={AddPath} urlView={"/funcionarios/view"} keyUnique={"NIT"} urlEdit={"/funcionarios/edit"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

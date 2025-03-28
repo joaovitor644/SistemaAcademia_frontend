@@ -11,7 +11,7 @@ import FeedbackPopup from "../Components/FeedbackPopup";
 export default function Material({AddPath, urlView , urlEdit}){
     const navigate = useNavigate();
     const titulo = "Tabela de Materiais";
-    const headers = ["Nome", "Quantidade", "Disponibilidade"];
+    const headers = ["Nome", "Serial", "Disponibilidade"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
     const closeFeedback = () => {
@@ -19,7 +19,7 @@ export default function Material({AddPath, urlView , urlEdit}){
       };
 
       const dados = [
-        { nome: "Halteres 5kg", quantidade: 10, disponibilidade: "Disponível" },
+        { nome: "Halteres 5kg", serial: 10, disponibilidade: "Disponível" },
         { nome: "Bicicleta Ergométrica", quantidade: 4, disponibilidade: "Indisponível" },
         { nome: "Corda de Pular", quantidade: 15, disponibilidade: "Disponível" },
         { nome: "Kettlebell 8kg", quantidade: 6, disponibilidade: "Disponível" },

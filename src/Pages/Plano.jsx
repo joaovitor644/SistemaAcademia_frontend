@@ -11,7 +11,7 @@ import FeedbackPopup from "../Components/FeedbackPopup";
 export default function Planos({AddPath, urlView , urlEdit}){
     const navigate = useNavigate();
     const titulo = "Tabela de Planos";
-    const headers = ["Nome", "Valor", "Descricao"];
+    const headers = ["Nome", "Valor" /*, "Descricao"*/];
     const [planos,setPlanos] = useState('')
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
@@ -20,7 +20,7 @@ export default function Planos({AddPath, urlView , urlEdit}){
         setFeedback({ message: '', type: '' });
       };
     
-    
+    //const planos =  [{ nome: "Plano A", valor: "220,00", descricao: "asdfasdfgadefgsd" }]
     
     /*useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })

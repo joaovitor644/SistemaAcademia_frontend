@@ -62,7 +62,7 @@ export default function Aulas({AddPath, urlView , urlEdit}){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={aulas} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={urlView} keyUnique={"id"} />
+            <TableComponent titulo={titulo} dados={aulas} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={"/aulas/view"} keyUnique={"id"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>
