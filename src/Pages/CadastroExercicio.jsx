@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import '../Assets/HomePage.css';
@@ -6,52 +6,69 @@ import MenuBar from "../Components/MenuBar";
 import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 import "../Assets/Forms.css";
-import addIcon from '../Assets/add-64px.png';  // Caminho para o ícone "mais"
-import removeIcon from '../Assets/lixo.png'; // Caminho para o ícone "remover"
+import addIcon from '../Assets/add-64px.png';
+import removeIcon from '../Assets/lixo.png';
 
 export default function CadastroExercicio({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    /*const [formData, setFormData] = useState({
-        objetivo: '',
-        dificuldade: '',
-        exercicio_id: '',
-        aluno_id:''
-    });*/
-    const [formData, setFormData] = useState('');
-    const [materiais, setMateriais] = useState([{id:'1',nome:"base"},{id:'2',nome:"base2"}]);
-    const [alunos, setAlunos] = useState([{id:'1',nome:"base"},{id:'2',nome:"base2"}]);
+    const [formData, setFormData] = useState({
+        nome: '',
+        musculo: '',
+        series: '',
+        repeticoes: '',
+        materiais: [] // Alterado para array de materiais
+    });
+    const [materiaisDisponiveis, setMateriais] = useState([
+        {id:'1', nome:"Haltere"},
+        {id:'2', nome:"Barra"},
+        {id:'3', nome:"Anilha"},
+        {id:'4', nome:"Corda"}
+    ]);
+    const [materialSelecionado, setMaterialSelecionado] = useState('');
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
     };
 
-    // Handle form data changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevData => ({ ...prevData, [name]: value }));
     };
 
+    const handleMaterialChange = (e) => {
+        setMaterialSelecionado(e.target.value);
+    };
 
+    const adicionarMaterial = () => {
+        if (materialSelecionado && !formData.materiais.includes(materialSelecionado)) {
+            setFormData(prevData => ({
+                ...prevData,
+                materiais: [...prevData.materiais, materialSelecionado]
+            }));
+            setMaterialSelecionado(''); // Limpa a seleção após adicionar
+        }
+    };
 
-    // Handle form submission
+    const removerMaterial = (materialId) => {
+        setFormData(prevData => ({
+            ...prevData,
+            materiais: prevData.materiais.filter(id => id !== materialId)
+        }));
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Prepare the data with selected aulas
-        const dataToSubmit = {
-            ...formData
-        };
-
-        /*axios.post(submitUrl, dataToSubmit)
+        console.log(formData);
+        
+        /*axios.post(submitUrl, formData)
             .then((response) => {
-                setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
+                setFeedback({ message: 'Exercício cadastrado com sucesso!', type: 'success' });
             })
             .catch((error) => {
-                setFeedback({ message: 'Erro ao cadastrar aluno!', type: 'error' });
+                setFeedback({ message: 'Erro ao cadastrar exercício!', type: 'error' });
             });*/
-
-            console.log(dataToSubmit)
     };
 
     return (
@@ -61,7 +78,7 @@ export default function CadastroExercicio({ submitUrl }) {
                 <MenuBar />
 
                 <form className="generic-form" onSubmit={handleSubmit}>
-                    {/* Matrícula */}
+                    {/* Nome do Exercício */}
                     <div className="form-group">
                         <label htmlFor="nome">Nome</label>
                         <input
@@ -74,9 +91,9 @@ export default function CadastroExercicio({ submitUrl }) {
                         />
                     </div>
 
-                    {/* Nome */}
+                    {/* Músculo Trabalhado */}
                     <div className="form-group">
-                        <label htmlFor="musculo">Musculo</label>
+                        <label htmlFor="musculo">Músculo</label>
                         <input
                             type="text"
                             id="musculo"
@@ -87,8 +104,9 @@ export default function CadastroExercicio({ submitUrl }) {
                         />
                     </div>
 
+                    {/* Séries */}
                     <div className="form-group">
-                        <label htmlFor="series">Series</label>
+                        <label htmlFor="series">Séries</label>
                         <input
                             type="text"
                             id="series"
@@ -99,6 +117,7 @@ export default function CadastroExercicio({ submitUrl }) {
                         />
                     </div>
 
+                    {/* Repetições */}
                     <div className="form-group">
                         <label htmlFor="repeticoes">Repetições</label>
                         <input
@@ -111,30 +130,56 @@ export default function CadastroExercicio({ submitUrl }) {
                         />
                     </div>
 
-                    {/* Plano Selection */}
-                    <div className="form-group">
-                        <label htmlFor="material_id">Material</label>
+                    {/* Seleção de Materiais */}
+                    <div className="aula-selection">
+                        <label htmlFor="material">Selecione um Material</label>
                         <select
-                            id="material_id"
-                            name="material_id"
-                            value={formData.material_id}
-                            onChange={handleChange}
-                            required
+                            id="material"
+                            name="material"
+                            value={materialSelecionado}
+                            onChange={handleMaterialChange}
                         >
-                            {materiais.length > 0 ? (
-                                materiais.map((material) => (
-                                    <option key={material.id} value={material.id}>
-                                        {material.nome}
-                                    </option>
-                                ))
-                            ) : (
-                                <option value="">Carregando...</option>
-                                
-                            )}
+                            <option value="">Selecione...</option>
+                            {materiaisDisponiveis.map((material) => (
+                                <option key={material.id} value={material.id}>
+                                    {material.nome}
+                                </option>
+                            ))}
                         </select>
+                        <button 
+                            type="button" 
+                            onClick={adicionarMaterial} 
+                            className="icon-button add-btn"
+                        >
+                            <img src={addIcon} alt="Adicionar Material" className="icon" />
+                        </button>
                     </div>
 
-                    <button type="submit">Editar</button>
+                    {/* Lista de Materiais Selecionados */}
+                    <div>
+                        <h3>Materiais Selecionados:</h3>
+                        <ul>
+                            {formData.materiais.map((materialId, index) => {
+                                const material = materiaisDisponiveis.find(m => m.id === materialId);
+                                return (
+                                    <li key={index} className="selected-aula">
+                                        <div className="aula">
+                                            <span>{material ? material.nome : materialId}</span>
+                                            <button 
+                                                type="button" 
+                                                onClick={() => removerMaterial(materialId)} 
+                                                className="icon-button remove-btn"
+                                            >
+                                                <img src={removeIcon} alt="Remover Material" className="icon" />
+                                            </button>
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+
+                    <button type="submit">Cadastrar</button>
                 </form>
 
                 <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />

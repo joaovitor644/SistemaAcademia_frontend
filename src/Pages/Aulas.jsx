@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Aulas({AddPath, urlView , urlEdit}){
+export default function Aulas({AddPath, urlView , urlEdit , deleteUrl}){
     const navigate = useNavigate();
     const titulo = "Tabela de Aulas";
     const headers = ["Tipo", "Horario", "Sala"];

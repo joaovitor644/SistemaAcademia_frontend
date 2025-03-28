@@ -9,7 +9,7 @@ import FeedbackPopup from "../Components/FeedbackPopup";
 
 
 
-export default function Funcionario({AddPath , urlView , urlEdit}){
+export default function Funcionario({AddPath , urlView , urlEdit , deleteUrl}){
     const navigate = useNavigate();
     const headers = ["Nome", "NIT", "Cargo"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
@@ -18,10 +18,10 @@ export default function Funcionario({AddPath , urlView , urlEdit}){
 
 
     const dados = [
-        { nome: "João Silva", nit: "123456789", cargo: "Instrutor" },
-        { nome: "Maria Oliveira", nit: "987654321", cargo: "Administrador" },
-        { nome: "Carlos Santos", nit: "456789123", cargo: "Instrutor" },
-        { nome: "Ana Pereira", nit: "321654987", cargo: "Administrador" }
+        {id:3, nome: "João Silva", nit: "123456789", cargo: "Instrutor" },
+        {id:4, nome: "Maria Oliveira", nit: "987654321", cargo: "Administrador" },
+        {id:5,nome: "Carlos Santos", nit: "456789123", cargo: "Instrutor" },
+        {id:6, nome: "Ana Pereira", nit: "321654987", cargo: "Administrador" }
       ];
 
     const [alunos,setAlunos] = useState('')
@@ -62,7 +62,7 @@ export default function Funcionario({AddPath , urlView , urlEdit}){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Funcionários"} AddPath={AddPath} urlView={"/funcionarios/view"} keyUnique={"NIT"} urlEdit={"/funcionarios/edit"}/>
+            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Funcionários"} AddPath={AddPath} urlView={"/funcionarios/view"} keyUnique={"nit"} urlEdit={"/funcionarios/edit"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

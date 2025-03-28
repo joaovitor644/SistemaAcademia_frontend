@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Visitante({AddPath , urlView , urlEdit}){
+export default function Visitante({AddPath , urlView , urlEdit, deleteUrl}){
     const navigate = useNavigate();
     const titulo = "Tabela de Visitantes";
     const headers = ["Aluno", "Contato", "Visitas", "Ultima"];

@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Planos({AddPath, urlView , urlEdit}){
+export default function Planos({AddPath, urlView , urlEdit , deleteUrl}){
     const navigate = useNavigate();
     const titulo = "Tabela de Planos";
     const headers = ["Nome", "Valor" /*, "Descricao"*/];

@@ -37,6 +37,8 @@ import EditarExercicio from './Pages/EditarExercicio';
 import ShowAluno from './Pages/ShowAluno';
 import ShowFuncionario from './Pages/ShowFuncionario';
 import ShowTreino from './Pages/ShowTreino';
+import ShowAvFisica from './Pages/ShowAvFisica';
+import ShowExercicio from './Pages/ShowExercicio';
 
 const submitUrlCadPlano = 'http://localhost:5000/CadastrarPlano';
 const submitUrlCadAluno = 'http://localhost:5000/CadastrarPlano';
@@ -58,6 +60,7 @@ const submitUrlEditMaterial = 'http://localhost:5000/CadastrarPlano';
 const submitUrlEditTreino = 'http://localhost:5000/CadastrarPlano';
 const submitUrlEditExercicio = 'http://localhost:5000/CadastrarPlano';
 
+
 const submitUrlRemovePlano = 'http://localhost:5000/CadastrarPlano';
 const submitUrlRemoveAluno = 'http://localhost:5000/CadastrarPlano';
 const submitUrlRemoveFuncionario = 'http://localhost:5000/CadastrarPlano';
@@ -66,6 +69,7 @@ const submitUrlRemoveAula = 'http://localhost:5000/CadastrarPlano';
 const submitUrlRemoveVisitante = 'http://localhost:5000/CadastrarPlano';
 const submitUrlRemoveMaterial = 'http://localhost:5000/CadastrarPlano';
 const submitUrlRemoveTreino = 'http://localhost:5000/CadastrarPlano';
+const submitUrlRemoveExercicio = 'http://localhost:5000/CadastrarPlano';
 
 const submitUrlViewPlano = 'http://localhost:5000/CadastrarPlano';
 const submitUrlViewAluno = 'http://localhost:5000/CadastrarPlano';
@@ -75,6 +79,7 @@ const submitUrlViewAula = 'http://localhost:5000/CadastrarPlano';
 const submitUrlViewVisitante = 'http://localhost:5000/CadastrarPlano';
 const submitUrlViewMaterial = 'http://localhost:5000/CadastrarPlano';
 const submitUrlViewTreino = 'http://localhost:5000/CadastrarPlano';
+const submitUrlViewExercicio = 'http://localhost:5000/CadastrarPlano';
 
 const dataAluno = {
   "matricula": "123456",
@@ -105,7 +110,7 @@ const AppRouter = () => {
         { path: "/", element: <Login /> },
         { path: "/main", element: <Index /> },
         { path: "/aluno", element: <Aluno AddPath="/aluno/cadastro" /> },
-        { path: "/aulas", element: <Aulas AddPath="/aulas/cadastro"/> },
+        { path: "/aulas", element: <Aulas AddPath="/aulas/cadastro" urlEdit={"/aulas/edit"}/> },
         { path: "/funcionarios", element: <Funcionario AddPath={"/funcionario/cadastro"}/>},
         { path: "/visitante", element: <Visitante AddPath="/visitante/cadastro"/> },
         { path: "/planos", element: <Planos AddPath="/planos/cadastro"/> },
@@ -133,6 +138,14 @@ const AppRouter = () => {
         { path: "/plano/edit/:id" , element: <EditarPlano submitUrl={submitUrlEditPlano} />},
         { path: "/material/edit/:id" , element: <EditarMaterial submitUrl={submitUrlEditMaterial} />},
         { path: "/Exercicio/edit/:id" , element: <EditarExercicio submitUrl={submitUrlEditExercicio} />},
+
+        { path: "/aluno/view/:id" , element: <ShowAluno viewUrl={submitUrlViewAula}/>},
+        { path: "/funcionario/view/:id" , element: <ShowFuncionario viewUrl={submitUrlViewFuncionario}/>},
+        { path: "/treino/view/:id" , element: <ShowTreino  viewUrl={submitUrlViewTreino}/>},
+        { path: "/avaliacao/view/:id" , element: <ShowAvFisica  viewUrl={submitUrlViewAvFisica}/>},
+        //{ path: "/visitante/view/:id" , element: <EditarVisitante />},
+        //{ path: "/material/view/:id" , element: <EditarMaterial submitUrl={submitUrlEditMaterial} />},
+        { path: "/Exercicio/view/:id" , element: <ShowExercicio  viewUrl={submitUrlViewExercicio} />},
 
         { path: "/dev", element:<ShowTreino/> },
         { path: "/novo", element: <ShowInfo labels={["nome", "sobrenome"]} data={{nome: ["nome1"], sobrenome: ["dois"]}} /> }

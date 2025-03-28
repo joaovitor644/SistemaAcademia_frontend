@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import '../Assets/TableComponent.css'; 
 import lixoIcon from "../Assets/lixo.png";
 import editIcon from "../Assets/editar.png";
 import plusIcon from "../Assets/add-64px.png";
+import FeedbackPopup from "../Components/FeedbackPopup";
 
-const TableComponent = ({ titulo, dados = [], headers, AddPath, urlView, keyUnique, urlEdit }) => {
+const TableComponent = ({ titulo, dados, headers, AddPath, urlView, keyUnique, urlEdit, deleteUrl }) => {
   const [busca, setBusca] = useState('');
   const [dadosFiltrados, setDadosFiltrados] = useState(dados);
+  const [localDados, setLocalDados] = useState(dados);
+  const [feedback, setFeedback] = useState({ message: '', type: '' });
   const navigate = useNavigate();
+
+  // Atualiza os dados locais quando a prop dados muda
+  useEffect(() => {
+    setLocalDados(dados);
+  }, [dados]);
 
   // Efeito para filtrar os dados sempre que o valor da busca mudar
   useEffect(() => {
-    const resultadosFiltrados = Array.isArray(dados) ? dados.filter((item) =>
+    const resultadosFiltrados = Array.isArray(localDados) ? localDados.filter((item) =>
       headers.some((header) => {
         const value = item[header.toLowerCase()];
         if (typeof value === 'string') {
@@ -20,18 +29,41 @@ const TableComponent = ({ titulo, dados = [], headers, AddPath, urlView, keyUniq
         }
         return String(value).toLowerCase().includes(busca.toLowerCase());
       })
-    ) : []; // Se dados não for um array, retorna um array vazio
+    ) : [];
 
     setDadosFiltrados(resultadosFiltrados);
-  }, [busca, dados, headers]);
+  }, [busca, localDados, headers]);
 
-  // Função para navegar para os detalhes do item
+  const closeFeedback = () => {
+    setFeedback({ message: '', type: '' });
+  };
+
   const handleRowClick = (id) => {
     navigate(urlView + `/${id}`);
   };
 
   const ClickEdit = (id) => {
     navigate(urlEdit + `/${id}`);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      // Confirmação antes de deletar
+      if (!window.confirm('Tem certeza que deseja excluir este item?')) {
+        return;
+      }
+
+      // Requisição para a API
+      //await axios.delete(`${deleteUrl}/${id}`);
+      
+      // Atualização local dos dados
+      setLocalDados(prevDados => prevDados.filter(item => item[keyUnique] !== id));
+      
+      setFeedback({ message: 'Item excluído com sucesso!', type: 'success' });
+    } catch (error) {
+      console.error('Erro ao excluir item:', error);
+      setFeedback({ message: 'Erro ao excluir item!', type: 'error' });
+    }
   };
 
   return (
@@ -81,7 +113,10 @@ const TableComponent = ({ titulo, dados = [], headers, AddPath, urlView, keyUniq
                     </button>
                   </td>
                   <td>
-                    <button className="whiteButton">
+                    <button 
+                      className="whiteButton" 
+                      onClick={() => handleDelete(item[keyUnique])}
+                    >
                       <img src={lixoIcon} alt="Remover" className="icon" />
                     </button>
                   </td>
@@ -95,6 +130,7 @@ const TableComponent = ({ titulo, dados = [], headers, AddPath, urlView, keyUniq
           </tbody>
         </table>
       </div>
+      <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
     </div>
   );
 };

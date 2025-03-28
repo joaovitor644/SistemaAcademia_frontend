@@ -8,7 +8,7 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
 
-export default function Exercicio({AddPath , urlView , urlEdit}){
+export default function Exercicio({AddPath , urlView , urlEdit, deleteUrl}){
     const navigate = useNavigate();
     const titulo = "Tabela de Exercicios";
     const headers = [ "Nome", "Musculo", "Series", "Repeticoes"];

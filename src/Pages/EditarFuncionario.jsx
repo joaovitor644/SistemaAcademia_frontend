@@ -9,7 +9,7 @@ import "../Assets/Forms.css";
 import addIcon from '../Assets/add-64px.png';  // Caminho para o ícone "mais"
 import removeIcon from '../Assets/lixo.png'; // Caminho para o ícone "remover"
 
-export default function CadastroFuncionario({ submitUrl}) {
+export default function EditarFuncionario({ submitUrl}) {
     const navigate = useNavigate();
     const {id} = useParams()
     const [feedback, setFeedback] = useState({ message: '', type: '' });

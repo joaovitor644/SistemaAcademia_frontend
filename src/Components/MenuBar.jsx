@@ -2,7 +2,7 @@
 import "../Assets/MenuBar.css"
 
 
-export default function MenuBar(){
+export default function MenuBar({isAdm}){
     return (
         <div class="frame-8">
             <a href="/funcionarios"><div class="frame-item"><span>Funcionário</span></div></a>
