@@ -6,53 +6,65 @@ import MenuBar from "../Components/MenuBar";
 import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 import "../Assets/Forms.css";
-import addIcon from '../Assets/add-64px.png';  // Caminho para o ícone "mais"
-import removeIcon from '../Assets/lixo.png'; // Caminho para o ícone "remover"
+import addIcon from '../Assets/add-64px.png';
+import removeIcon from '../Assets/lixo.png';
 
 export default function EditarTreino({ submitUrl }) {
     const {id} = useParams()
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    /*const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState({
         objetivo: '',
         dificuldade: '',
-        exercicio_id: '',
-        aluno_id:''
-    });*/
-    const [formData, setFormData] = useState('');
-    const [exercicios, setExercicios] = useState([{id:'1',nome:"base"},{id:'2',nome:"base2"}]);
-    const [alunos, setAlunos] = useState([{id:'1',nome:"base"},{id:'2',nome:"base2"}]);
+        exercicios: [], // Alterado para array
+        aluno_id: ''
+    });
+    const [exerciciosDisponiveis, setExerciciosDisponiveis] = useState([{id:'1',nome:"Supino"},{id:'2',nome:"Agachamento"}]);
+    const [exercicioSelecionado, setExercicioSelecionado] = useState('');
+    const [alunos, setAlunos] = useState([{id:'1',nome:"Aluno 1"},{id:'2',nome:"Aluno 2"}]);
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
     };
 
-    // Handle form data changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevData => ({ ...prevData, [name]: value }));
     };
 
+    const handleExercicioChange = (e) => {
+        setExercicioSelecionado(e.target.value);
+    };
 
+    const adicionarExercicio = () => {
+        if (exercicioSelecionado && !formData.exercicios.includes(exercicioSelecionado)) {
+            setFormData(prevData => ({
+                ...prevData,
+                exercicios: [...prevData.exercicios, exercicioSelecionado]
+            }));
+            setExercicioSelecionado(''); // Limpa a seleção após adicionar
+        }
+    };
 
-    // Handle form submission
+    const removerExercicio = (exercicio) => {
+        setFormData(prevData => ({
+            ...prevData,
+            exercicios: prevData.exercicios.filter((item) => item !== exercicio)
+        }));
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Prepare the data with selected aulas
-        const dataToSubmit = {
-            ...formData
-        };
-
-        /*axios.post(submitUrl, dataToSubmit)
+        console.log(formData);
+        
+        /*axios.post(submitUrl, formData)
             .then((response) => {
-                setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
+                setFeedback({ message: 'Treino cadastrado com sucesso!', type: 'success' });
             })
             .catch((error) => {
-                setFeedback({ message: 'Erro ao cadastrar aluno!', type: 'error' });
+                setFeedback({ message: 'Erro ao cadastrar treino!', type: 'error' });
             });*/
-
-            console.log(dataToSubmit)
     };
 
     return (
@@ -62,7 +74,7 @@ export default function EditarTreino({ submitUrl }) {
                 <MenuBar />
 
                 <form className="generic-form" onSubmit={handleSubmit}>
-                    {/* Matrícula */}
+                    {/* Objetivo */}
                     <div className="form-group">
                         <label htmlFor="objetivo">Objetivo</label>
                         <input
@@ -75,7 +87,7 @@ export default function EditarTreino({ submitUrl }) {
                         />
                     </div>
 
-                    {/* Nome */}
+                    {/* Dificuldade */}
                     <div className="form-group">
                         <label htmlFor="dificuldade">Dificuldade</label>
                         <input
@@ -88,50 +100,53 @@ export default function EditarTreino({ submitUrl }) {
                         />
                     </div>
 
-                    {/* Plano Selection */}
-                    <div className="form-group">
-                        <label htmlFor="exercicio_id">Exercicio</label>
+                    {/* Seleção de Exercícios */}
+                    <div className="aula-selection">
+                        <label htmlFor="exercicio">Selecione um Exercício</label>
                         <select
-                            id="exercicio_id"
-                            name="exercicio_id"
-                            value={formData.exercicio_id}
-                            onChange={handleChange}
-                            required
+                            id="exercicio"
+                            name="exercicio"
+                            value={exercicioSelecionado}
+                            onChange={handleExercicioChange}
                         >
-                            {exercicios.length > 0 ? (
-                                exercicios.map((exercicio) => (
-                                    <option key={exercicio.id} value={exercicio.id}>
-                                        {exercicio.nome}
-                                    </option>
-                                ))
-                            ) : (
-                                <option value="">Carregando...</option>
-                                
-                            )}
+                            <option value="">Selecione...</option>
+                            {exerciciosDisponiveis.map((exercicio) => (
+                                <option key={exercicio.id} value={exercicio.id}>
+                                    {exercicio.nome}
+                                </option>
+                            ))}
                         </select>
+                        <button 
+                            type="button" 
+                            onClick={adicionarExercicio} 
+                            className="icon-button add-btn"
+                        >
+                            <img src={addIcon} alt="Adicionar Exercício" className="icon" />
+                        </button>
                     </div>
 
-                    {/* Plano Selection */}
-                    <div className="form-group">
-                        <label htmlFor="aluno_id">aluno</label>
-                        <select
-                            id="aluno_id"
-                            name="aluno_id"
-                            value={formData.plano_id}
-                            onChange={handleChange}
-                            required
-                        >
-                            {alunos.length > 0 ? (
-                                alunos.map((aluno) => (
-                                    <option key={aluno.id} value={aluno.id}>
-                                        {aluno.nome}
-                                    </option>
-                                ))
-                            ) : (
-                                <option value="">Carregando...</option>
-                                
-                            )}
-                        </select>
+                    {/* Lista de Exercícios Selecionados */}
+                    <div>
+                        <h3>Exercícios Selecionados:</h3>
+                        <ul>
+                            {formData.exercicios.map((exercicioId, index) => {
+                                const exercicio = exerciciosDisponiveis.find(e => e.id === exercicioId);
+                                return (
+                                    <li key={index} className="selected-aula">
+                                        <div className="aula">
+                                            <span>{exercicio ? exercicio.nome : exercicioId}</span>
+                                            <button 
+                                                type="button" 
+                                                onClick={() => removerExercicio(exercicioId)} 
+                                                className="icon-button remove-btn"
+                                            >
+                                                <img src={removeIcon} alt="Remover Exercício" className="icon" />
+                                            </button>
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </ul>
                     </div>
 
                     <button type="submit">Editar</button>

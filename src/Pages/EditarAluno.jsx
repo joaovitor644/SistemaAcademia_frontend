@@ -1,4 +1,4 @@
-import { useState, useEffect  } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate ,useParams} from "react-router-dom";
 import '../Assets/HomePage.css';
@@ -6,30 +6,31 @@ import MenuBar from "../Components/MenuBar";
 import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 import "../Assets/Forms.css";
-import addIcon from '../Assets/add-64px.png';  // Caminho para o ícone "mais"
-import removeIcon from '../Assets/lixo.png'; // Caminho para o ícone "remover"
+import addIcon from '../Assets/add-64px.png';
+import removeIcon from '../Assets/lixo.png';
 
-export default function EditarAluno({ submitUrl}) {
-    const { id } = useParams()
+export default function EditarAluno({ submitUrl }) {
+    const {id} = useParams()
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
-    const [planos, setPlanos] = useState([]);
     const [username, setUsername] = useState('');
     const [formData, setFormData] = useState('');
-    const [aulas, setAulas] = useState(formData.aulas);
+    const [planos, setPlanos] = useState([{id:'1',nome:"base"},{id:'2',nome:"base2"}]);
+    const [aulas, setAulas] = useState([]);
     const [aulaSelecionada, setAulaSelecionada] = useState('');
+    const [treinos, setTreinos] = useState([]);
+    const [treinoSelecionado, setTreinoSelecionado] = useState('');
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
     };
 
-    // Handle form data changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevData => ({ ...prevData, [name]: value }));
     };
 
-    // Handle aula selection
+    // Aulas functions
     const handleAulaChange = (e) => {
         setAulaSelecionada(e.target.value);
     };
@@ -44,22 +45,38 @@ export default function EditarAluno({ submitUrl}) {
         setAulas(aulas.filter((item) => item !== aula));
     };
 
-    // Handle form submission
+    // Treinos functions
+    const handleTreinoChange = (e) => {
+        setTreinoSelecionado(e.target.value);
+    };
+
+    const adicionarTreino = () => {
+        if (treinoSelecionado && !treinos.includes(treinoSelecionado)) {
+            setTreinos([...treinos, treinoSelecionado]);
+        }
+    };
+
+    const removerTreino = (treino) => {
+        setTreinos(treinos.filter((item) => item !== treino));
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Prepare the data with selected aulas
         const dataToSubmit = {
             ...formData,
-            aulas, // Add selected classes (aulas) here
+            aulas,
+            treinos,
         };
 
-        axios.post(submitUrl, dataToSubmit)
+        /*axios.post(submitUrl, dataToSubmit)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })
             .catch((error) => {
                 setFeedback({ message: 'Erro ao cadastrar aluno!', type: 'error' });
-            });
+            });*/
+
+        console.log(dataToSubmit)
     };
 
     return (
@@ -257,7 +274,43 @@ export default function EditarAluno({ submitUrl}) {
                                             <img src={removeIcon} alt="Remover Aula" className="icon" />
                                         </button>
                                     </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
+                    {/* Treino Selection */}
+                    <div className="aula-selection">
+                        <label htmlFor="treino">Selecione um Treino</label>
+                        <select
+                            id="treino"
+                            name="treino"
+                            value={treinoSelecionado}
+                            onChange={handleTreinoChange}
+                        >
+                            <option value="">Selecione...</option>
+                            <option value="musculacao">Musculação</option>
+                            <option value="crossfit">Crossfit</option>
+                            <option value="funcional">Funcional</option>
+                            <option value="hiit">HIIT</option>
+                            <option value="pilates">Pilates</option>
+                        </select>
+                        <button type="button" onClick={adicionarTreino} className="icon-button add-btn">
+                            <img src={addIcon} alt="Adicionar Treino" className="icon" />
+                        </button>
+                    </div>
+
+                    {/* List of selected treinos */}
+                    <div>
+                        <h3>Treinos Selecionados:</h3>
+                        <ul>
+                            {treinos.map((treino, index) => (
+                                <li key={index} className="selected-aula">
+                                    <div className="aula"><span>{treino}</span>
+                                        <button type="button" onClick={() => removerTreino(treino)} className="icon-button remove-btn">
+                                            <img src={removeIcon} alt="Remover Treino" className="icon" />
+                                        </button>
+                                    </div>
                                 </li>
                             ))}
                         </ul>

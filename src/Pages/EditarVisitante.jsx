@@ -80,22 +80,9 @@ export default function EditarVisitante({ submitUrl }) {
                         <label htmlFor="data_visita">Data de Visita</label>
                         <input
                             type="date"
-                            id="data_nascimento"
+                            id="data_visita"
                             name="data_visita"
                             value={formData.data_visita}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    {/* CPF */}
-                    <div className="form-group">
-                        <label htmlFor="cpf">CPF</label>
-                        <input
-                            type="text"
-                            id="cpf"
-                            name="cpf"
-                            value={formData.cpf}
                             onChange={handleChange}
                             required
                         />
@@ -114,86 +101,23 @@ export default function EditarVisitante({ submitUrl }) {
                         />
                     </div>
 
-                    {/* Logradouro */}
-                    <div className="form-group">
-                        <label htmlFor="logradouro">Logradouro</label>
+                        {/* Valor */}
+                        <div className="form-group">
+                        <label htmlFor="visitas">Visitas</label>
                         <input
-                            type="text"
-                            id="logradouro"
-                            name="logradouro"
-                            value={formData.logradouro}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    {/* CEP */}
-                    <div className="form-group">
-                        <label htmlFor="cep">CEP</label>
-                        <input
-                            type="text"
-                            id="cep"
-                            name="cep"
-                            value={formData.cep}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Rua */}
-                    <div className="form-group">
-                        <label htmlFor="rua">Rua</label>
-                        <input
-                            type="text"
-                            id="rua"
-                            name="rua"
-                            value={formData.rua}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Número da Casa */}
-                    <div className="form-group">
-                        <label htmlFor="num_casa">Número da Casa</label>
-                        <input
-                            type="text"
-                            id="num_casa"
-                            name="num_casa"
-                            value={formData.num_casa}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Bairro */}
-                    <div className="form-group">
-                        <label htmlFor="bairro">Bairro</label>
-                        <input
-                            type="text"
-                            id="bairro"
-                            name="bairro"
-                            value={formData.bairro}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Cidade */}
-                    <div className="form-group">
-                        <label htmlFor="cidade">Cidade</label>
-                        <input
-                            type="text"
-                            id="cidade"
-                            name="cidade"
-                            value={formData.cidade}
+                            type="number"
+                            min={0}
+                            id="visitas"
+                            name="visitas"
+                            value={formData.valor}
                             onChange={handleChange}
                             required
                         />
                     </div>
 
 
-                    <button type="submit">Cadastrar</button>
+
+                    <button type="submit">Editar</button>
                 </form>
 
                 <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
