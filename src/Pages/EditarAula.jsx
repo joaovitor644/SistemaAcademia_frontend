@@ -21,6 +21,22 @@ export default function EditarAula({ submitUrl }) {
         sala: ''
     });
 
+    /*
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+    */
+
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
     };

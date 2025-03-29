@@ -24,6 +24,22 @@ export default function CadastroTreino({ submitUrl }) {
     const [exercicioSelecionado, setExercicioSelecionado] = useState('');
     const [alunos, setAlunos] = useState([{id:'1',nome:"Aluno 1"},{id:'2',nome:"Aluno 2"}]);
 
+    /*
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+    */
+
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
     };
