@@ -13,6 +13,7 @@ export default function EditarAvFisica({ submitUrl }) {
     const {id} = useParams()
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         altura: '',
         peso: '',

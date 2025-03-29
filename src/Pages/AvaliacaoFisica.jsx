@@ -14,6 +14,7 @@ export default function Avaliacao({AddPath, urlView , urlEdit}){
     const headers = ["Nome", "CPF", "Data"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };

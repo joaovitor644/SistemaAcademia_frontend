@@ -14,6 +14,7 @@ export default function Material({AddPath, urlView , urlEdit, deleteUrl}){
     const headers = ["Nome", "Serial", "Disponibilidade"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };

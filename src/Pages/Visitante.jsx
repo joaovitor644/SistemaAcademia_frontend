@@ -14,6 +14,7 @@ export default function Visitante({AddPath , urlView , urlEdit, deleteUrl}){
     const headers = ["Aluno", "Contato", "Visitas", "Ultima"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
