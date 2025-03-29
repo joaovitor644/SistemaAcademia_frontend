@@ -44,7 +44,7 @@ export default function Avaliacao({AddPath, urlView , urlEdit}){
         <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={dados} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={urlView}/>
+            <TableComponent titulo={titulo} dados={dados} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={urlView} keyUnique={"id_avaliacao"}/> 
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

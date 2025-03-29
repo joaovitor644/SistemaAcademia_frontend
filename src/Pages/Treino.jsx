@@ -60,7 +60,7 @@ export default function Treinos({AddPath, urlView , urlEdit , deleteUrl}){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={dados} headers={headers} AddPath={AddPath} urlEdit={"/treino/edit"} urlView={"/treino/view"} keyUnique={"id"} />
+            <TableComponent titulo={titulo} dados={dados} headers={headers} AddPath={AddPath} urlEdit={"/treino/edit"} urlView={"/treino/view"} keyUnique={"id_treino"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>
