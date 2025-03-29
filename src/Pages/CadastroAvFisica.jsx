@@ -92,7 +92,7 @@ export default function CadastroAvFisica({ submitUrl }) {
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Matrícula */}
                     <div className="form-group">
-                        <label htmlFor="altura">Altura</label>
+                        <label htmlFor="altura">Altura / cm</label>
                         <input
                             type="number"
                             id="altura"
@@ -105,7 +105,7 @@ export default function CadastroAvFisica({ submitUrl }) {
 
                     {/* Nome */}
                     <div className="form-group">
-                        <label htmlFor="peso">Peso</label>
+                        <label htmlFor="peso">Peso / kg</label>
                         <input
                             type="number"
                             id="peso"
@@ -118,7 +118,7 @@ export default function CadastroAvFisica({ submitUrl }) {
 
                     {/* Data de Nascimento */}
                     <div className="form-group">
-                        <label htmlFor="data_nascimento">Observações</label>
+                        <label htmlFor="observacoes">Observações</label>
                         <textarea
                             name="observacoes"
                             value={formData.observacoes}
