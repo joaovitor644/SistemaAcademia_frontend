@@ -14,6 +14,7 @@ export default function EditarExercicio({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         nome: '',
         musculo: '',
@@ -28,6 +29,22 @@ export default function EditarExercicio({ submitUrl }) {
         {id:'4', nome:"Corda"}
     ]);
     const [materialSelecionado, setMaterialSelecionado] = useState('');
+
+    /*
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+    */
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });

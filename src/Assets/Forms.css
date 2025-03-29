@@ -30,6 +30,8 @@
 }
 
 /* Inputs e campos de texto */
+.generic-form textarea,
+.generic-form input[type="medidas"],
 .generic-form input[type="text"],
 .generic-form input[type="email"],
 .generic-form input[type="password"],
@@ -45,6 +47,20 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.generic-form input[type="number"] {
+  width: 15%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  box-sizing: border-box; /* Garante que o padding não aumente a largura */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.generic-form textarea:focus,
+.generic-form input[type="number"]:focus,
+.generic-form input[type="medidas"]:focus,
 .generic-form input[type="text"]:focus,
 .generic-form input[type="email"]:focus,
 .generic-form input[type="password"]:focus,

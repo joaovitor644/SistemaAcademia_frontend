@@ -14,6 +14,7 @@ export default function Material({AddPath, urlView , urlEdit, deleteUrl}){
     const headers = ["Nome", "Serial", "Disponibilidade"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
@@ -45,7 +46,7 @@ export default function Material({AddPath, urlView , urlEdit, deleteUrl}){
         <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Materiais"} AddPath={AddPath} urlView={"material/view/"} keyUnique={"id"} urlEdit={"material/edit/"}/>
+            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Materiais"} AddPath={AddPath} urlView={"/material/view/"} keyUnique={"id_aparelho"} urlEdit={"/material/edit/"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

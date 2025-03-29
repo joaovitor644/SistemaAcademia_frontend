@@ -14,6 +14,7 @@ export default function Visitante({AddPath , urlView , urlEdit, deleteUrl}){
     const headers = ["Aluno", "Contato", "Visitas", "Ultima"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
@@ -49,7 +50,7 @@ export default function Visitante({AddPath , urlView , urlEdit, deleteUrl}){
         <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Visitantes"} AddPath={AddPath} urlView={"/visitante/view"} keyUnique={"matricula"} urlEdit={"/visitante/edit"}/>
+            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Visitantes"} AddPath={AddPath} urlView={"/visitante/view"} keyUnique={"id_visitante"} urlEdit={"/visitante/edit"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

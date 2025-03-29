@@ -12,6 +12,7 @@ export default function CadastroAvFisica({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         altura: '',
         peso: '',
@@ -21,6 +22,23 @@ export default function CadastroAvFisica({ submitUrl }) {
         aluno_id: ''
     });
     const [aluno, setAlunos] = useState([]);
+
+
+    /*
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+    */
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -74,7 +92,7 @@ export default function CadastroAvFisica({ submitUrl }) {
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Matrícula */}
                     <div className="form-group">
-                        <label htmlFor="altura">Altura</label>
+                        <label htmlFor="altura">Altura / cm</label>
                         <input
                             type="number"
                             id="altura"
@@ -87,7 +105,7 @@ export default function CadastroAvFisica({ submitUrl }) {
 
                     {/* Nome */}
                     <div className="form-group">
-                        <label htmlFor="peso">Peso</label>
+                        <label htmlFor="peso">Peso / kg</label>
                         <input
                             type="number"
                             id="peso"
@@ -100,7 +118,7 @@ export default function CadastroAvFisica({ submitUrl }) {
 
                     {/* Data de Nascimento */}
                     <div className="form-group">
-                        <label htmlFor="data_nascimento">Observações</label>
+                        <label htmlFor="observacoes">Observações</label>
                         <textarea
                             name="observacoes"
                             value={formData.observacoes}

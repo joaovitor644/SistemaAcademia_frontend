@@ -14,12 +14,29 @@ export default function EditarAluno({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState('');
     const [planos, setPlanos] = useState([{id:'1',nome:"base"},{id:'2',nome:"base2"}]);
     const [aulas, setAulas] = useState([]);
     const [aulaSelecionada, setAulaSelecionada] = useState('');
     const [treinos, setTreinos] = useState([]);
     const [treinoSelecionado, setTreinoSelecionado] = useState('');
+
+    /*
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+    */
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
