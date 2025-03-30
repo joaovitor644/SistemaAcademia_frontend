@@ -77,18 +77,18 @@ export default function EditarVisitante({ submitUrl }) {
 
     // Handle form submission
     const handleSubmit = (e) => {
-        e.preventDefault();
-        formData.data_visita = formatarData(formData.data_visita)
-        console.log(formData)
-        
-        axios.put(submitUrl, formData , { withCredentials: true })
-            .then((response) => {
-                setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
-            })
-            .catch((error) => {
-                setFeedback({ message: 'Erro ao cadastrar visitante!' + error, type: 'error' });
-            });
-    };
+    e.preventDefault();
+    formData.data_visita = formatarData(formData.data_visita);
+    console.log(formData);
+
+    axios.put(`${submitUrl}${id}`, formData, { withCredentials: true }) 
+        .then((response) => {
+            setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
+        })
+        .catch((error) => {
+            setFeedback({ message: 'Erro ao cadastrar visitante!' + error, type: 'error' });
+        });
+};
 
     return (
         <>
