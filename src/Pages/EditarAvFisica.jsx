@@ -66,23 +66,17 @@ export default function EditarAvFisica({ submitUrl }) {
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-        
+    e.preventDefault();
 
-        axios.put(`${submitUrl}`, formData)
-            .then((response) => {
-                setFeedback({ message: 'Avaliação atualizada com sucesso!', type: 'success' });
-            })
-            .catch((error) => {
-                setFeedback({ message: 'Erro ao atualizar avaliação', type: 'error' });
-            });
-            
-
-        setFeedback({ 
-            message: `Dados Editados com sucesso`, 
-            type: 'success' 
+    axios.put(`${submitUrl}/${id}`, formData)
+        .then((response) => {
+            setFeedback({ message: 'Avaliação atualizada com sucesso!', type: 'success' });
+        })
+        .catch((error) => {
+            setFeedback({ message: 'Erro ao atualizar avaliação', type: 'error' });
         });
-    };
+};
+
 
     return (
         <>
