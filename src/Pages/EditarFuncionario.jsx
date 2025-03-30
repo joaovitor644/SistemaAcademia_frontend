@@ -82,7 +82,8 @@ export default function EditarFuncionario({ submitUrl}) {
                         bairro: response.data.funcionario.endereco.bairro,
                         cidade: response.data.funcionario.endereco.cidade,
                         username:response.data.funcionario.usuario.username,
-                        password:'',
+                        password:null,
+                        hash_password:response.data.funcionario.usuario.senha_hash,
                         salario:parseInt(response.data.funcionario.contrato.salario,10),
                         data_contratacao:formatarData(response.data.funcionario.contrato.data_contratacao),
                         data_final: formatarData(response.data.funcionario.contrato.data_final),
@@ -315,7 +316,7 @@ export default function EditarFuncionario({ submitUrl}) {
                             name="password"
                             value={formData.password}
                             onChange={handleChange}
-                            required
+                            
                         />
                     </div>
 
