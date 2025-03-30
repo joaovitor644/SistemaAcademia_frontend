@@ -81,7 +81,7 @@ export default function EditarVisitante({ submitUrl }) {
     formData.data_visita = formatarData(formData.data_visita);
     console.log(formData);
 
-    axios.put(`${submitUrl}${id}`, formData, { withCredentials: true }) 
+    axios.put(`${submitUrl}/${id}`, formData, { withCredentials: true }) 
         .then((response) => {
             setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
         })
