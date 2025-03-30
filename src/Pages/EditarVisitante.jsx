@@ -27,7 +27,7 @@ export default function EditarVisitante({ submitUrl }) {
     const [username, setUsername] = useState('');
     const [formData, setFormData] = useState({
         nome: '',
-        data_visita: '',
+        data_ultima_visita: '',
         telefone: '',
         qunt_visitas: ''
     });
@@ -52,7 +52,7 @@ export default function EditarVisitante({ submitUrl }) {
                 if (response.data.visitante) {
                     setFormData({
                         nome: response.data.visitante.nome,
-                        data_visita: response.data.visitante.data_visita,
+                        data_ultima_visita: response.data.visitante.data_ultima_visita,
                         qunt_visitas: response.data.visitante.qunt_visitas,
                         telefone: response.data.visitante.telefone,
                         id_visitante:id
@@ -78,7 +78,7 @@ export default function EditarVisitante({ submitUrl }) {
     // Handle form submission
     const handleSubmit = (e) => {
     e.preventDefault();
-    formData.data_visita = formatarData(formData.data_visita);
+    formData.data_ultima_visita = formatarData(formData.data_ultima_visita);
     console.log(formData);
 
     axios.put(`${submitUrl}/${id}`, formData, { withCredentials: true }) 
@@ -113,12 +113,12 @@ export default function EditarVisitante({ submitUrl }) {
 
                     {/* Data de Visita */}
                     <div className="form-group">
-                        <label htmlFor="data_visita">Data de Visita</label>
+                        <label htmlFor="data_ultima_visita">Data de Visita</label>
                         <input
                             type="date"
-                            id="data_visita"
-                            name="data_visita"
-                            value={formatarData(formData.data_visita)}
+                            id="data_ultima_visita"
+                            name="data_ultima_visita"
+                            value={formatarData(formData.data_ultima_visita)}
                             onChange={handleChange}
                             required
                         />
