@@ -13,32 +13,26 @@ export default function CadastroMaterial({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         nome: '',
-        numserie: '',
+        numero_serie: '',
         disponibilidade: ''
     });
     const [planos, setPlanos] = useState([]);
     const [aulas, setAulas] = useState([]);
     const [aulaSelecionada, setAulaSelecionada] = useState('');
 
-    /*
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
-                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
             })
             .catch(() => navigate('/'));
     }, [navigate]);
-
-    */
-
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -54,12 +48,9 @@ export default function CadastroMaterial({ submitUrl }) {
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Prepare the data with selected
-        const dataToSubmit = {
-            // implement
-        };
+        // Prepare the data with select
 
-        axios.post(submitUrl, dataToSubmit)
+        axios.post(submitUrl, formData)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })
@@ -91,12 +82,12 @@ export default function CadastroMaterial({ submitUrl }) {
 
                     {/* Quantidade */}
                     <div className="form-group">
-                        <label htmlFor="numserie">Numero De Serie</label>
+                        <label htmlFor="numero_serie">Numero De Serie</label>
                         <input
                             type="text"
-                            id="numserie"
-                            name="numserie"
-                            value={formData.quantidade}
+                            id="numero_serie"
+                            name="numero_serie"
+                            value={formData.numero_serie}
                             onChange={handleChange}
                             required
                         />
@@ -104,12 +95,12 @@ export default function CadastroMaterial({ submitUrl }) {
 
                     {/* Disponibilidade */}
                     <div className="form-group">
-                        <label htmlFor="Disponibilidade">Disponibilidade</label>
+                        <label htmlFor="disponibilidade">Disponibilidade</label>
                         <input
                             type="text"
-                            id="Disponibilidade"
-                            name="Disponibilidade"
-                            value={formData.Disponibilidade}
+                            id="disponibilidade"
+                            name="disponibilidade"
+                            value={formData.disponibilidade}
                             onChange={handleChange}
                             required
                         />

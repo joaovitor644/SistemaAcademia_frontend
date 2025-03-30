@@ -15,7 +15,7 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/auth', {
+      const response = await axios.post('http://localhost:5000/login', {
         'username': username,
         'password': password
       }, { withCredentials: true });

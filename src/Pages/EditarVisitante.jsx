@@ -9,39 +9,60 @@ import "../Assets/Forms.css";
 import addIcon from '../Assets/add-64px.png';  // Caminho para o ícone "mais"
 import removeIcon from '../Assets/lixo.png'; // Caminho para o ícone "remover"
 
+function formatarData(dataString) {
+    const data = new Date(dataString);
+
+    const ano = data.getUTCFullYear();
+    const mes = String(data.getUTCMonth() + 1).padStart(2, '0'); // Janeiro = 0
+    const dia = String(data.getUTCDate()).padStart(2, '0');
+
+    return `${ano}-${mes}-${dia}`;
+}
+
+
 export default function EditarVisitante({ submitUrl }) {
+    const {id} = useParams()
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         nome: '',
         data_visita: '',
-        cpf: '',
         telefone: '',
-        logradouro: '',
-        cep: '',
-        rua: '',
-        num_casa: '',
-        bairro: '',
-        cidade: '',
+        qunt_visitas: ''
     });
 
-    /*
+
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
-                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
             })
-            .catch(() => navigate('/'));
+            .catch();
     }, [navigate]);
 
-    */
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/FormAtualizarVisitante/' + id, { withCredentials: true })
+            .then(response => {
+                if (response.data.visitante) {
+                    setFormData({
+                        nome: response.data.visitante.nome,
+                        data_visita: response.data.visitante.data_visita,
+                        qunt_visitas: response.data.visitante.qunt_visitas,
+                        telefone: response.data.visitante.telefone,
+                        id_visitante:id
+                    });
+                } else {
+
+                }
+            })
+            .catch();
+    }, [navigate]);
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -57,17 +78,15 @@ export default function EditarVisitante({ submitUrl }) {
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Prepare the data with selected
-        const dataToSubmit = {
-            // implement
-        };
-
-        axios.post(submitUrl, dataToSubmit)
+        formData.data_visita = formatarData(formData.data_visita)
+        console.log(formData)
+        
+        axios.put(submitUrl, formData , { withCredentials: true })
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })
             .catch((error) => {
-                setFeedback({ message: 'Erro ao cadastrar visitante!', type: 'error' });
+                setFeedback({ message: 'Erro ao cadastrar visitante!' + error, type: 'error' });
             });
     };
 
@@ -99,7 +118,7 @@ export default function EditarVisitante({ submitUrl }) {
                             type="date"
                             id="data_visita"
                             name="data_visita"
-                            value={formData.data_visita}
+                            value={formatarData(formData.data_visita)}
                             onChange={handleChange}
                             required
                         />
@@ -120,13 +139,13 @@ export default function EditarVisitante({ submitUrl }) {
 
                         {/* Valor */}
                         <div className="form-group">
-                        <label htmlFor="visitas">Visitas</label>
+                        <label htmlFor="qunt_visitas">Visitas</label>
                         <input
                             type="number"
                             min={0}
-                            id="visitas"
-                            name="visitas"
-                            value={formData.valor}
+                            id="qunt_visitas"
+                            name="qunt_visitas"
+                            value={parseInt(formData.qunt_visitas,10)}
                             onChange={handleChange}
                             required
                         />

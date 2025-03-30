@@ -7,18 +7,18 @@ import MenuBar from "../Components/MenuBar";
 import ShowInfo from "../Components/ShowInfo";
 import FeedbackPopup from "../Components/FeedbackPopup";
 
-export default function ShowAvFisica() {
+export default function ShowAvFisica({viewUrl}) {
     const { id } = useParams();
     const [AvFisicas,setAvFisicas] = useState('')
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
     const [IsAdmin, setIsAdmin] = useState('');
     
-    const labels = ["Nome", "Valor", "Descricao"]; // Mesmo headers da tabela
+    const labels = ["altura", "peso", "observacoes","biotipo","medidas","aluno_matricula"]; // Mesmo headers da tabela
 
     //const plano =  { Nome: ["Plano A"], Valor: ["220,00"], Descricao: ["asdfasdfgadefgsd"] }
 
-    /*
+    
     useEffect(() => {
         // Verificar sessão
         axios.get('http://localhost:5000/session', { withCredentials: true })
@@ -33,22 +33,18 @@ export default function ShowAvFisica() {
             .catch(() => navigate('/'));
 
         // Buscar dados do funcionário
-        axios.get(`http://localhost:5000/funcionarios/${id}`, { withCredentials: true })
+        axios.get(`${viewUrl}/${id}`, { withCredentials: true })
             .then(response => {
-                setFuncionario(response.data);
+                setAvFisicas(response.data["avaliacao fisica"]);
             })
             .catch(error => {
-                setFeedback({ message: 'Erro ao carregar funcionário', type: 'error' });
+                setFeedback({ message: 'Erro ao carregar', type: 'error' });
             });
     }, [id]);
-*/
+
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
     };
-
-    if (!plano) {
-        return <div>Carregando...</div>;
-    }
 
     return (
         <>

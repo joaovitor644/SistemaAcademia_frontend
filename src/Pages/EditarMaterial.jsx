@@ -14,28 +14,11 @@ export default function EditarMaterial({ submitUrl }) {
     const {id} = useParams();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         nome: '',
-        numserie: '',
+        numero_serie: '',
         disponibilidade: ''
     });
-
-    /*
-    useEffect(() => {
-        axios.get('http://localhost:5000/session', { withCredentials: true })
-            .then(response => {
-                if (response.data.permission === 'OK') {
-                    setUsername(response.data.user);
-                    setIsAdmin(response.data.isAdm);
-                } else {
-                    navigate('/');
-                }
-            })
-            .catch(() => navigate('/'));
-    }, [navigate]);
-
-    */
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -47,16 +30,40 @@ export default function EditarMaterial({ submitUrl }) {
         setFormData(prevData => ({ ...prevData, [name]: value }));
     };
 
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/FormAtualizarAparelho/' + id, { withCredentials: true })
+            .then(response => {
+                if (response.data.aparelho) {
+                    setFormData({
+                            nome: response.data.aparelho.aparelho.nome,
+                            numero_serie: response.data.aparelho.aparelho.numero_serie,
+                            disponibilidade: response.data.aparelho.aparelho.disponibilidade
+                    });
+                } else {
+
+                }
+            })
+            .catch();
+    }, []);
 
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Prepare the data with selected
-        const dataToSubmit = {
-            // implement
-        };
 
-        axios.post(submitUrl, dataToSubmit)
+
+        axios.put(submitUrl + id, formData)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })
@@ -64,6 +71,7 @@ export default function EditarMaterial({ submitUrl }) {
                 setFeedback({ message: 'Erro ao cadastrar Aparelho!', type: 'error' });
             });
     };
+    console.log(formData)
 
     return (
         <>
@@ -88,12 +96,12 @@ export default function EditarMaterial({ submitUrl }) {
 
                     {/* Quantidade */}
                     <div className="form-group">
-                        <label htmlFor="numserie">Numero De Serie</label>
+                        <label htmlFor="numero_serie">Numero De Serie</label>
                         <input
                             type="text"
-                            id="numserie"
-                            name="numserie"
-                            value={formData.quantidade}
+                            id="numero_serie"
+                            name="numero_serie"
+                            value={formData.numero_serie}
                             onChange={handleChange}
                             required
                         />
@@ -101,19 +109,19 @@ export default function EditarMaterial({ submitUrl }) {
 
                     {/* Disponibilidade */}
                     <div className="form-group">
-                        <label htmlFor="Disponibilidade">Disponibilidade</label>
+                        <label htmlFor="disponibilidade">Disponibilidade</label>
                         <input
                             type="text"
-                            id="Disponibilidade"
-                            name="Disponibilidade"
-                            value={formData.Disponibilidade}
+                            id="disponibilidade"
+                            name="disponibilidade"
+                            value={formData.disponibilidade}
                             onChange={handleChange}
                             required
                         />
                     </div>
 
 
-                    <button type="submit">Cadastrar</button>
+                    <button type="submit">Editar</button>
                 </form>
 
                 <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />

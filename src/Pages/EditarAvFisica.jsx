@@ -7,65 +7,81 @@ import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 import "../Assets/Forms.css";
 
-
 export default function EditarAvFisica({ submitUrl }) {
     const navigate = useNavigate();
     const {id} = useParams()
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         altura: '',
         peso: '',
         observacoes: '',
         biotipo: '',
         medidas: '',
-        aluno_id: ''
+        aluno_matricula: '',
+        id_avaliacao_fisica:id
     });
 
-    const [aluno, setAlunos] = useState([]);
+    const [alunos, setAlunos] = useState([]);
 
-    /*
+    // Dados de exemplo para teste
     useEffect(() => {
-        axios.get('http://localhost:5000/session', { withCredentials: true })
-            .then(response => {
-                if (response.data.permission === 'OK') {
-                    setUsername(response.data.user);
-                    setIsAdmin(response.data.isAdm);
-                } else {
-                    navigate('/');
-                }
-            })
-            .catch(() => navigate('/'));
-    }, [navigate]);
+        // Simulando dados carregados de uma API
 
-    */
+      
+            axios.get('http://localhost:5000/FormAtualizarAvaliacaoFisica/' + id, { withCredentials: true })
+                .then(response => {
+                    if (response.data["avaliacao fisica"]) {
+                        setFormData(response.data["avaliacao fisica"])
+                    } else {
+    
+                    }
+                })
+                .catch();
+       
+ 
+            axios.get('http://localhost:5000/ListarAluno', { withCredentials: true })
+                .then(response => {
+                    if (response.data.alunos) {
+                        setAlunos(response.data.alunos)
+                        console.log(response.data.alunos)
+                    } else {
+    
+                    }
+                })
+                .catch();
+
+    }, []);
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
     };
 
-    // Handle form data changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevData => ({ ...prevData, [name]: value }));
+        
+        // Log para verificar os dados sendo alterados
+        console.log(`Campo alterado: ${name} = ${value}`);
     };
-    // Handle form submission
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Prepare the data with selected aulas
-        const dataToSubmit = {
-            ...formData,
-            aulas, // Add selected classes (aulas) here
-        };
+        
 
-        axios.post(submitUrl, dataToSubmit)
+        axios.put(`${submitUrl}`, formData)
             .then((response) => {
-                setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
+                setFeedback({ message: 'Avaliação atualizada com sucesso!', type: 'success' });
             })
             .catch((error) => {
-                setFeedback({ message: 'Erro ao cadastrar aluno!', type: 'error' });
+                setFeedback({ message: 'Erro ao atualizar avaliação', type: 'error' });
             });
+            
+
+        setFeedback({ 
+            message: `Dados Editados com sucesso`, 
+            type: 'success' 
+        });
     };
 
     return (
@@ -75,7 +91,7 @@ export default function EditarAvFisica({ submitUrl }) {
                 <MenuBar />
 
                 <form className="generic-form" onSubmit={handleSubmit}>
-                    {/* Matrícula */}
+                    {/* Altura */}
                     <div className="form-group">
                         <label htmlFor="altura">Altura</label>
                         <input
@@ -88,7 +104,7 @@ export default function EditarAvFisica({ submitUrl }) {
                         />
                     </div>
 
-                    {/* Nome */}
+                    {/* Peso */}
                     <div className="form-group">
                         <label htmlFor="peso">Peso</label>
                         <input
@@ -101,9 +117,9 @@ export default function EditarAvFisica({ submitUrl }) {
                         />
                     </div>
 
-                    {/* Data de Nascimento */}
+                    {/* Observações */}
                     <div className="form-group">
-                        <label htmlFor="data_nascimento">Observações</label>
+                        <label htmlFor="observacoes">Observações</label>
                         <textarea
                             name="observacoes"
                             value={formData.observacoes}
@@ -114,7 +130,7 @@ export default function EditarAvFisica({ submitUrl }) {
                         />
                     </div>
 
-                    {/* CPF */}
+                    {/* Biotipo */}
                     <div className="form-group">
                         <label htmlFor="biotipo">Biotipo</label>
                         <input
@@ -127,11 +143,11 @@ export default function EditarAvFisica({ submitUrl }) {
                         />
                     </div>
 
-                    {/* Email */}
+                    {/* Medidas */}
                     <div className="form-group">
                         <label htmlFor="medidas">Medidas</label>
                         <input
-                            type="medidas"
+                            type="text"
                             id="medidas"
                             name="medidas"
                             value={formData.medidas}
@@ -140,24 +156,24 @@ export default function EditarAvFisica({ submitUrl }) {
                         />
                     </div>
 
-                    {/* Plano Selection */}
+                    {/* Aluno */}
                     <div className="form-group">
-                        <label htmlFor="aluno_id">Aluno</label>
+                        <label htmlFor="aluno_matricula">Aluno</label>
                         <select
-                            id="aluno_id"
-                            name="aluno_id"
-                            value={formData.aluno_id}
+                            id="aluno_matricula"
+                            name="aluno_matricula"
+                            value={formData.aluno_matricula}
                             onChange={handleChange}
                             required
                         >
-                            {aluno.length > 0 ? (
-                                aluno.map((aluno) => (
-                                    <option key={aluno.id} value={aluno.id}>
+                            {alunos.length > 0 ? (
+                                alunos.map((aluno) => (
+                                    <option key={aluno.matricula} value={aluno.matricula}>
                                         {aluno.nome}
                                     </option>
                                 ))
                             ) : (
-                                <option value="">Carregando...</option>
+                                <option value="">Carregando alunos...</option>
                             )}
                         </select>
                     </div>

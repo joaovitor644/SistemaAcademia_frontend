@@ -11,7 +11,7 @@ import FeedbackPopup from "../Components/FeedbackPopup";
 export default function Planos({AddPath, urlView , urlEdit , deleteUrl}){
     const navigate = useNavigate();
     const titulo = "Tabela de Planos";
-    const headers = ["Nome", "Valor" /*, "Descricao"*/];
+    const headers = ["Nome", "Valor" , "Descricao"];
     const [planos,setPlanos] = useState('')
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
@@ -22,7 +22,7 @@ export default function Planos({AddPath, urlView , urlEdit , deleteUrl}){
     
     //const planos =  [{ nome: "Plano A", valor: "220,00", descricao: "asdfasdfgadefgsd" }]
     
-    /*useEffect(() => {
+    useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
@@ -33,9 +33,9 @@ export default function Planos({AddPath, urlView , urlEdit , deleteUrl}){
                 }
             })
             .catch(() => navigate('/'));
-    }, [navigate]);*/
+    }, [navigate]);
 
-    /*
+
     useEffect(() => {
         axios.get('http://localhost:5000/ListarPlano', { withCredentials: true })
             .then(response => {
@@ -50,13 +50,12 @@ export default function Planos({AddPath, urlView , urlEdit , deleteUrl}){
                 setPlanos([])
             });
     }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-    */
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={planos} headers={headers} AddPath={AddPath} urlEdit={"/planos/edit/"} urlView={"/planos/view"} keyUnique={"id_plano"} />
+            <TableComponent titulo={titulo} dados={planos} headers={headers} AddPath={AddPath} urlEdit={"/planos/edit"} urlView={"/planos/view"} keyUnique={"id"} deleteUrl={"http://localhost:5000/ExcluirPlano"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

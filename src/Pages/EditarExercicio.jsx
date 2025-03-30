@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
-import { useNavigate ,useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import '../Assets/HomePage.css';
 import MenuBar from "../Components/MenuBar";
 import TopBar from "../Components/TopBar";
@@ -14,37 +14,40 @@ export default function EditarExercicio({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
+    
+    // Estado inicial com dados de exemplo para teste
     const [formData, setFormData] = useState({
         nome: '',
         musculo: '',
         series: '',
         repeticoes: '',
-        materiais: [] // Alterado para array de materiais
+        materiais: []
     });
+
+    // Dados de exemplo para materiais disponíveis
     const [materiaisDisponiveis, setMateriais] = useState([
         {id:'1', nome:"Haltere"},
         {id:'2', nome:"Barra"},
         {id:'3', nome:"Anilha"},
-        {id:'4', nome:"Corda"}
+        {id:'4', nome:"Corda"},
+        {id:'5', nome:"Kettlebell"}
     ]);
+
     const [materialSelecionado, setMaterialSelecionado] = useState('');
 
-    /*
+    // Carrega dados de exemplo quando o componente é montado
     useEffect(() => {
-        axios.get('http://localhost:5000/session', { withCredentials: true })
-            .then(response => {
-                if (response.data.permission === 'OK') {
-                    setUsername(response.data.user);
-                    setIsAdmin(response.data.isAdm);
-                } else {
-                    navigate('/');
-                }
-            })
-            .catch(() => navigate('/'));
-    }, [navigate]);
-
-    */
+        // Simulando dados de um exercício existente
+        const exercicioExemplo = {
+            nome: "Supino Reto",
+            musculo: "Peitoral",
+            series: "4",
+            repeticoes: "12",
+            materiais: ['1', '2', '3'] // IDs dos materiais: Haltere, Barra, Anilha
+        };
+        
+        setFormData(exercicioExemplo);
+    }, []);
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -53,6 +56,7 @@ export default function EditarExercicio({ submitUrl }) {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prevData => ({ ...prevData, [name]: value }));
+        console.log(`Campo alterado: ${name} = ${value}`);
     };
 
     const handleMaterialChange = (e) => {
@@ -65,7 +69,8 @@ export default function EditarExercicio({ submitUrl }) {
                 ...prevData,
                 materiais: [...prevData.materiais, materialSelecionado]
             }));
-            setMaterialSelecionado(''); // Limpa a seleção após adicionar
+            setMaterialSelecionado('');
+            console.log(`Material adicionado: ${materialSelecionado}`);
         }
     };
 
@@ -74,19 +79,38 @@ export default function EditarExercicio({ submitUrl }) {
             ...prevData,
             materiais: prevData.materiais.filter(id => id !== materialId)
         }));
+        console.log(`Material removido: ${materialId}`);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(formData);
         
-        /*axios.post(submitUrl, formData)
+        // Log dos dados que seriam enviados
+        console.log('Dados do formulário:', formData);
+        console.log(`URL de submissão: ${submitUrl}/${id}`);
+        
+        // Simulação de envio (comentado)
+        /*
+        axios.put(`${submitUrl}/${id}`, formData)
             .then((response) => {
-                setFeedback({ message: 'Exercício cadastrado com sucesso!', type: 'success' });
+                setFeedback({ 
+                    message: 'Exercício atualizado com sucesso!', 
+                    type: 'success' 
+                });
             })
             .catch((error) => {
-                setFeedback({ message: 'Erro ao cadastrar exercício!', type: 'error' });
-            });*/
+                setFeedback({ 
+                    message: 'Erro ao atualizar exercício!', 
+                    type: 'error' 
+                });
+            });
+        */
+        
+        // Feedback simulado para teste
+        setFeedback({
+            message: `Dados recebidos (simulado): ${JSON.stringify(formData)}`,
+            type: 'success'
+        });
     };
 
     return (
@@ -96,6 +120,8 @@ export default function EditarExercicio({ submitUrl }) {
                 <MenuBar />
 
                 <form className="generic-form" onSubmit={handleSubmit}>
+                    <h2>Editar Exercício</h2>
+                    
                     {/* Nome do Exercício */}
                     <div className="form-group">
                         <label htmlFor="nome">Nome</label>
@@ -197,7 +223,14 @@ export default function EditarExercicio({ submitUrl }) {
                         </ul>
                     </div>
 
-                    <button type="submit">Editar</button>
+                    <div className="form-buttons">
+                        <button type="button" onClick={() => navigate(-1)} className="cancel-button">
+                            Cancelar
+                        </button>
+                        <button type="submit" className="submit-button">
+                            Salvar Alterações
+                        </button>
+                    </div>
                 </form>
 
                 <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />

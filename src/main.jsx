@@ -43,20 +43,20 @@ import ShowExercicio from './Pages/ShowExercicio';
 const submitUrlCadPlano = 'http://localhost:5000/CadastrarPlano';
 const submitUrlCadAluno = 'http://localhost:5000/CadastrarPlano';
 const submitUrlCadFuncionario = 'http://localhost:5000/CadastrarPlano';
-const submitUrlCadAvFisica = 'http://localhost:5000/CadastrarPlano';
-const submitUrlCadAula = 'http://localhost:5000/CadastrarPlano';
-const submitUrlCadVisitante = 'http://localhost:5000/CadastrarPlano';
-const submitUrlCadMaterial = 'http://localhost:5000/CadastrarPlano';
+const submitUrlCadAvFisica = 'http://localhost:5000//CadastrarAvaliacaoFisica';
+const submitUrlCadAula = 'http://localhost:5000/CadastrarAula';
+const submitUrlCadVisitante = 'http://localhost:5000/CadastrarVisitante';
+const submitUrlCadMaterial = 'http://localhost:5000/CadastrarAparelho';
 const submitUrlCadTreino = 'http://localhost:5000/CadastrarPlano';
 const submitUrlCadExercicio = 'http://localhost:5000/CadastrarPlano';
 
-const submitUrlEditPlano = 'http://localhost:5000/CadastrarPlano';
+const submitUrlEditPlano = 'http://localhost:5000/AtualizarPlano/';
 const submitUrlEditAluno = 'http://localhost:5000/CadastrarPlano';
 const submitUrlEditFuncionario = 'http://localhost:5000/CadastrarPlano';
-const submitUrlEditAvFisica = 'http://localhost:5000/CadastrarPlano';
-const submitUrlEditAula = 'http://localhost:5000/CadastrarPlano';
-const submitUrlEditVisitante = 'http://localhost:5000/CadastrarPlano';
-const submitUrlEditMaterial = 'http://localhost:5000/CadastrarPlano';
+const submitUrlEditAvFisica = 'http://localhost:5000/AtualizarAvaliacaoFisica';
+const submitUrlEditAula = 'http://localhost:5000/AtualizarAula/';
+const submitUrlEditVisitante = 'http://localhost:5000/AtualizarVisitante';
+const submitUrlEditMaterial = 'http://localhost:5000/AtualizarAparelho/';
 const submitUrlEditTreino = 'http://localhost:5000/CadastrarPlano';
 const submitUrlEditExercicio = 'http://localhost:5000/CadastrarPlano';
 
@@ -74,7 +74,7 @@ const submitUrlRemoveExercicio = 'http://localhost:5000/CadastrarPlano';
 const submitUrlViewPlano = 'http://localhost:5000/CadastrarPlano';
 const submitUrlViewAluno = 'http://localhost:5000/CadastrarPlano';
 const submitUrlViewFuncionario = 'http://localhost:5000/CadastrarPlano';
-const submitUrlViewAvFisica = 'http://localhost:5000/CadastrarPlano';
+const submitUrlViewAvFisica = 'http://localhost:5000/FormAtualizarAvaliacaoFisica/';
 const submitUrlViewAula = 'http://localhost:5000/CadastrarPlano';
 const submitUrlViewVisitante = 'http://localhost:5000/CadastrarPlano';
 const submitUrlViewMaterial = 'http://localhost:5000/CadastrarPlano';
@@ -114,7 +114,7 @@ const AppRouter = () => {
         { path: "/funcionarios", element: <Funcionario AddPath={"/funcionario/cadastro"}/>},
         { path: "/visitante", element: <Visitante AddPath="/visitante/cadastro"/> },
         { path: "/planos", element: <Planos AddPath="/planos/cadastro"/> },
-        { path: "/avaliacao", element: <Avaliacao AddPath="/avaliacao/cadastro"/> },
+        { path: "/avaliacao", element: <Avaliacao AddPath="/avaliacao/cadastro" urlEdit={"/avaliacao/edit"} urlView={"/avaliacao/view"}/> },
         { path: "/material", element: <Material AddPath="/material/cadastro"/>},
         { path: "/treino", element: <Treinos AddPath="/treino/cadastro"/>},
         { path: "/exercicio" , element: <Exercicio AddPath={"/exercicio/cadastro"} />},
@@ -135,7 +135,7 @@ const AppRouter = () => {
         { path: "/treino/edit/:id" , element: <EditarTreino submitUrl={submitUrlEditTreino} />},
         { path: "/avaliacao/edit/:id" , element: <EditarAvFisica submitUrl={submitUrlEditAvFisica} />},
         { path: "/visitante/edit/:id" , element: <EditarVisitante submitUrl={submitUrlEditVisitante} />},
-        { path: "/plano/edit/:id" , element: <EditarPlano submitUrl={submitUrlEditPlano} />},
+        { path: "/planos/edit/:id" , element: <EditarPlano submitUrl={submitUrlEditPlano} />},
         { path: "/material/edit/:id" , element: <EditarMaterial submitUrl={submitUrlEditMaterial} />},
         { path: "/Exercicio/edit/:id" , element: <EditarExercicio submitUrl={submitUrlEditExercicio} />},
 

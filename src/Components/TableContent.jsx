@@ -54,7 +54,7 @@ const TableComponent = ({ titulo, dados, headers, AddPath, urlView, keyUnique, u
       }
 
       // Requisição para a API
-      //await axios.delete(`${deleteUrl}/${id}`);
+      await axios.delete(`${deleteUrl}/${id}`);
       
       // Atualização local dos dados
       setLocalDados(prevDados => prevDados.filter(item => item[keyUnique] !== id));

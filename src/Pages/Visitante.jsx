@@ -11,10 +11,11 @@ import FeedbackPopup from "../Components/FeedbackPopup";
 export default function Visitante({AddPath , urlView , urlEdit, deleteUrl}){
     const navigate = useNavigate();
     const titulo = "Tabela de Visitantes";
-    const headers = ["Aluno", "Contato", "Visitas", "Ultima"];
+    const headers = ["Nome", "qunt_visitas", "Data_visita", "Telefone"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
+    const [IsAdmin, setIsAdmin] = useState('');
+    const [visitantes, setVisitantes] = useState('');
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
@@ -31,8 +32,6 @@ export default function Visitante({AddPath , urlView , urlEdit, deleteUrl}){
         { aluno: 'Lucas Mendes', contato: '9123451234', visitas: 2, ultima: '2025-03-19' },
     ];
     
-    
-    /*
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -44,13 +43,29 @@ export default function Visitante({AddPath , urlView , urlEdit, deleteUrl}){
             })
             .catch(() => navigate('/'));
     }, [navigate]);
-    */
+
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarVisitantes', { withCredentials: true })
+            .then(response => {
+                if (response.data.visitantes) {
+                    setVisitantes(response.data.visitantes)
+   
+                } else {
+
+                }
+            })
+            .catch(() => {
+
+            });
+    }, []); 
+
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Visitantes"} AddPath={AddPath} urlView={"/visitante/view"} keyUnique={"id_visitante"} urlEdit={"/visitante/edit"}/>
+            <TableComponent dados={visitantes} headers={headers} titulo={"Tabela de Visitantes"} AddPath={AddPath} urlView={"/visitante/view"} keyUnique={"id_visitantes"} urlEdit={"/visitante/edit"} deleteUrl={"http://localhost:5000/RemoverVisitante"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

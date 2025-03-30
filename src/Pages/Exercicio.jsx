@@ -56,7 +56,7 @@ export default function Exercicio({AddPath , urlView , urlEdit, deleteUrl}){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={exercicios} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={urlView} keyUnique={"id_exercicio"} />
+            <TableComponent titulo={titulo} dados={exercicios} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={urlView} keyUnique={"id"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

@@ -11,10 +11,10 @@ import FeedbackPopup from "../Components/FeedbackPopup";
 export default function Material({AddPath, urlView , urlEdit, deleteUrl}){
     const navigate = useNavigate();
     const titulo = "Tabela de Materiais";
-    const headers = ["Nome", "Serial", "Disponibilidade"];
+    const headers = ["Nome", "numero_serie", "Disponibilidade"];
+    const [Aparelhos,setAparelhos] = useState('')
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
@@ -28,7 +28,7 @@ export default function Material({AddPath, urlView , urlEdit, deleteUrl}){
       ];
     
     
-    /*
+    
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -40,13 +40,25 @@ export default function Material({AddPath, urlView , urlEdit, deleteUrl}){
             })
             .catch(() => navigate('/'));
     }, [navigate]);
-    */
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarAparelhos', { withCredentials: true })
+            .then(response => {
+                if (response.data.Aparelhos) {
+                    setAparelhos(response.data.Aparelhos);
+                } else {
+
+                }
+            })
+            .catch();
+    }, [navigate]);
+    
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Materiais"} AddPath={AddPath} urlView={"/material/view/"} keyUnique={"id_aparelho"} urlEdit={"/material/edit/"}/>
+            <TableComponent dados={Aparelhos} headers={headers} titulo={"Tabela de Materiais"} AddPath={AddPath} urlView={"material/view/"} keyUnique={"id_aparelho"} urlEdit={"/material/edit"} deleteUrl={"http://localhost:5000/ExcluirAparelho"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

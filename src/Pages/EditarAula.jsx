@@ -14,14 +14,13 @@ export default function EditarAula({ submitUrl }) {
     const {id} = useParams()
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
+    const [isAdm,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         horario: '',
         tipo: '',
         sala: ''
     });
 
-    /*
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -35,7 +34,21 @@ export default function EditarAula({ submitUrl }) {
             .catch(() => navigate('/'));
     }, [navigate]);
 
-    */
+    useEffect(() => {
+        axios.get('http://localhost:5000/FormAtualizarAula/' + id, { withCredentials: true })
+            .then(response => {
+                if (response.data.aula.aula) {
+                    setFormData({
+                            horario: response.data.aula.aula.horario,
+                            tipo: response.data.aula.aula.tipo,
+                            sala: response.data.aula.aula.sala
+                    });
+                } else {
+
+                }
+            })
+            .catch();
+    }, []);
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -56,7 +69,7 @@ export default function EditarAula({ submitUrl }) {
             // implement
         };
 
-        axios.post(submitUrl, dataToSubmit)
+        axios.put(submitUrl + id, formData)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })
@@ -80,7 +93,7 @@ export default function EditarAula({ submitUrl }) {
                             type="text"
                             id="horario"
                             name="horario"
-                            value={formData.nome}
+                            value={formData.horario}
                             onChange={handleChange}
                             required
                         />
@@ -93,7 +106,7 @@ export default function EditarAula({ submitUrl }) {
                             type="text"
                             id="tipo"
                             name="tipo"
-                            value={formData.valor}
+                            value={formData.tipo}
                             onChange={handleChange}
                             required
                         />
@@ -106,7 +119,7 @@ export default function EditarAula({ submitUrl }) {
                             type="text"
                             id="sala"
                             name="sala"
-                            value={formData.descricao}
+                            value={formData.sala}
                             onChange={handleChange}
                             required
                         />

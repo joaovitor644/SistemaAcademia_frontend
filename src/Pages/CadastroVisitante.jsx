@@ -13,30 +13,19 @@ export default function CadastroVisitante({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         nome: '',
         data_visita: '',
-        cpf: '',
-        telefone: '',
-        logradouro: '',
-        cep: '',
-        rua: '',
-        num_casa: '',
-        bairro: '',
-        cidade: '',
+        qunt_visitas:1,
+        telefone:'',
     });
-    const [planos, setPlanos] = useState([]);
-    const [aulas, setAulas] = useState([]);
-    const [aulaSelecionada, setAulaSelecionada] = useState('');
 
-    /*
+
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
-                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
@@ -44,7 +33,6 @@ export default function CadastroVisitante({ submitUrl }) {
             .catch(() => navigate('/'));
     }, [navigate]);
 
-    */
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -65,7 +53,7 @@ export default function CadastroVisitante({ submitUrl }) {
             // implement
         };
 
-        axios.post(submitUrl, dataToSubmit)
+        axios.post(submitUrl, formData)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })
@@ -129,7 +117,7 @@ export default function CadastroVisitante({ submitUrl }) {
                             min={0}
                             id="visitas"
                             name="visitas"
-                            value={formData.valor}
+                            value={formData.qunt_visitas}
                             onChange={handleChange}
                             required
                         />

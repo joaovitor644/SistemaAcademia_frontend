@@ -12,25 +12,20 @@ export default function CadastroAvFisica({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         altura: '',
         peso: '',
         observacoes: '',
         biotipo: '',
         medidas: '',
-        aluno_id: ''
+        aluno_matricula: ''
     });
-    const [aluno, setAlunos] = useState([]);
 
-
-    /*
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
-                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
@@ -38,7 +33,21 @@ export default function CadastroAvFisica({ submitUrl }) {
             .catch(() => navigate('/'));
     }, [navigate]);
 
-    */
+
+    const [aluno, setAlunos] = useState([]);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarAluno', { withCredentials: true })
+            .then(response => {
+                if (response.data.alunos) {
+                    setAlunos(response.data.alunos)
+                } else {
+
+                }
+            })
+            .catch();
+    }, [navigate]);
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -50,31 +59,15 @@ export default function CadastroAvFisica({ submitUrl }) {
         setFormData(prevData => ({ ...prevData, [name]: value }));
     };
 
-    // Handle aula selection
-    const handleAulaChange = (e) => {
-        setAulaSelecionada(e.target.value);
-    };
 
-    const adicionarAula = () => {
-        if (aulaSelecionada && !aulas.includes(aulaSelecionada)) {
-            setAulas([...aulas, aulaSelecionada]);
-        }
-    };
 
-    const removerAula = (aula) => {
-        setAulas(aulas.filter((item) => item !== aula));
-    };
 
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
         // Prepare the data with selected aulas
-        const dataToSubmit = {
-            ...formData,
-            aulas, // Add selected classes (aulas) here
-        };
 
-        axios.post(submitUrl, dataToSubmit)
+        axios.post(submitUrl, formData)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })
@@ -92,7 +85,7 @@ export default function CadastroAvFisica({ submitUrl }) {
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Matrícula */}
                     <div className="form-group">
-                        <label htmlFor="altura">Altura / cm</label>
+                        <label htmlFor="altura">Altura</label>
                         <input
                             type="number"
                             id="altura"
@@ -105,7 +98,7 @@ export default function CadastroAvFisica({ submitUrl }) {
 
                     {/* Nome */}
                     <div className="form-group">
-                        <label htmlFor="peso">Peso / kg</label>
+                        <label htmlFor="peso">Peso</label>
                         <input
                             type="number"
                             id="peso"
@@ -118,7 +111,7 @@ export default function CadastroAvFisica({ submitUrl }) {
 
                     {/* Data de Nascimento */}
                     <div className="form-group">
-                        <label htmlFor="observacoes">Observações</label>
+                        <label htmlFor="data_nascimento">Observações</label>
                         <textarea
                             name="observacoes"
                             value={formData.observacoes}
@@ -157,17 +150,17 @@ export default function CadastroAvFisica({ submitUrl }) {
 
                     {/* Plano Selection */}
                     <div className="form-group">
-                        <label htmlFor="aluno_id">Aluno</label>
+                        <label htmlFor="aluno_matricula">Aluno</label>
                         <select
-                            id="aluno_id"
-                            name="aluno_id"
-                            value={formData.aluno_id}
+                            id="aluno_matricula"
+                            name="aluno_matricula"
+                            value={formData.aluno_matricula}
                             onChange={handleChange}
                             required
                         >
                             {aluno.length > 0 ? (
                                 aluno.map((aluno) => (
-                                    <option key={aluno.id} value={aluno.id}>
+                                    <option key={aluno.matricula} value={aluno.matricula}>
                                         {aluno.nome}
                                     </option>
                                 ))

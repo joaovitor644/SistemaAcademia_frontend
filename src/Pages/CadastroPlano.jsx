@@ -13,7 +13,7 @@ export default function CadastroPlano({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
+    const [isAdm,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         nome: '',
         valor: '',
@@ -23,7 +23,7 @@ export default function CadastroPlano({ submitUrl }) {
     const [aulas, setAulas] = useState([]);
     const [aulaSelecionada, setAulaSelecionada] = useState('');
 
-    /*
+       
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -36,8 +36,6 @@ export default function CadastroPlano({ submitUrl }) {
             })
             .catch(() => navigate('/'));
     }, [navigate]);
-
-    */
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -58,7 +56,7 @@ export default function CadastroPlano({ submitUrl }) {
             // implement
         };
 
-        axios.post(submitUrl, dataToSubmit)
+        axios.post(submitUrl, formData)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })

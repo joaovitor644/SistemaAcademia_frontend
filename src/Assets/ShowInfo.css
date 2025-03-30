@@ -28,5 +28,6 @@
   }
   
   .info-item span {
+    margin-left: 100px;
     color: #555;
   }

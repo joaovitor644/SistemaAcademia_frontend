@@ -55,7 +55,7 @@ export default function Aluno({AddPath , urlView , urlEdit , deleteUrl}){
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={alunos.length >0 ? alunos : []} headers={headers} titulo={"Tabela de Alunos"} AddPath={AddPath} urlView={"/aluno/view"} keyUnique={"matricula_aluno"} urlEdit={"/aluno/edit/"}/>
+            <TableComponent dados={alunos.length >0 ? alunos : []} headers={headers} titulo={"Tabela de Alunos"} AddPath={AddPath} urlView={"/aluno/view"} keyUnique={"matricula"} urlEdit={"/aluno/edit/"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

@@ -13,17 +13,12 @@ export default function CadastroAula({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         horario: '',
         tipo: '',
         sala: ''
     });
-    const [planos, setPlanos] = useState([]);
-    const [aulas, setAulas] = useState([]);
-    const [aulaSelecionada, setAulaSelecionada] = useState('');
 
-    /*
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -37,7 +32,6 @@ export default function CadastroAula({ submitUrl }) {
             .catch(() => navigate('/'));
     }, [navigate]);
 
-    */
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -58,7 +52,7 @@ export default function CadastroAula({ submitUrl }) {
             // implement
         };
 
-        axios.post(submitUrl, dataToSubmit)
+        axios.post(submitUrl, formData)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })
@@ -82,7 +76,7 @@ export default function CadastroAula({ submitUrl }) {
                             type="text"
                             id="horario"
                             name="horario"
-                            value={formData.nome}
+                            value={formData.horario}
                             onChange={handleChange}
                             required
                         />
@@ -95,7 +89,7 @@ export default function CadastroAula({ submitUrl }) {
                             type="text"
                             id="tipo"
                             name="tipo"
-                            value={formData.valor}
+                            value={formData.tipo}
                             onChange={handleChange}
                             required
                         />
@@ -108,7 +102,7 @@ export default function CadastroAula({ submitUrl }) {
                             type="text"
                             id="sala"
                             name="sala"
-                            value={formData.descricao}
+                            value={formData.sala}
                             onChange={handleChange}
                             required
                         />

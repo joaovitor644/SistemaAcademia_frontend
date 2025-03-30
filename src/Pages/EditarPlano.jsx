@@ -14,28 +14,27 @@ export default function EditarPlano({ submitUrl }) {
     const {id} = useParams()
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         nome: '',
         valor: '',
         descricao: ''
     });
 
-    /*
     useEffect(() => {
-        axios.get('http://localhost:5000/session', { withCredentials: true })
+        axios.get('http://localhost:5000/FormAtualizarPlano/' + id, { withCredentials: true })
             .then(response => {
-                if (response.data.permission === 'OK') {
-                    setUsername(response.data.user);
-                    setIsAdmin(response.data.isAdm);
+                if (response.data.plano) {
+                    setFormData({
+                            nome: response.data.plano.nome,
+                            valor: response.data.plano.valor,
+                            descricao: response.data.plano.descricao
+                    });
                 } else {
-                    navigate('/');
+
                 }
             })
-            .catch(() => navigate('/'));
-    }, [navigate]);
-
-    */
+            .catch();
+    }, []);
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -56,7 +55,7 @@ export default function EditarPlano({ submitUrl }) {
             // implement
         };
 
-        axios.post(submitUrl, dataToSubmit)
+        axios.put(submitUrl +id, formData)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })

@@ -12,7 +12,7 @@ export default function Aulas({AddPath, urlView , urlEdit , deleteUrl}){
     const navigate = useNavigate();
     const titulo = "Tabela de Aulas";
     const headers = ["Tipo", "Horario", "Sala"];
-    const [planos,setPlanos] = useState('')
+    const [aulas,setAulas] = useState('')
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
     const [IsAdmin,setIsAdmin] = useState('')
@@ -20,15 +20,7 @@ export default function Aulas({AddPath, urlView , urlEdit , deleteUrl}){
         setFeedback({ message: '', type: '' });
       };
     
-      const aulas = [
-        { id: 1,tipo: "Musculação", horario: "06:00 - 07:00", sala: "A" },
-        { tipo: "Yoga", horario: "07:30 - 08:30", sala: "B" },
-        { tipo: "Pilates", horario: "09:00 - 10:00", sala: "C" },
-        { tipo: "Zumba", horario: "10:30 - 11:30", sala: "A" },
-        { tipo: "Spinning", horario: "12:00 - 13:00", sala: "B" }
-      ];
-    
-    /*useEffect(() => {
+    useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
@@ -39,30 +31,29 @@ export default function Aulas({AddPath, urlView , urlEdit , deleteUrl}){
                 }
             })
             .catch(() => navigate('/'));
-    }, [navigate]);*/
+    }, [navigate]);
 
-    /*
+    
     useEffect(() => {
-        axios.get('http://localhost:5000/ListarPlano', { withCredentials: true })
+        axios.get('http://localhost:5000/ListarAula', { withCredentials: true })
             .then(response => {
-                if (response.data.planos) {
-                    setPlanos(response.data.planos)
-                    console.log(response.data.planos)
+                if (response.data.aulas) {
+                    setAulas(response.data.aulas)
                 } else {
-                    setPlanos([])
+
                 }
             })
             .catch(() => {
-                setPlanos([])
+
             });
     }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-    */
+
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={aulas} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={"/aulas/view"} keyUnique={"id_aula"} />
+            <TableComponent titulo={titulo} dados={aulas} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={"/aulas/view"} keyUnique={"id_aula"} deleteUrl={"http://localhost:5000/ExcluirAula"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

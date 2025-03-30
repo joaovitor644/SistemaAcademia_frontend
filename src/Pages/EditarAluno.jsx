@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { useNavigate ,useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import '../Assets/HomePage.css';
 import MenuBar from "../Components/MenuBar";
 import TopBar from "../Components/TopBar";
@@ -10,37 +10,70 @@ import addIcon from '../Assets/add-64px.png';
 import removeIcon from '../Assets/lixo.png';
 
 export default function EditarAluno({ submitUrl }) {
-    const {id} = useParams()
+    const { id } = useParams()
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
-    const [formData, setFormData] = useState('');
-    const [planos, setPlanos] = useState([{id:'1',nome:"base"},{id:'2',nome:"base2"}]);
-    const [aulas, setAulas] = useState([]);
+    const [formData, setFormData] = useState({
+        matricula: '',
+        nome: '',
+        data_nascimento: '',
+        cpf: '',
+        email: '',
+        telefone: '',
+        logradouro: '',
+        cep: '',
+        rua: '',
+        num_casa: '',
+        bairro: '',
+        cidade: '',
+        plano_id: ''
+    });
+    const [planos, setPlanos] = useState([]);
+    const [todasAulas, setTodasAulas] = useState([]); // Todas as aulas disponíveis
+    const [aulasSelecionadas, setAulasSelecionadas] = useState([]); // Aulas do aluno
     const [aulaSelecionada, setAulaSelecionada] = useState('');
-    const [treinos, setTreinos] = useState([]);
+    const [todosTreinos, setTodosTreinos] = useState([]); // Todos os treinos disponíveis
+    const [treinosSelecionados, setTreinosSelecionados] = useState([]); // Treinos do aluno
     const [treinoSelecionado, setTreinoSelecionado] = useState('');
 
-    /*
-    useEffect(() => {
-        axios.get('http://localhost:5000/session', { withCredentials: true })
-            .then(response => {
-                if (response.data.permission === 'OK') {
-                    setUsername(response.data.user);
-                    setIsAdmin(response.data.isAdm);
-                } else {
-                    navigate('/');
-                }
-            })
-            .catch(() => navigate('/'));
-    }, [navigate]);
-
-    */
+    const aluno = {
+        "matricula": "123456",
+        "nome": "João Silva",
+        "data_nascimento": "1995-08-20",
+        "cpf": "123.456.789-00",
+        "email": "joao.silva@email.com",
+        "telefone": "(11) 98765-4321",
+        "logradouro": "Avenida Paulista",
+        "cep": "01310-000",
+        "rua": "Paulista",
+        "num_casa": "100",
+        "bairro": "Bela Vista",
+        "cidade": "São Paulo",
+        "aulas": [
+            { "id": "1", "nome": "teinoAula1" },
+            { "id": "2", "nome": "teinoaula21" }
+        ],
+        "treinos": [
+            { "id": "1", "nome": "teino1" },
+            { "id": "2", "nome": "teino1" }
+        ],
+        "plano_id": "1"
+    }
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
     };
+
+    useEffect(() => {
+        // Simulação de carregamento dos dados do aluno
+        setFormData(aluno);
+        setTodasAulas([{ id: "1", nome: "Based" }, { id: "2", nome: "Premiueeeeeem" }]);
+        setAulasSelecionadas(aluno.aulas);
+        setTodosTreinos([{ id: "1", nome: "Baseeee" }, { id: "2", nome: "Preffffffffmium" }]);
+        setTreinosSelecionados(aluno.treinos);
+        setPlanos([{ id: "1", nome: "Baseeee" }, { id: "2", nome: "Premppppium" }]);
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -53,13 +86,16 @@ export default function EditarAluno({ submitUrl }) {
     };
 
     const adicionarAula = () => {
-        if (aulaSelecionada && !aulas.includes(aulaSelecionada)) {
-            setAulas([...aulas, aulaSelecionada]);
+        if (aulaSelecionada && !aulasSelecionadas.some(aula => aula.id === aulaSelecionada)) {
+            const aulaToAdd = todasAulas.find(aula => aula.id === aulaSelecionada);
+            if (aulaToAdd) {
+                setAulasSelecionadas([...aulasSelecionadas, aulaToAdd]);
+            }
         }
     };
 
-    const removerAula = (aula) => {
-        setAulas(aulas.filter((item) => item !== aula));
+    const removerAula = (aulaId) => {
+        setAulasSelecionadas(aulasSelecionadas.filter(aula => aula.id !== aulaId));
     };
 
     // Treinos functions
@@ -68,21 +104,24 @@ export default function EditarAluno({ submitUrl }) {
     };
 
     const adicionarTreino = () => {
-        if (treinoSelecionado && !treinos.includes(treinoSelecionado)) {
-            setTreinos([...treinos, treinoSelecionado]);
+        if (treinoSelecionado && !treinosSelecionados.some(treino => treino.id === treinoSelecionado)) {
+            const treinoToAdd = todosTreinos.find(treino => treino.id === treinoSelecionado);
+            if (treinoToAdd) {
+                setTreinosSelecionados([...treinosSelecionados, treinoToAdd]);
+            }
         }
     };
 
-    const removerTreino = (treino) => {
-        setTreinos(treinos.filter((item) => item !== treino));
+    const removerTreino = (treinoId) => {
+        setTreinosSelecionados(treinosSelecionados.filter(treino => treino.id !== treinoId));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const dataToSubmit = {
             ...formData,
-            aulas,
-            treinos,
+            aulas: aulasSelecionadas.map(aula => aula.id),
+            treinos: treinosSelecionados.map(treino => treino.id),
         };
 
         /*axios.post(submitUrl, dataToSubmit)
@@ -269,11 +308,9 @@ export default function EditarAluno({ submitUrl }) {
                             onChange={handleAulaChange}
                         >
                             <option value="">Selecione...</option>
-                            <option value="matematica">Aula de Matemática</option>
-                            <option value="fisica">Aula de Física</option>
-                            <option value="historia">Aula de História</option>
-                            <option value="quimica">Aula de Química</option>
-                            <option value="literatura">Aula de Literatura</option>
+                            {todasAulas.map((aula) => (
+                                <option key={aula.id} value={aula.id}>{aula.nome}</option>
+                            ))}
                         </select>
                         <button type="button" onClick={adicionarAula} className="icon-button add-btn">
                             <img src={addIcon} alt="Adicionar Aula" className="icon" />
@@ -284,10 +321,10 @@ export default function EditarAluno({ submitUrl }) {
                     <div>
                         <h3>Aulas Selecionadas:</h3>
                         <ul>
-                            {aulas.map((aula, index) => (
-                                <li key={index} className="selected-aula">
-                                    <div className="aula"><span>{aula}</span>
-                                        <button type="button" onClick={() => removerAula(aula)} className="icon-button remove-btn">
+                            {aulasSelecionadas.map((aula) => (
+                                <li key={aula.id} className="selected-aula">
+                                    <div className="aula"><span>{aula.nome}</span>
+                                        <button type="button" onClick={() => removerAula(aula.id)} className="icon-button remove-btn">
                                             <img src={removeIcon} alt="Remover Aula" className="icon" />
                                         </button>
                                     </div>
@@ -306,11 +343,9 @@ export default function EditarAluno({ submitUrl }) {
                             onChange={handleTreinoChange}
                         >
                             <option value="">Selecione...</option>
-                            <option value="musculacao">Musculação</option>
-                            <option value="crossfit">Crossfit</option>
-                            <option value="funcional">Funcional</option>
-                            <option value="hiit">HIIT</option>
-                            <option value="pilates">Pilates</option>
+                            {todosTreinos.map((treino) => (
+                                <option key={treino.id} value={treino.id}>{treino.nome}</option>
+                            ))}
                         </select>
                         <button type="button" onClick={adicionarTreino} className="icon-button add-btn">
                             <img src={addIcon} alt="Adicionar Treino" className="icon" />
@@ -321,10 +356,10 @@ export default function EditarAluno({ submitUrl }) {
                     <div>
                         <h3>Treinos Selecionados:</h3>
                         <ul>
-                            {treinos.map((treino, index) => (
-                                <li key={index} className="selected-aula">
-                                    <div className="aula"><span>{treino}</span>
-                                        <button type="button" onClick={() => removerTreino(treino)} className="icon-button remove-btn">
+                            {treinosSelecionados.map((treino) => (
+                                <li key={treino.id} className="selected-aula">
+                                    <div className="aula"><span>{treino.nome}</span>
+                                        <button type="button" onClick={() => removerTreino(treino.id)} className="icon-button remove-btn">
                                             <img src={removeIcon} alt="Remover Treino" className="icon" />
                                         </button>
                                     </div>
