@@ -42,8 +42,8 @@ import ShowExercicio from './Pages/ShowExercicio';
 
 const submitUrlCadPlano = 'http://localhost:5000/CadastrarPlano';
 const submitUrlCadAluno = 'http://localhost:5000/CadastrarPlano';
-const submitUrlCadFuncionario = 'http://localhost:5000/CadastrarPlano';
-const submitUrlCadAvFisica = 'http://localhost:5000//CadastrarAvaliacaoFisica';
+const submitUrlCadFuncionario = 'http://localhost:5000/CadastrarFuncionario';
+const submitUrlCadAvFisica = 'http://localhost:5000/CadastrarAvaliacaoFisica';
 const submitUrlCadAula = 'http://localhost:5000/CadastrarAula';
 const submitUrlCadVisitante = 'http://localhost:5000/CadastrarVisitante';
 const submitUrlCadMaterial = 'http://localhost:5000/CadastrarAparelho';
@@ -52,7 +52,7 @@ const submitUrlCadExercicio = 'http://localhost:5000/CadastrarExercicio';
 
 const submitUrlEditPlano = 'http://localhost:5000/AtualizarPlano/';
 const submitUrlEditAluno = 'http://localhost:5000/CadastrarPlano';
-const submitUrlEditFuncionario = 'http://localhost:5000/CadastrarPlano';
+const submitUrlEditFuncionario = 'http://localhost:5000/AtualizarFuncionario';
 const submitUrlEditAvFisica = 'http://localhost:5000/AtualizarAvaliacaoFisica';
 const submitUrlEditAula = 'http://localhost:5000/AtualizarAula/';
 const submitUrlEditVisitante = 'http://localhost:5000/AtualizarVisitante';

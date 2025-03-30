@@ -11,11 +11,10 @@ import FeedbackPopup from "../Components/FeedbackPopup";
 
 export default function Funcionario({AddPath , urlView , urlEdit , deleteUrl}){
     const navigate = useNavigate();
-    const headers = ["Nome", "NIT", "Cargo"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [funcionarios,setFuncionario] = useState('')
     const [IsAdmin,setIsAdmin] = useState('')
-
 
     const dados = [
         {id:3, nome: "João Silva", nit: "123456789", cargo: "Instrutor" },
@@ -31,7 +30,7 @@ export default function Funcionario({AddPath , urlView , urlEdit , deleteUrl}){
       };
 
     
-      /*
+    
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -45,24 +44,26 @@ export default function Funcionario({AddPath , urlView , urlEdit , deleteUrl}){
             .catch(() => navigate('/'));
     }, [navigate]);
 
+    const headers = ["Nome", "NIT", IsAdmin? "Cargo" : "Grau_Instrutor"];
+
     useEffect(() => {
-        axios.get('http://localhost:5000/ListarAluno', { withCredentials: true })
+        axios.get('http://localhost:5000/ListarFuncionarios', { withCredentials: true })
             .then(response => {
-                if (response.data.alunos) {
-                    setAlunos(response.data.alunos);
+                if (response.data.funcionarios) {
+                    setFuncionario(response.data.funcionarios);
                 }
             })
             .catch(() => {
                 // Tratar erro (se necessário)
             });
     }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-    */
+    
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={dados} headers={headers} titulo={"Tabela de Funcionários"} AddPath={AddPath} urlView={"/funcionarios/view"} keyUnique={"nit"} urlEdit={"/funcionarios/edit"}/>
+            <TableComponent dados={funcionarios} headers={headers} titulo={"Tabela de Funcionários"} AddPath={AddPath} urlView={"/funcionario/view"} keyUnique={"nit"} urlEdit={"/funcionario/edit"} deleteUrl={"http://localhost:5000/ExcluirFuncionario"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

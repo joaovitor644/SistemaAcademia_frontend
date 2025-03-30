@@ -15,6 +15,7 @@ export default function ShowFuncionario({viewUrl}){
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
     const [IsAdmin,setIsAdmin] = useState('')
+    const [formData,setFormData] = useState('')
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -81,7 +82,7 @@ export default function ShowFuncionario({viewUrl}){
       };
       
       
-      /*
+    
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -96,23 +97,24 @@ export default function ShowFuncionario({viewUrl}){
     }, [navigate]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/ListarAluno', { withCredentials: true })
-            .then(response => {
-                if (response.data.alunos) {
-                    setAlunos(response.data.alunos);
-                }
-            })
-            .catch(() => {
-                // Tratar erro (se necessário)
-            });
-    }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-    */
+      axios.get('http://localhost:5000/FormAtualizarFuncionario/' + id, { withCredentials: true })
+          .then(response => {
+              if (response.data.funcionario) {
+                  console.log(response.data.funcionario)
+                  setFormData(response.data.funcionario);
+              } else {
+
+              }
+          })
+          .catch();
+  }, [navigate]);
+    
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <ProfilePage ProfileData={FuncionarioData}/>
+            <ProfilePage ProfileData={formData}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

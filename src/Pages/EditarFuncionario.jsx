@@ -9,12 +9,24 @@ import "../Assets/Forms.css";
 import addIcon from '../Assets/add-64px.png';  // Caminho para o ícone "mais"
 import removeIcon from '../Assets/lixo.png'; // Caminho para o ícone "remover"
 
+function formatarData(dataString) {
+    const data = new Date(dataString);
+
+    const ano = data.getUTCFullYear();
+    const mes = String(data.getUTCMonth() + 1).padStart(2, '0'); // Janeiro = 0
+    const dia = String(data.getUTCDate()).padStart(2, '0');
+
+    return `${ano}-${mes}-${dia}`;
+}
+
+
 export default function EditarFuncionario({ submitUrl}) {
     const navigate = useNavigate();
     const {id} = useParams()
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    /*const [formData, setFormData] = useState({
+    const [IsAdm, setIsAdmin] = useState('');
+    const [formData, setFormData] = useState({
         matricula: '',
         nome: '',
         data_nascimento: '',
@@ -27,20 +39,65 @@ export default function EditarFuncionario({ submitUrl}) {
         num_casa: '',
         bairro: '',
         cidade: '',
-        usuario: '',
-        senha:'',
+        username: '',
+        password:'',
         salario:'',
         data_contratacao:'',
         data_final:'',
         is_admin: false,  // Inicializando como false
         nivel_graduacao: '',
         cargo: '' // Adicionando o campo 'cargo'
-    });*/
-    const [formData, setFormData] = useState('');
-    const [planos, setPlanos] = useState([]);
-    const [aulas, setAulas] = useState([]);
-    const [aulaSelecionada, setAulaSelecionada] = useState('');
+    });
+    //const [formData, setFormData] = useState('');
 
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/FormAtualizarFuncionario/' + id, { withCredentials: true })
+            .then(response => {
+                if (response.data.funcionario) {
+                    console.log(response.data.funcionario)
+                    setFormData({
+                        nit: response.data.funcionario.funcionario.nit ,
+                        nome:  response.data.funcionario.funcionario.nome,
+                        data_nascimento: formatarData(response.data.funcionario.funcionario.data_nascimento),
+                        cpf: response.data.funcionario.funcionario.cpf,
+                        email: response.data.funcionario.funcionario.email,
+                        telefone: response.data.funcionario.funcionario.telefone,
+                        logradouro: response.data.funcionario.endereco.logradouro,
+                        cep: response.data.funcionario.endereco.cep,
+                        rua: response.data.funcionario.endereco.rua,
+                        num_casa: response.data.funcionario.endereco.num_casa,
+                        bairro: response.data.funcionario.endereco.bairro,
+                        cidade: response.data.funcionario.endereco.cidade,
+                        username:response.data.funcionario.usuario.username,
+                        password:'',
+                        salario:parseInt(response.data.funcionario.contrato.salario,10),
+                        data_contratacao:formatarData(response.data.funcionario.contrato.data_contratacao),
+                        data_final: formatarData(response.data.funcionario.contrato.data_final),
+                        is_admin:  response.data.funcionario.usuario.is_adm, 
+                        nivel_graduacao: response.data.funcionario.usuario.is_adm? null :  response.data.funcionario.instrutor.grau_instrutuor ,
+                        cargo: response.data.funcionario.usuario.is_adm? response.data.funcionario.administrador.cargo_administrador : null,
+                    });
+                } else {
+
+                }
+            })
+            .catch();
+    }, [navigate]);
+
+    console.log(formData)
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
     };
@@ -54,31 +111,17 @@ export default function EditarFuncionario({ submitUrl}) {
         }));
     };
 
-    // Handle aula selection
-    const handleAulaChange = (e) => {
-        setAulaSelecionada(e.target.value);
-    };
 
-    const adicionarAula = () => {
-        if (aulaSelecionada && !aulas.includes(aulaSelecionada)) {
-            setAulas([...aulas, aulaSelecionada]);
-        }
-    };
+    
 
-    const removerAula = (aula) => {
-        setAulas(aulas.filter((item) => item !== aula));
-    };
-
-    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
         // Prepare the data with selected aulas
         const dataToSubmit = {
             ...formData,
-            aulas, // Add selected classes (aulas) here
         };
 
-        axios.post(submitUrl, dataToSubmit)
+        axios.put(submitUrl + '/' + id, dataToSubmit)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })
@@ -89,19 +132,19 @@ export default function EditarFuncionario({ submitUrl}) {
 
     return (
         <>
-            <TopBar Titulo={"Sistema Academia"} Username={username} />
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdm} />
             <div className="home-page">
                 <MenuBar />
 
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Matrícula */}
                     <div className="form-group">
-                        <label htmlFor="matricula">Matrícula</label>
+                        <label htmlFor="nit">NIT</label>
                         <input
                             type="text"
-                            id="matricula"
-                            name="matricula"
-                            value={formData.matricula}
+                            id="nit"
+                            name="nit"
+                            value={formData.nit}
                             onChange={handleChange}
                             required
                         />
@@ -252,12 +295,12 @@ export default function EditarFuncionario({ submitUrl}) {
 
                     {/* Usuario */}
                     <div className="form-group">
-                        <label htmlFor="usuario">Usuario</label>
+                        <label htmlFor="username">Usuario</label>
                         <input
                             type="text"
-                            id="usuario"
-                            name="usuario"
-                            value={formData.usuario}
+                            id="username"
+                            name="username"
+                            value={formData.username}
                             onChange={handleChange}
                             required
                         />
@@ -265,12 +308,12 @@ export default function EditarFuncionario({ submitUrl}) {
 
                     {/* Senha */}
                     <div className="form-group">
-                        <label htmlFor="senha">Senha</label>
+                        <label htmlFor="password">Senha</label>
                         <input
                             type="password"
-                            id="senha"
-                            name="senha"
-                            value={formData.senha}
+                            id="password"
+                            name="password"
+                            value={formData.password}
                             onChange={handleChange}
                             required
                         />

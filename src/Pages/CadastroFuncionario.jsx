@@ -14,7 +14,7 @@ export default function CadastroFuncionario({ submitUrl }) {
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
     const [formData, setFormData] = useState({
-        matricula: '',
+        nit: '',
         nome: '',
         data_nascimento: '',
         cpf: '',
@@ -26,8 +26,8 @@ export default function CadastroFuncionario({ submitUrl }) {
         num_casa: '',
         bairro: '',
         cidade: '',
-        usuario: '',
-        senha:'',
+        username: '',
+        password:'',
         salario:'',
         data_contratacao:'',
         data_final:'',
@@ -35,9 +35,6 @@ export default function CadastroFuncionario({ submitUrl }) {
         nivel_graduacao: '',
         cargo: '' // Adicionando o campo 'cargo'
     });
-    const [planos, setPlanos] = useState([]);
-    const [aulas, setAulas] = useState([]);
-    const [aulaSelecionada, setAulaSelecionada] = useState('');
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -52,28 +49,12 @@ export default function CadastroFuncionario({ submitUrl }) {
         }));
     };
 
-    // Handle aula selection
-    const handleAulaChange = (e) => {
-        setAulaSelecionada(e.target.value);
-    };
-
-    const adicionarAula = () => {
-        if (aulaSelecionada && !aulas.includes(aulaSelecionada)) {
-            setAulas([...aulas, aulaSelecionada]);
-        }
-    };
-
-    const removerAula = (aula) => {
-        setAulas(aulas.filter((item) => item !== aula));
-    };
-
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
         // Prepare the data with selected aulas
         const dataToSubmit = {
-            ...formData,
-            aulas, // Add selected classes (aulas) here
+            ...formData
         };
 
         axios.post(submitUrl, dataToSubmit)
@@ -94,12 +75,12 @@ export default function CadastroFuncionario({ submitUrl }) {
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Matrícula */}
                     <div className="form-group">
-                        <label htmlFor="matricula">Matrícula</label>
+                        <label htmlFor="nit">NIT</label>
                         <input
                             type="text"
-                            id="matricula"
-                            name="matricula"
-                            value={formData.matricula}
+                            id="nit"
+                            name="nit"
+                            value={formData.nit}
                             onChange={handleChange}
                             required
                         />
@@ -250,12 +231,12 @@ export default function CadastroFuncionario({ submitUrl }) {
 
                     {/* Usuario */}
                     <div className="form-group">
-                        <label htmlFor="usuario">Usuario</label>
+                        <label htmlFor="Username">Usuario</label>
                         <input
                             type="text"
-                            id="usuario"
-                            name="usuario"
-                            value={formData.usuario}
+                            id="username"
+                            name="username"
+                            value={formData.username}
                             onChange={handleChange}
                             required
                         />
@@ -266,9 +247,9 @@ export default function CadastroFuncionario({ submitUrl }) {
                         <label htmlFor="senha">Senha</label>
                         <input
                             type="password"
-                            id="senha"
-                            name="senha"
-                            value={formData.senha}
+                            id="password"
+                            name="password"
+                            value={formData.password}
                             onChange={handleChange}
                             required
                         />
