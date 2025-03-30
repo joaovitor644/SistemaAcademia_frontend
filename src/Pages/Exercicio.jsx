@@ -22,7 +22,7 @@ export default function Exercicio({AddPath , urlView , urlEdit, deleteUrl}){
     
     
     
-    /*useEffect(() => {
+   useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
@@ -33,30 +33,30 @@ export default function Exercicio({AddPath , urlView , urlEdit, deleteUrl}){
                 }
             })
             .catch(() => navigate('/'));
-    }, [navigate]);*/
+    }, [navigate]);
 
-    /*
+    
     useEffect(() => {
-        axios.get('http://localhost:5000/ListarPlano', { withCredentials: true })
+        axios.get('http://localhost:5000/ListarExercicio', { withCredentials: true })
             .then(response => {
-                if (response.data.planos) {
-                    setExercicios(response.data.planos)
-                    console.log(response.data.planos)
+                if (response.data.dados) {
+                    setExercicios(response.data.dados)
+
                 } else {
-                    setPlanos([])
+
                 }
             })
             .catch(() => {
-                setPlanos([])
+
             });
-    }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-    */
+    }, []); 
+    
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={exercicios} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={urlView} keyUnique={"id"} />
+            <TableComponent titulo={titulo} dados={exercicios} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={urlView} keyUnique={"id"} deleteUrl={"http://localhost:5000/ExcluirExercicio"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

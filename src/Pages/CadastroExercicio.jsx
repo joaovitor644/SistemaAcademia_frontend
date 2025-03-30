@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import '../Assets/HomePage.css';
@@ -9,23 +9,52 @@ import "../Assets/Forms.css";
 import addIcon from '../Assets/add-64px.png';
 import removeIcon from '../Assets/lixo.png';
 
+
+function convertToNumber(strList) {
+    return strList.map(str => parseInt(str, 10));
+  }
+
 export default function CadastroExercicio({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [isAdm, setIsAdmin] = useState('');
     const [formData, setFormData] = useState({
         nome: '',
         musculo: '',
         series: '',
         repeticoes: '',
-        materiais: [] // Alterado para array de materiais
+        ids_aparelho: [] // Alterado para array de materiais
     });
-    const [materiaisDisponiveis, setMateriais] = useState([
-        {id:'1', nome:"Haltere"},
-        {id:'2', nome:"Barra"},
-        {id:'3', nome:"Anilha"},
-        {id:'4', nome:"Corda"}
-    ]);
+    const [materiaisDisponiveis, setMateriais] = useState([]);
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarAparelhos', { withCredentials: true })
+            .then(response => {
+                if (response.data.Aparelhos) {
+                    setMateriais(response.data.Aparelhos)
+                    console.log(response.data.Aparelhos)
+                } else {
+                  
+                }
+            })
+            .catch();
+    }, [navigate]);
+
+
     const [materialSelecionado, setMaterialSelecionado] = useState('');
 
     const closeFeedback = () => {
@@ -42,10 +71,10 @@ export default function CadastroExercicio({ submitUrl }) {
     };
 
     const adicionarMaterial = () => {
-        if (materialSelecionado && !formData.materiais.includes(materialSelecionado)) {
+        if (materialSelecionado && !formData.ids_aparelho.includes(materialSelecionado)) {
             setFormData(prevData => ({
                 ...prevData,
-                materiais: [...prevData.materiais, materialSelecionado]
+                ids_aparelho: [...prevData.ids_aparelho, materialSelecionado]
             }));
             setMaterialSelecionado(''); // Limpa a seleção após adicionar
         }
@@ -54,21 +83,24 @@ export default function CadastroExercicio({ submitUrl }) {
     const removerMaterial = (materialId) => {
         setFormData(prevData => ({
             ...prevData,
-            materiais: prevData.materiais.filter(id => id !== materialId)
+            ids_aparelho: prevData.ids_aparelho.filter(id => id !== materialId)
         }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        formData.ids_aparelho = convertToNumber(formData.ids_aparelho )
+        formData.repeticoes = parseInt(formData.repeticoes,10)
+        formData.series = parseInt(formData.series,10)
         console.log(formData);
         
-        /*axios.post(submitUrl, formData)
+        axios.post(submitUrl, formData)
             .then((response) => {
                 setFeedback({ message: 'Exercício cadastrado com sucesso!', type: 'success' });
             })
             .catch((error) => {
                 setFeedback({ message: 'Erro ao cadastrar exercício!', type: 'error' });
-            });*/
+            });
     };
 
     return (
@@ -141,7 +173,7 @@ export default function CadastroExercicio({ submitUrl }) {
                         >
                             <option value="">Selecione...</option>
                             {materiaisDisponiveis.map((material) => (
-                                <option key={material.id} value={material.id}>
+                                <option key={material.id_aparelho} value={material.id_aparelho}>
                                     {material.nome}
                                 </option>
                             ))}
@@ -159,8 +191,11 @@ export default function CadastroExercicio({ submitUrl }) {
                     <div>
                         <h3>Materiais Selecionados:</h3>
                         <ul>
-                            {formData.materiais.map((materialId, index) => {
-                                const material = materiaisDisponiveis.find(m => m.id === materialId);
+                            {formData.ids_aparelho.map((materialId, index) => {
+
+                                const material = materiaisDisponiveis.find(m => m.id_aparelho == materialId);
+                                console.log(material)
+                                console.log(materialId)
                                 return (
                                     <li key={index} className="selected-aula">
                                         <div className="aula">

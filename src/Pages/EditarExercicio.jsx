@@ -9,45 +9,75 @@ import "../Assets/Forms.css";
 import addIcon from '../Assets/add-64px.png';
 import removeIcon from '../Assets/lixo.png';
 
+
+function convertToNumber(strList) {
+    return strList.map(str => parseInt(str, 10));
+  }
+
 export default function EditarExercicio({ submitUrl }) {
     const {id} = useParams()
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [materiaisDisponiveis, setMateriais] = useState([]);
+    const [isAdm, setIsAdmin] = useState('');
     
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/FormAtualizarExercicio/'+id, { withCredentials: true })
+            .then(response => {
+                if (response.data.exercicio.exercicio) {
+                    setFormData(response.data.exercicio.exercicio)
+                    FormData.ids_aparelho == [null] ? [] :  FormData.ids_aparelho 
+                    console.log(response.data.exercicio.exercicio)
+                } else {
+
+                }
+            })
+            .catch();
+    }, [navigate]);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarAparelhos', { withCredentials: true })
+            .then(response => {
+                if (response.data.Aparelhos) {
+                    setMateriais(response.data.Aparelhos)
+                    console.log(response.data.Aparelhos)
+                } else {
+                  
+                }
+            })
+            .catch();
+    }, [navigate]);
+
     // Estado inicial com dados de exemplo para teste
     const [formData, setFormData] = useState({
         nome: '',
         musculo: '',
         series: '',
         repeticoes: '',
-        materiais: []
+        ids_aparelho: []
     });
 
-    // Dados de exemplo para materiais disponíveis
-    const [materiaisDisponiveis, setMateriais] = useState([
-        {id:'1', nome:"Haltere"},
-        {id:'2', nome:"Barra"},
-        {id:'3', nome:"Anilha"},
-        {id:'4', nome:"Corda"},
-        {id:'5', nome:"Kettlebell"}
-    ]);
+
 
     const [materialSelecionado, setMaterialSelecionado] = useState('');
 
-    // Carrega dados de exemplo quando o componente é montado
-    useEffect(() => {
-        // Simulando dados de um exercício existente
-        const exercicioExemplo = {
-            nome: "Supino Reto",
-            musculo: "Peitoral",
-            series: "4",
-            repeticoes: "12",
-            materiais: ['1', '2', '3'] // IDs dos materiais: Haltere, Barra, Anilha
-        };
-        
-        setFormData(exercicioExemplo);
-    }, []);
+
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -64,10 +94,10 @@ export default function EditarExercicio({ submitUrl }) {
     };
 
     const adicionarMaterial = () => {
-        if (materialSelecionado && !formData.materiais.includes(materialSelecionado)) {
+        if (materialSelecionado && !formData.ids_aparelho.includes(materialSelecionado)) {
             setFormData(prevData => ({
                 ...prevData,
-                materiais: [...prevData.materiais, materialSelecionado]
+                ids_aparelho: [...prevData.ids_aparelho, materialSelecionado]
             }));
             setMaterialSelecionado('');
             console.log(`Material adicionado: ${materialSelecionado}`);
@@ -77,7 +107,7 @@ export default function EditarExercicio({ submitUrl }) {
     const removerMaterial = (materialId) => {
         setFormData(prevData => ({
             ...prevData,
-            materiais: prevData.materiais.filter(id => id !== materialId)
+            ids_aparelho: prevData.ids_aparelho.filter(id => id !== materialId)
         }));
         console.log(`Material removido: ${materialId}`);
     };
@@ -87,10 +117,10 @@ export default function EditarExercicio({ submitUrl }) {
         
         // Log dos dados que seriam enviados
         console.log('Dados do formulário:', formData);
-        console.log(`URL de submissão: ${submitUrl}/${id}`);
+        formData.ids_aparelho = convertToNumber(formData.ids_aparelho)
+
         
-        // Simulação de envio (comentado)
-        /*
+        
         axios.put(`${submitUrl}/${id}`, formData)
             .then((response) => {
                 setFeedback({ 
@@ -104,13 +134,8 @@ export default function EditarExercicio({ submitUrl }) {
                     type: 'error' 
                 });
             });
-        */
         
-        // Feedback simulado para teste
-        setFeedback({
-            message: `Dados recebidos (simulado): ${JSON.stringify(formData)}`,
-            type: 'success'
-        });
+    
     };
 
     return (
@@ -185,7 +210,7 @@ export default function EditarExercicio({ submitUrl }) {
                         >
                             <option value="">Selecione...</option>
                             {materiaisDisponiveis.map((material) => (
-                                <option key={material.id} value={material.id}>
+                                <option key={material.id_aparelho} value={material.id_aparelho}>
                                     {material.nome}
                                 </option>
                             ))}
@@ -203,8 +228,8 @@ export default function EditarExercicio({ submitUrl }) {
                     <div>
                         <h3>Materiais Selecionados:</h3>
                         <ul>
-                            {formData.materiais.map((materialId, index) => {
-                                const material = materiaisDisponiveis.find(m => m.id === materialId);
+                            {formData.ids_aparelho.map((materialId, index) => {
+                                const material = materiaisDisponiveis.find(m => m.id_aparelho == materialId);
                                 return (
                                     <li key={index} className="selected-aula">
                                         <div className="aula">
@@ -224,9 +249,6 @@ export default function EditarExercicio({ submitUrl }) {
                     </div>
 
                     <div className="form-buttons">
-                        <button type="button" onClick={() => navigate(-1)} className="cancel-button">
-                            Cancelar
-                        </button>
                         <button type="submit" className="submit-button">
                             Salvar Alterações
                         </button>

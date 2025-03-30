@@ -1,51 +1,25 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import { useNavigate ,useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import '../Assets/HomePage.css'
 import MenuBar from "../Components/MenuBar";
 import TopBar from "../Components/TopBar";
 import FeedbackPopup from "../Components/FeedbackPopup";
 import ProfilePage from "../Components/ProfilePage";
 
-
-
-export default function ShowExercicio({viewUrl}){
-    const {id} = useParams()
+export default function ShowExercicio({ viewUrl }) {
+    const { id } = useParams()
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
+    const [exercicio, setExercicio] = useState({})
+    const [materiaisElemen, setMateriaisElemen] = useState([])
+    const [IsAdmin, setIsAdmin] = useState('');
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
-      };
-      const ExercicioData = {
-        Exercicio: {
-            ID_Exercicio: 101,
-            Nome: "Supino Reto",
-            Musculo: "Peitoral",
-            Series: 4,
-            Repeticoes: 10
-        },
-        Aparelhos: [
-            {
-                ID_Aparelho: 201,
-                Nome: "Banco Reto",
-                Quantidade: 5,
-                Disponibilidade: "Disponível"
-            },
-            {
-                ID_Aparelho: 202,
-                Nome: "Halteres",
-                Quantidade: 10,
-                Disponibilidade: "Disponível"
-            }
-        ]
     };
-    
-      
-      
-      /*
+
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -60,25 +34,41 @@ export default function ShowExercicio({viewUrl}){
     }, [navigate]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/ListarAluno', { withCredentials: true })
+        axios.get('http://localhost:5000/FormAtualizarExercicio/' + id, { withCredentials: true })
             .then(response => {
-                if (response.data.alunos) {
-                    setAlunos(response.data.alunos);
+                if (response.data.exercicio.exercicio) {
+                    const exercicioData = response.data.exercicio.exercicio;
+                    setExercicio(exercicioData);
+                    
+                    // Carrega os aparelhos assim que o exercício for carregado
+                    if (exercicioData.ids_aparelho && exercicioData.ids_aparelho.length > 0) {
+                        const promises = exercicioData.ids_aparelho.map(materialId => 
+                            axios.get('http://localhost:5000/FormAtualizarAparelho/' + materialId, { withCredentials: true })
+                        );
+                        
+                        Promise.all(promises)
+                            .then(responses => {
+                                const aparelhos = responses.map(response => response.data.aparelho.aparelho);
+                                setMateriaisElemen(aparelhos);
+                            })
+                            .catch(error => console.error("Erro ao carregar aparelhos:", error));
+                    }
                 }
             })
-            .catch(() => {
-                // Tratar erro (se necessário)
-            });
-    }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-    */
+            .catch(error => console.error("Erro ao carregar exercício:", error));
+    }, [id, navigate]);
+
     return (
         <>
-        <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
-        <div class="home-page">
-            <MenuBar />
-            <ProfilePage ProfileData={ExercicioData}/>
-            <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
-        </div>
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin} />
+            <div className="home-page">
+                <MenuBar />
+                <ProfilePage ProfileData={{
+                    Exercicio: exercicio,
+                    Aparelhos: materiaisElemen
+                }} />
+                <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
+            </div>
         </>
     );
 }
