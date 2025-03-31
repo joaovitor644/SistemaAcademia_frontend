@@ -39,6 +39,8 @@ const TableComponent = ({ titulo, dados, headers, AddPath, urlView, keyUnique, u
   };
 
   const handleRowClick = (id) => {
+    if (!urlView)
+      return;
     navigate(urlView + `/${id}`);
   };
 

@@ -58,7 +58,7 @@ export default function Material({AddPath, urlView , urlEdit, deleteUrl}){
         <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={Aparelhos} headers={headers} titulo={"Tabela de Materiais"} AddPath={AddPath} urlView={"material/view/"} keyUnique={"id_aparelho"} urlEdit={"/material/edit"} deleteUrl={"http://localhost:5000/ExcluirAparelho"}/>
+            <TableComponent dados={Aparelhos} headers={headers} titulo={"Tabela de Materiais"} AddPath={AddPath} keyUnique={"id_aparelho"} urlEdit={"/material/edit"} deleteUrl={"http://localhost:5000/ExcluirAparelho"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>
