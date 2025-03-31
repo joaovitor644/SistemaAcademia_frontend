@@ -93,7 +93,7 @@ export default function ShowTreino({viewUrl}){
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
+            <MenuBar isAdm={IsAdmin}/>
             <ProfilePage ProfileData={TreinoData}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>

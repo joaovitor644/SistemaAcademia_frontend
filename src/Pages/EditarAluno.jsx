@@ -246,7 +246,7 @@ export default function EditarAluno({ submitUrl }) {
         <>
             <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
             <div className="home-page">
-                <MenuBar />
+                <MenuBar isAdm={IsAdmin}/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Nome */}

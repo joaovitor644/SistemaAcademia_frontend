@@ -25,7 +25,7 @@ export default function EditarFuncionario({ submitUrl}) {
     const {id} = useParams()
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdm, setIsAdmin] = useState('');
+    const [IsAdmin, setIsAdmin] = useState('');
     const [formData, setFormData] = useState({
         matricula: '',
         nome: '',
@@ -133,9 +133,9 @@ export default function EditarFuncionario({ submitUrl}) {
 
     return (
         <>
-            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdm} />
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin} />
             <div className="home-page">
-                <MenuBar />
+                <MenuBar isAdm={IsAdmin}/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Matrícula */}

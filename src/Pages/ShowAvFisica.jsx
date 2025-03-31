@@ -50,7 +50,7 @@ export default function ShowAvFisica({viewUrl}) {
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
+            <MenuBar isAdm={IsAdmin}/>
             <ShowInfo labels={labels} data={AvFisicas}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>

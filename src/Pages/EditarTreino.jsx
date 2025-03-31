@@ -14,7 +14,7 @@ export default function EditarTreino({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [isAdm,setIsAdmin] = useState('')
+    const [IsAdmin, setIsAdmin] = useState('');
     const [formData, setFormData] = useState({
         objetivo: '',
         dificuldade: '',
@@ -121,9 +121,9 @@ export default function EditarTreino({ submitUrl }) {
 
     return (
         <>
-            <TopBar Titulo={"Sistema Academia"} Username={username} />
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
             <div className="home-page">
-                <MenuBar />
+                <MenuBar isAdm={IsAdmin}/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Objetivo */}

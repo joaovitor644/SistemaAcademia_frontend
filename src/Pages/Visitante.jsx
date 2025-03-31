@@ -25,6 +25,7 @@ export default function Visitante({AddPath , urlView , urlEdit, deleteUrl}){
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
@@ -50,9 +51,9 @@ export default function Visitante({AddPath , urlView , urlEdit, deleteUrl}){
 
     return (
         <>
-        <TopBar Titulo={"Sistema Academia"} Username={username}/>
+        <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
+            <MenuBar isAdm={IsAdmin}/>
             <TableComponent dados={visitantes} headers={headers} titulo={"Tabela de Visitantes"} AddPath={AddPath} keyUnique={"id_visitante"} urlEdit={"/visitante/edit"} deleteUrl={"http://localhost:5000/ExcluirVisitante"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>

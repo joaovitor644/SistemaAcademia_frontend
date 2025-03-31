@@ -55,7 +55,7 @@ export default function Treinos({AddPath, urlView , urlEdit , deleteUrl}){
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
+            <MenuBar isAdm={IsAdmin}/>
             <TableComponent titulo={titulo} dados={treino} headers={headers} AddPath={AddPath} urlEdit={"/treino/edit"} urlView={"/treino/view"} keyUnique={"id"} deleteUrl={"http://localhost:5000/ExcluirTreino"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>

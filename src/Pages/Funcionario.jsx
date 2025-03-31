@@ -62,7 +62,7 @@ export default function Funcionario({AddPath , urlView , urlEdit , deleteUrl}){
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
+            <MenuBar isAdm={IsAdmin}/>
             <TableComponent dados={funcionarios} headers={headers} titulo={"Tabela de Funcionários"} AddPath={AddPath} urlView={"/funcionario/view"} keyUnique={"nit"} urlEdit={"/funcionario/edit"} deleteUrl={"http://localhost:5000/ExcluirFuncionario"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
