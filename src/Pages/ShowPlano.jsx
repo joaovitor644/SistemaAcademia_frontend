@@ -18,9 +18,8 @@ export default function ShowPlano() {
 
     //const plano =  { Nome: ["Plano A"], Valor: ["220,00"], Descricao: ["asdfasdfgadefgsd"] }
 
-    /*
+    
     useEffect(() => {
-        // Verificar sessão
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
@@ -31,7 +30,8 @@ export default function ShowPlano() {
                 }
             })
             .catch(() => navigate('/'));
-
+    }, [navigate]);
+/*
         // Buscar dados do funcionário
         axios.get(`http://localhost:5000/funcionarios/${id}`, { withCredentials: true })
             .then(response => {
@@ -54,7 +54,7 @@ export default function ShowPlano() {
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
+            <MenuBar isAdm={IsAdmin}/>
             <ShowInfo labels={labels} data={plano}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>

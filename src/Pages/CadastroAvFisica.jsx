@@ -12,13 +12,15 @@ export default function CadastroAvFisica({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin, setIsAdmin] = useState('');
     const [formData, setFormData] = useState({
         altura: '',
         peso: '',
         observacoes: '',
         biotipo: '',
         medidas: '',
-        aluno_matricula: ''
+        aluno_matricula: '',
+        instrutor_NIT: ''
     });
 
     useEffect(() => {
@@ -26,6 +28,7 @@ export default function CadastroAvFisica({ submitUrl }) {
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
@@ -35,6 +38,7 @@ export default function CadastroAvFisica({ submitUrl }) {
 
 
     const [aluno, setAlunos] = useState([]);
+    const [funcionario, setFuncionarios] = useState([]);
 
 
     useEffect(() => {
@@ -42,6 +46,21 @@ export default function CadastroAvFisica({ submitUrl }) {
             .then(response => {
                 if (response.data.alunos) {
                     setAlunos(response.data.alunos)
+                    console.log(response.data.alunos)
+                } else {
+
+                }
+            })
+            .catch();
+    }, [navigate]);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarFuncionarios', { withCredentials: true })
+            .then(response => {
+                if (response.data.funcionarios) {
+                    setFuncionarios(response.data.funcionarios)
+                    console.log(funcionario);
                 } else {
 
                 }
@@ -65,8 +84,9 @@ export default function CadastroAvFisica({ submitUrl }) {
     // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Prepare the data with selected aulas
-
+        formData.altura = parseFloat(formData.altura,10);
+        formData.peso = parseFloat(formData.peso, 10);
+        console.log(formData);  // Add this for debugging
         axios.post(submitUrl, formData)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
@@ -78,14 +98,14 @@ export default function CadastroAvFisica({ submitUrl }) {
 
     return (
         <>
-            <TopBar Titulo={"Sistema Academia"} Username={username} />
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
             <div className="home-page">
-                <MenuBar />
+                <MenuBar isAdm={IsAdmin}/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Matrícula */}
                     <div className="form-group">
-                        <label htmlFor="altura">Altura</label>
+                        <label htmlFor="altura">Altura / cm</label>
                         <input
                             type="number"
                             id="altura"
@@ -98,7 +118,7 @@ export default function CadastroAvFisica({ submitUrl }) {
 
                     {/* Nome */}
                     <div className="form-group">
-                        <label htmlFor="peso">Peso</label>
+                        <label htmlFor="peso">Peso / kg</label>
                         <input
                             type="number"
                             id="peso"
@@ -137,7 +157,7 @@ export default function CadastroAvFisica({ submitUrl }) {
 
                     {/* Email */}
                     <div className="form-group">
-                        <label htmlFor="medidas">Medidas</label>
+                        <label htmlFor="medidas">Medidas / cm</label>
                         <input
                             type="medidas"
                             id="medidas"
@@ -158,10 +178,33 @@ export default function CadastroAvFisica({ submitUrl }) {
                             onChange={handleChange}
                             required
                         >
+                            <option value="">Selecione...</option>
                             {aluno.length > 0 ? (
                                 aluno.map((aluno) => (
                                     <option key={aluno.matricula} value={aluno.matricula}>
                                         {aluno.nome}
+                                    </option>
+                                ))
+                            ) : (
+                                <option value="">Carregando...</option>
+                            )}
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="instrutor_NIT">Funcionario</label>
+                        <select
+                            id="instrutor_NIT"
+                            name="instrutor_NIT"
+                            value={formData.instrutor_NIT}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">Selecione...</option>
+                            {funcionario.length > 0 ? (
+                                funcionario.map((funcionario) => (
+                                    <option key={funcionario.nit} value={funcionario.nit}>
+                                        {funcionario.nome}
                                     </option>
                                 ))
                             ) : (

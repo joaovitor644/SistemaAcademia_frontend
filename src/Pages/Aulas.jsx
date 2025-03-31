@@ -52,8 +52,8 @@ export default function Aulas({AddPath, urlView , urlEdit , deleteUrl}){
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
-            <TableComponent titulo={titulo} dados={aulas} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={"/aulas/view"} keyUnique={"id_aula"} deleteUrl={"http://localhost:5000/ExcluirAula"}/>
+            <MenuBar isAdm={IsAdmin}/>
+            <TableComponent titulo={titulo} dados={aulas} headers={headers} AddPath={AddPath} urlEdit={urlEdit} keyUnique={"id_aula"} deleteUrl={"http://localhost:5000/ExcluirAula"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

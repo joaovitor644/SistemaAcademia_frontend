@@ -15,7 +15,7 @@ function convertToNumber(strList) {
 
 export default function CadastroTreino({ submitUrl }) {
     const navigate = useNavigate();
-    const [isAdm, setIsAdmin] = useState('');
+    const [IsAdmin, setIsAdmin] = useState('');
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
     const [formData, setFormData] = useState({
@@ -111,9 +111,9 @@ export default function CadastroTreino({ submitUrl }) {
 
     return (
         <>
-            <TopBar Titulo={"Sistema Academia"} Username={username} />
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
             <div className="home-page">
-                <MenuBar/>
+                <MenuBar isAdm={IsAdmin}/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Objetivo */}

@@ -25,7 +25,7 @@ export default function EditarFuncionario({ submitUrl}) {
     const {id} = useParams()
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdm, setIsAdmin] = useState('');
+    const [IsAdmin, setIsAdmin] = useState('');
     const [formData, setFormData] = useState({
         matricula: '',
         nome: '',
@@ -124,18 +124,18 @@ export default function EditarFuncionario({ submitUrl}) {
 
         axios.put(submitUrl + '/' + id, dataToSubmit)
             .then((response) => {
-                setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
+                setFeedback({ message: 'Funcionário atualizado com sucesso!', type: 'success' });
             })
             .catch((error) => {
-                setFeedback({ message: 'Erro ao cadastrar aluno!', type: 'error' });
+                setFeedback({ message: 'Erro ao atualizar funcionário!', type: 'error' });
             });
     };
 
     return (
         <>
-            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdm} />
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin} />
             <div className="home-page">
-                <MenuBar />
+                <MenuBar isAdm={IsAdmin}/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Matrícula */}

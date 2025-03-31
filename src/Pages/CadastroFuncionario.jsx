@@ -13,6 +13,7 @@ export default function CadastroFuncionario({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin, setIsAdmin] = useState('');
     const [formData, setFormData] = useState({
         nit: '',
         nome: '',
@@ -39,6 +40,19 @@ export default function CadastroFuncionario({ submitUrl }) {
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
     };
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
 
     // Handle form data changes
     const handleChange = (e) => {
@@ -68,9 +82,9 @@ export default function CadastroFuncionario({ submitUrl }) {
 
     return (
         <>
-            <TopBar Titulo={"Sistema Academia"} Username={username} />
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
             <div className="home-page">
-                <MenuBar />
+                <MenuBar isAdm={IsAdmin}/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Matrícula */}

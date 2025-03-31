@@ -54,8 +54,8 @@ export default function Planos({AddPath, urlView , urlEdit , deleteUrl}){
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
-            <TableComponent titulo={titulo} dados={planos} headers={headers} AddPath={AddPath} urlEdit={"/planos/edit"} urlView={"/planos/view"} keyUnique={"id"} deleteUrl={"http://localhost:5000/ExcluirPlano"} />
+            <MenuBar isAdm={IsAdmin}/>
+            <TableComponent titulo={titulo} dados={planos} headers={headers} AddPath={AddPath} urlEdit={"/planos/edit"}  keyUnique={"id"} deleteUrl={"http://localhost:5000/ExcluirPlano"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

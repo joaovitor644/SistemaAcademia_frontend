@@ -25,6 +25,7 @@ export default function EditarVisitante({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin, setIsAdmin] = useState('');
     const [formData, setFormData] = useState({
         nome: '',
         data_ultima_visita: '',
@@ -38,6 +39,7 @@ export default function EditarVisitante({ submitUrl }) {
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
@@ -83,18 +85,18 @@ export default function EditarVisitante({ submitUrl }) {
 
     axios.put(`${submitUrl}/${id}`, formData, { withCredentials: true }) 
         .then((response) => {
-            setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
+            setFeedback({ message: 'Visitante atualizado com sucesso!', type: 'success' });
         })
         .catch((error) => {
-            setFeedback({ message: 'Erro ao cadastrar visitante!' + error, type: 'error' });
+            setFeedback({ message: 'Erro ao atualizar visitante!' + error, type: 'error' });
         });
 };
 
     return (
         <>
-            <TopBar Titulo={"Sistema Academia"} Username={username} />
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
             <div className="home-page">
-                <MenuBar />
+                <MenuBar isAdm={IsAdmin}/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
 

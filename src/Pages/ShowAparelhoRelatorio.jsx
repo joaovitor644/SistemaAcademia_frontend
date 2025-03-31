@@ -29,6 +29,19 @@ export default function ShowRelatorio() {
     const datas = [{ Nome: "Halteres 5kg", Serial: [10], disponibilidade: ["Disponível"] }]
     //const plano =  { Nome: ["Plano A"], Valor: ["220,00"], Descricao: ["asdfasdfgadefgsd"] }
 
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
     /*
     useEffect(() => {
         // Verificar sessão
@@ -65,7 +78,7 @@ export default function ShowRelatorio() {
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
+            <MenuBar isAdm={IsAdmin}/>
             <ShowInfo labels={labels} data={datas}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>

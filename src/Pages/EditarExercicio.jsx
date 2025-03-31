@@ -20,7 +20,7 @@ export default function EditarExercicio({ submitUrl }) {
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
     const [materiaisDisponiveis, setMateriais] = useState([]);
-    const [isAdm, setIsAdmin] = useState('');
+    const [IsAdmin, setIsAdmin] = useState('');
     
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
@@ -140,9 +140,9 @@ export default function EditarExercicio({ submitUrl }) {
 
     return (
         <>
-            <TopBar Titulo={"Sistema Academia"} Username={username} />
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
             <div className="home-page">
-                <MenuBar />
+                <MenuBar isAdm={IsAdmin}/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
                     <h2>Editar Exercício</h2>

@@ -62,7 +62,7 @@ export default function ShowExercicio({ viewUrl }) {
         <>
             <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin} />
             <div className="home-page">
-                <MenuBar />
+                <MenuBar isAdm={IsAdmin}/>
                 <ProfilePage ProfileData={{
                     Exercicio: exercicio,
                     Aparelhos: materiaisElemen

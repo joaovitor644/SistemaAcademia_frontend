@@ -30,6 +30,8 @@
 }
 
 /* Inputs e campos de texto */
+.generic-form input[type="number"],
+.generic-form textarea,
 .generic-form input[type="text"],
 .generic-form input[type="email"],
 .generic-form input[type="password"],
@@ -45,6 +47,8 @@
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.generic-form input[type="number"]:focus,
+.generic-form textarea:focus,
 .generic-form input[type="text"]:focus,
 .generic-form input[type="email"]:focus,
 .generic-form input[type="password"]:focus,

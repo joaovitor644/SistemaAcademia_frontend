@@ -14,6 +14,7 @@ export default function Material({AddPath, urlView , urlEdit, deleteUrl}){
     const headers = ["Nome", "numero_serie", "Disponibilidade"];
     const [Aparelhos,setAparelhos] = useState('')
     const [feedback, setFeedback] = useState({ message: '', type: '' });
+    const [IsAdmin, setIsAdmin] = useState('');
     const [username, setUsername] = useState('');
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -34,6 +35,7 @@ export default function Material({AddPath, urlView , urlEdit, deleteUrl}){
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
@@ -55,10 +57,10 @@ export default function Material({AddPath, urlView , urlEdit, deleteUrl}){
     
     return (
         <>
-        <TopBar Titulo={"Sistema Academia"} Username={username}/>
+        <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
-            <TableComponent dados={Aparelhos} headers={headers} titulo={"Tabela de Materiais"} AddPath={AddPath} urlView={"material/view/"} keyUnique={"id_aparelho"} urlEdit={"/material/edit"} deleteUrl={"http://localhost:5000/ExcluirAparelho"}/>
+            <MenuBar isAdm={IsAdmin}/>
+            <TableComponent dados={Aparelhos} headers={headers} titulo={"Tabela de Materiais"} AddPath={AddPath} keyUnique={"id_aparelho"} urlEdit={"/material/edit"} deleteUrl={"http://localhost:5000/ExcluirAparelho"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

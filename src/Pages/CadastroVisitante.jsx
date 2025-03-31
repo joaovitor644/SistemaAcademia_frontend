@@ -13,6 +13,7 @@ export default function CadastroVisitante({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdmin, setIsAdmin] = useState('');
     const [formData, setFormData] = useState({
         nome: '',
         data_ultima_visita: '',
@@ -26,6 +27,7 @@ export default function CadastroVisitante({ submitUrl }) {
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
@@ -64,9 +66,9 @@ export default function CadastroVisitante({ submitUrl }) {
 
     return (
         <>
-            <TopBar Titulo={"Sistema Academia"} Username={username} />
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
             <div className="home-page">
-                <MenuBar />
+                <MenuBar isAdm={IsAdmin}/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
 

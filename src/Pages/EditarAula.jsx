@@ -14,7 +14,7 @@ export default function EditarAula({ submitUrl }) {
     const {id} = useParams()
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [isAdm,setIsAdmin] = useState('')
+    const [IsAdmin, setIsAdmin] = useState('');
     const [formData, setFormData] = useState({
         horario: '',
         tipo: '',
@@ -71,18 +71,18 @@ export default function EditarAula({ submitUrl }) {
 
         axios.put(submitUrl + id, formData)
             .then((response) => {
-                setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
+                setFeedback({ message: 'Aula atualizada com sucesso!', type: 'success' });
             })
             .catch((error) => {
-                setFeedback({ message: 'Erro ao cadastrar Aparelho!', type: 'error' });
+                setFeedback({ message: 'Erro ao editar Aparelho!', type: 'error' });
             });
     };
 
     return (
         <>
-            <TopBar Titulo={"Sistema Academia"} Username={username} />
+            <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
             <div className="home-page">
-                <MenuBar />
+                <MenuBar isAdm={IsAdmin}/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
 

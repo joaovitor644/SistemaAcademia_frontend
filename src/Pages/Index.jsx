@@ -28,7 +28,7 @@ export default function Index(){
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
+            <MenuBar isAdm={IsAdmin}/>
             <div class="svg-container">
                 <img src={imgAlter}  class="svg-icon" />
             </div>

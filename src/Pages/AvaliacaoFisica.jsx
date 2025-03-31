@@ -11,10 +11,11 @@ import FeedbackPopup from "../Components/FeedbackPopup";
 export default function Avaliacao({AddPath, urlView , urlEdit}){
     const navigate = useNavigate();
     const titulo = "Tabela de Avaliação Física";
-    const headers = ["Altura", "Peso", "Biotipo"];
+    const headers = ["Aluno_Matricula","Altura", "Peso", "Biotipo"];
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
     const [avFisicas, setAvFisicas] = useState('');
+    const [IsAdmin, setIsAdmin] = useState('');
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
@@ -26,6 +27,7 @@ export default function Avaliacao({AddPath, urlView , urlEdit}){
             .then(response => {
                 if (response.data.permission === 'OK') {
                     setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
                 } else {
                     navigate('/');
                 }
@@ -50,10 +52,10 @@ export default function Avaliacao({AddPath, urlView , urlEdit}){
 
     return (
         <>
-        <TopBar Titulo={"Sistema Academia"} Username={username}/>
+        <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
-            <MenuBar />
-            <TableComponent titulo={titulo} dados={avFisicas} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={urlView} deleteUrl={"http://localhost:5000/RemoverAvaliacaoFisica"} keyUnique={"id_avaliacao_fisica"}/>
+            <MenuBar isAdm={IsAdmin}/>
+            <TableComponent titulo={titulo} dados={avFisicas} headers={headers} AddPath={AddPath} urlEdit={urlEdit} urlView={urlView} deleteUrl={"http://localhost:5000/ExcluirAvaliacaoFisica"} keyUnique={"id_avaliacao_fisica"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>
