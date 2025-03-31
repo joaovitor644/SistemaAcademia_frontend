@@ -57,10 +57,10 @@ export default function EditarPlano({ submitUrl }) {
 
         axios.put(submitUrl +id, formData)
             .then((response) => {
-                setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
+                setFeedback({ message: 'Plano atualizado com sucesso!', type: 'success' });
             })
             .catch((error) => {
-                setFeedback({ message: 'Erro ao cadastrar Aparelho!', type: 'error' });
+                setFeedback({ message: 'Erro ao atualizar plano!', type: 'error' });
             });
     };
 

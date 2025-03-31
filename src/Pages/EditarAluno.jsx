@@ -235,10 +235,10 @@ export default function EditarAluno({ submitUrl }) {
         console.log(dataToSubmit)
        axios.put(submitUrl + id, dataToSubmit)
             .then((response) => {
-                setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
+                setFeedback({ message: 'Aluno atualizado com sucesso!', type: 'success' });
             })
             .catch((error) => {
-                setFeedback({ message: 'Erro ao cadastrar aluno!', type: 'error' });
+                setFeedback({ message: 'Erro ao editar aluno!', type: 'error' });
             });
     };
 

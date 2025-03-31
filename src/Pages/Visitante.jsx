@@ -53,7 +53,7 @@ export default function Visitante({AddPath , urlView , urlEdit, deleteUrl}){
         <TopBar Titulo={"Sistema Academia"} Username={username}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={visitantes} headers={headers} titulo={"Tabela de Visitantes"} AddPath={AddPath} urlView={"/visitante/view"} keyUnique={"id_visitante"} urlEdit={"/visitante/edit"} deleteUrl={"http://localhost:5000/RemoverVisitante"}/>
+            <TableComponent dados={visitantes} headers={headers} titulo={"Tabela de Visitantes"} AddPath={AddPath} urlView={"/visitante/view"} keyUnique={"id_visitante"} urlEdit={"/visitante/edit"} deleteUrl={"http://localhost:5000/ExcluirVisitante"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

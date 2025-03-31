@@ -83,10 +83,10 @@ export default function EditarVisitante({ submitUrl }) {
 
     axios.put(`${submitUrl}/${id}`, formData, { withCredentials: true }) 
         .then((response) => {
-            setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
+            setFeedback({ message: 'Visitante atualizado com sucesso!', type: 'success' });
         })
         .catch((error) => {
-            setFeedback({ message: 'Erro ao cadastrar visitante!' + error, type: 'error' });
+            setFeedback({ message: 'Erro ao atualizar visitante!' + error, type: 'error' });
         });
 };
 
