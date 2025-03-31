@@ -47,7 +47,7 @@ const submitUrlCadAvFisica = 'http://localhost:5000/CadastrarAvaliacaoFisica';
 const submitUrlCadAula = 'http://localhost:5000/CadastrarAula';
 const submitUrlCadVisitante = 'http://localhost:5000/CadastrarVisitante';
 const submitUrlCadMaterial = 'http://localhost:5000/CadastrarAparelho';
-const submitUrlCadTreino = 'http://localhost:5000/CadastrarPlano';
+const submitUrlCadTreino = 'http://localhost:5000/CadastrarTreino';
 const submitUrlCadExercicio = 'http://localhost:5000/CadastrarExercicio';
 
 const submitUrlEditPlano = 'http://localhost:5000/AtualizarPlano/';

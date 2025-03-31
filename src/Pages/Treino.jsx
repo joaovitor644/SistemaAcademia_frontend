@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import '../Assets/HomePage.css'
@@ -12,6 +12,7 @@ export default function Treinos({AddPath, urlView , urlEdit , deleteUrl}){
     const navigate = useNavigate();
     const titulo = "Tabela de Treinos";
     const headers = ["Objetivo", "Dificuldade"];
+    const [treino, setTreinos] = useState('');
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
     const [IsAdmin,setIsAdmin] = useState('')
@@ -19,14 +20,9 @@ export default function Treinos({AddPath, urlView , urlEdit , deleteUrl}){
         setFeedback({ message: '', type: '' });
       };
       
-      const dados = [
-        { id:"1",objetivo: "Emagrecimento", dificuldade: "Média" },
-        { id:"2" ,objetivo: "Aumento de massa muscular", dificuldade: "Alta" },
-        { id:"3",objetivo: "Melhora da resistência", dificuldade: "Baixa" }
-      ];
     
     
-    /*useEffect(() => {
+    useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
                 if (response.data.permission === 'OK') {
@@ -37,30 +33,30 @@ export default function Treinos({AddPath, urlView , urlEdit , deleteUrl}){
                 }
             })
             .catch(() => navigate('/'));
-    }, [navigate]);*/
+    }, [navigate]);
 
-    /*
+    
     useEffect(() => {
-        axios.get('http://localhost:5000/ListarPlano', { withCredentials: true })
+        axios.get('http://localhost:5000/ListarTreinos', { withCredentials: true })
             .then(response => {
-                if (response.data.planos) {
-                    setPlanos(response.data.planos)
-                    console.log(response.data.planos)
+                if (response.data.dados) {
+                    setTreinos(response.data.dados)
+
                 } else {
-                    setPlanos([])
+
                 }
             })
             .catch(() => {
-                setPlanos([])
+
             });
-    }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-    */
+    }, []); 
+    
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent titulo={titulo} dados={dados} headers={headers} AddPath={AddPath} urlEdit={"/treino/edit"} urlView={"/treino/view"} keyUnique={"id"} />
+            <TableComponent titulo={titulo} dados={treino} headers={headers} AddPath={AddPath} urlEdit={"/treino/edit"} urlView={"/treino/view"} keyUnique={"id"} deleteUrl={"http://localhost:5000/ExcluirTreino"} />
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>
