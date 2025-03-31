@@ -24,7 +24,7 @@ export default function Aluno({AddPath , urlView , urlEdit , deleteUrl}){
       };
 
     
-      /*
+    
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -49,13 +49,13 @@ export default function Aluno({AddPath , urlView , urlEdit , deleteUrl}){
                 // Tratar erro (se necessário)
             });
     }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-    */
+    
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>
         <div class="home-page">
             <MenuBar />
-            <TableComponent dados={alunos.length >0 ? alunos : []} headers={headers} titulo={"Tabela de Alunos"} AddPath={AddPath} urlView={"/aluno/view"} keyUnique={"matricula"} urlEdit={"/aluno/edit/"}/>
+            <TableComponent dados={alunos.length >0 ? alunos : []} headers={headers} titulo={"Tabela de Alunos"} AddPath={AddPath} urlView={"/aluno/view"} keyUnique={"matricula"} urlEdit={"/aluno/edit"} deleteUrl={"http://localhost:5000/ExcluirAluno"}/>
             <FeedbackPopup message={feedback.message} type={feedback.type} onClose={closeFeedback} />
         </div>
         </>

@@ -13,6 +13,7 @@ export default function CadastroAluno({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [IsAdm, setIsAdmin] = useState('');
     const [formData, setFormData] = useState({
         matricula: '',
         nome: '',
@@ -26,15 +27,66 @@ export default function CadastroAluno({ submitUrl }) {
         num_casa: '',
         bairro: '',
         cidade: '',
-        plano_id: '',
-        aulas: [],
-        treinos: []
+        plano_id: ''
     });
-    const [planos, setPlanos] = useState([{id:'1',nome:"base"},{id:'2',nome:"base2"}]);
+    const [planos, setPlanos] = useState([]);
     const [aulas, setAulas] = useState([]);
+    const [aulasDisp,setAulasDisp] = useState([]);
     const [aulaSelecionada, setAulaSelecionada] = useState('');
     const [treinos, setTreinos] = useState([]);
     const [treinoSelecionado, setTreinoSelecionado] = useState('');
+    const [treinosDisp, setTreinosDisp] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarAula', { withCredentials: true })
+            .then(response => {
+                if (response.data.aulas) {
+                    setAulasDisp(response.data.aulas)
+                } else {
+       
+                }
+            })
+            .catch()
+    }, [navigate]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarTreinos', { withCredentials: true })
+            .then(response => {
+                if (response.data.dados) {
+                    setTreinosDisp(response.data.dados)
+                } else {
+                  
+                }
+            })
+            .catch();
+    }, [navigate]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarPlano', { withCredentials: true })
+            .then(response => {
+                if (response.data.planos) {
+                    setPlanos(response.data.planos)
+                } else {
+ 
+                }
+            })
+            .catch();
+    }, [navigate]);
+
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -51,47 +103,71 @@ export default function CadastroAluno({ submitUrl }) {
     };
 
     const adicionarAula = () => {
-        if (aulaSelecionada && !aulas.includes(aulaSelecionada)) {
-            setAulas([...aulas, aulaSelecionada]);
+        if (!aulaSelecionada) return; // Impede adicionar se nenhum valor estiver selecionado
+    
+        const aulaObj = aulasDisp.find(aula => aula.id_aula === parseInt(aulaSelecionada, 10));
+    
+        if (!aulaObj) {
+            console.error("Aula não encontrada!");
+            return;
         }
+    
+        // Verifica se a aula já está na lista antes de adicionar
+        if (aulas.some(a => a.id === aulaObj.id_aula)) {
+            console.warn("Aula já adicionada!");
+            return;
+        }
+    
+        const novaAula = { id: aulaObj.id_aula, tipo: aulaObj.tipo };
+        setAulas([...aulas, novaAula]);
     };
+    
 
-    const removerAula = (aula) => {
-        setAulas(aulas.filter((item) => item !== aula));
+    const removerAula = (idAula) => {
+        setAulas(aulas.filter(aula => aula.id !== idAula));
     };
-
-    // Treinos functions
+  
     const handleTreinoChange = (e) => {
         setTreinoSelecionado(e.target.value);
     };
 
     const adicionarTreino = () => {
-        if (treinoSelecionado && !treinos.includes(treinoSelecionado)) {
-            setTreinos([...treinos, treinoSelecionado]);
+        const treinoObj = treinosDisp.find(treino => treino.id === parseInt(treinoSelecionado));
+        const treinoObj2 = {id:treinoObj.id,objetivo:treinoObj.objetivo}
+        if (treinoObj && !treinos.some(t => t.id === treinoObj.id)) {
+            setTreinos([...treinos, treinoObj2]);
         }
     };
 
-    const removerTreino = (treino) => {
-        setTreinos(treinos.filter((item) => item !== treino));
+    const removerTreino = (idTreino) => {
+        setTreinos(treinos.filter(treino => treino.id !== idTreino));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const dataToSubmit = {
-            ...formData,
-            aulas,
-            treinos,
-        };
+        let aulas_id = []
+        let treinos_id = []
 
-        /*axios.post(submitUrl, dataToSubmit)
+        for(let i = 0; i < aulas.length;i++){
+            aulas_id.push(aulas[i].id)
+        }
+        for(let i = 0; i < treinos.length;i++){
+            treinos_id.push(treinos[i].id)
+        }
+        let dataToSubmit = {
+            ...formData,
+            aulas_id,
+            treinos_id,
+        };
+        dataToSubmit.num_casa = parseInt(dataToSubmit.num_casa , 10)
+        console.log(dataToSubmit)
+       axios.post(submitUrl, dataToSubmit)
             .then((response) => {
                 setFeedback({ message: 'Cadastro realizado com sucesso!', type: 'success' });
             })
             .catch((error) => {
                 setFeedback({ message: 'Erro ao cadastrar aluno!', type: 'error' });
-            });*/
-
-        console.log(dataToSubmit)
+            });
     };
 
     return (
@@ -101,19 +177,6 @@ export default function CadastroAluno({ submitUrl }) {
                 <MenuBar />
 
                 <form className="generic-form" onSubmit={handleSubmit}>
-                    {/* Matrícula */}
-                    <div className="form-group">
-                        <label htmlFor="matricula">Matrícula</label>
-                        <input
-                            type="text"
-                            id="matricula"
-                            name="matricula"
-                            value={formData.matricula}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
                     {/* Nome */}
                     <div className="form-group">
                         <label htmlFor="nome">Nome</label>
@@ -267,11 +330,15 @@ export default function CadastroAluno({ submitUrl }) {
                             onChange={handleAulaChange}
                         >
                             <option value="">Selecione...</option>
-                            <option value="matematica">Aula de Matemática</option>
-                            <option value="fisica">Aula de Física</option>
-                            <option value="historia">Aula de História</option>
-                            <option value="quimica">Aula de Química</option>
-                            <option value="literatura">Aula de Literatura</option>
+                            {aulasDisp.length > 0 ? (
+                                aulasDisp.map((aula) => (
+                                    <option key={aula.id_aula} value={aula.id_aula}>
+                                        {aula.tipo}
+                                    </option>
+                                ))
+                            ) : (
+                                <option value="">Carregando...</option>
+                            )}
                         </select>
                         <button type="button" onClick={adicionarAula} className="icon-button add-btn">
                             <img src={addIcon} alt="Adicionar Aula" className="icon" />
@@ -284,8 +351,8 @@ export default function CadastroAluno({ submitUrl }) {
                         <ul>
                             {aulas.map((aula, index) => (
                                 <li key={index} className="selected-aula">
-                                    <div className="aula"><span>{aula}</span>
-                                        <button type="button" onClick={() => removerAula(aula)} className="icon-button remove-btn">
+                                    <div className="aula"><span>{aula.tipo}</span>
+                                        <button type="button" onClick={() => removerAula(aula.id)} className="icon-button remove-btn">
                                             <img src={removeIcon} alt="Remover Aula" className="icon" />
                                         </button>
                                     </div>
@@ -304,11 +371,15 @@ export default function CadastroAluno({ submitUrl }) {
                             onChange={handleTreinoChange}
                         >
                             <option value="">Selecione...</option>
-                            <option value="musculacao">Musculação</option>
-                            <option value="crossfit">Crossfit</option>
-                            <option value="funcional">Funcional</option>
-                            <option value="hiit">HIIT</option>
-                            <option value="pilates">Pilates</option>
+                           {treinosDisp.length > 0 ? (
+                                treinosDisp.map((treno) => (
+                                    <option key={treno.id} value={treno.id}>
+                                        {treno.objetivo}
+                                    </option>
+                                ))
+                            ) : (
+                                <option value="">Carregando...</option>
+                            )}
                         </select>
                         <button type="button" onClick={adicionarTreino} className="icon-button add-btn">
                             <img src={addIcon} alt="Adicionar Treino" className="icon" />
@@ -321,8 +392,8 @@ export default function CadastroAluno({ submitUrl }) {
                         <ul>
                             {treinos.map((treino, index) => (
                                 <li key={index} className="selected-aula">
-                                    <div className="aula"><span>{treino}</span>
-                                        <button type="button" onClick={() => removerTreino(treino)} className="icon-button remove-btn">
+                                    <div className="aula"><span>{treino.objetivo}</span>
+                                        <button type="button" onClick={() => removerTreino(treino.id)} className="icon-button remove-btn">
                                             <img src={removeIcon} alt="Remover Treino" className="icon" />
                                         </button>
                                     </div>
@@ -341,6 +412,7 @@ export default function CadastroAluno({ submitUrl }) {
                             onChange={handleChange}
                             required
                         >
+                              <option value="">Selecione...</option>
                             {planos.length > 0 ? (
                                 planos.map((plano) => (
                                     <option key={plano.id} value={plano.id}>
