@@ -14,53 +14,17 @@ export default function ShowTreino({viewUrl}){
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
-    const [IsAdmin,setIsAdmin] = useState('')
+    const [exerciciosDisponiveis, setExerciciosDisponiveis] = useState([]);
+    const [IsAdmin,setIsAdmin] = useState('');
+    const [treino, setTreino] = useState({
+      ids_exercicio: []
+    });
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
       };
+    
 
-      const TreinoData = {
-        Treino: {
-          ID_Treino: 1,
-          Objetivo: "Hipertrofia",
-          Dificuldade: "Avançado"
-        },
-        Exercicios: [
-          {
-            ID_Exercicio: 101,
-            Nome: "Supino Reto",
-            Musculo: "Peitoral",
-            Series: 4,
-            Repeticoes: 10
-          },
-          {
-            ID_Exercicio: 102,
-            Nome: "Agachamento Livre",
-            Musculo: "Pernas",
-            Series: 4,
-            Repeticoes: 12
-          },
-          {
-            ID_Exercicio: 103,
-            Nome: "Puxada Alta",
-            Musculo: "Costas",
-            Series: 3,
-            Repeticoes: 12
-          },
-          {
-            ID_Exercicio: 104,
-            Nome: "Rosca Direta",
-            Musculo: "Bíceps",
-            Series: 3,
-            Repeticoes: 15
-          }
-        ]
-      };
-      
-      
-      
-      /*
     useEffect(() => {
         axios.get('http://localhost:5000/session', { withCredentials: true })
             .then(response => {
@@ -75,17 +39,56 @@ export default function ShowTreino({viewUrl}){
     }, [navigate]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/ListarAluno', { withCredentials: true })
+      axios.get('http://localhost:5000/ListarExercicio', { withCredentials: true })
+          .then(response => {
+              if (response.data.dados) {
+                  setExerciciosDisponiveis(response.data.dados)
+                  console.log(response.data.dados)
+              } else {
+                
+              }
+          })
+          .catch();
+  }, [navigate]);
+
+    
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/FormAtualizarTreino/' + id, { withCredentials: true })
             .then(response => {
-                if (response.data.alunos) {
-                    setAlunos(response.data.alunos);
+                if (response.data.treino.treino) {
+                    setTreino(response.data.treino.treino);
+                    console.log(treino)
                 }
             })
             .catch(() => {
                 // Tratar erro (se necessário)
             });
     }, []);  // Lista de dependências vazia, a requisição será feita apenas uma vez
-    */
+    
+    let lista_execicios = exerciciosDisponiveis.filter(exercicio => treino.ids_exercicio.includes(exercicio.id));
+    
+    let lista_nova = [];
+
+    lista_execicios.forEach((element) =>
+    {
+      lista_nova.push( {
+        Nome: element.nome,
+        Musculo: element.musculo,
+        Series: element.series,
+        Repeticoes: element.repeticoes
+      })
+    })
+
+    let TreinoData = {
+      Treino: {
+        dificuldade: treino.dificuldade,
+        id_treino: treino.id_treino,
+        ids_exercicio: treino.ids_exercicio,
+        objetivo: treino.objetivo
+      },
+      Exercicios: lista_nova
+    }
     return (
         <>
         <TopBar Titulo={"Sistema Academia"} Username={username} IsAdmin={IsAdmin}/>

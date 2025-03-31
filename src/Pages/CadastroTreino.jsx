@@ -9,19 +9,53 @@ import "../Assets/Forms.css";
 import addIcon from '../Assets/add-64px.png';
 import removeIcon from '../Assets/lixo.png';
 
+function convertToNumber(strList) {
+    return strList.map(str => parseInt(str, 10));
+  }
+
 export default function CadastroTreino({ submitUrl }) {
     const navigate = useNavigate();
+    const [isAdm, setIsAdmin] = useState('');
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
     const [formData, setFormData] = useState({
         objetivo: '',
         dificuldade: '',
         exercicios: [], // Alterado para array
-        aluno_id: ''
+        aluno_id: '',
+        ids_exercicio: ''
+        //id: ''
     });
-    const [exerciciosDisponiveis, setExerciciosDisponiveis] = useState([{id:'1',nome:"Supino"},{id:'2',nome:"Agachamento"}]);
+    const [exerciciosDisponiveis, setExerciciosDisponiveis] = useState([]);
     const [exercicioSelecionado, setExercicioSelecionado] = useState('');
     const [alunos, setAlunos] = useState([{id:'1',nome:"Aluno 1"},{id:'2',nome:"Aluno 2"}]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarExercicio', { withCredentials: true })
+            .then(response => {
+                if (response.data.dados) {
+                    setExerciciosDisponiveis(response.data.dados)
+                    //console.log(response.data.exerciciosDisponiveis)
+                } else {
+                  
+                }
+            })
+            .catch();
+    }, [navigate]);
+
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -55,22 +89,31 @@ export default function CadastroTreino({ submitUrl }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!Array.isArray(formData.exercicios) || formData.exercicios.length === 0) {
+            setFeedback({ message: 'Por favor, adicione ao menos um exercício!', type: 'error' });
+            return;
+        }
+        
+        formData.ids_exercicio = convertToNumber(formData.exercicios);
+        //formData.id = parseInt(formData.id,10);
         console.log(formData);
         
-        /*axios.post(submitUrl, formData)
+        axios.post(submitUrl, formData)
             .then((response) => {
                 setFeedback({ message: 'Treino cadastrado com sucesso!', type: 'success' });
             })
             .catch((error) => {
+                console.log(error)
                 setFeedback({ message: 'Erro ao cadastrar treino!', type: 'error' });
-            });*/
+            });
     };
 
     return (
         <>
             <TopBar Titulo={"Sistema Academia"} Username={username} />
             <div className="home-page">
-                <MenuBar />
+                <MenuBar/>
 
                 <form className="generic-form" onSubmit={handleSubmit}>
                     {/* Objetivo */}
@@ -129,7 +172,7 @@ export default function CadastroTreino({ submitUrl }) {
                         <h3>Exercícios Selecionados:</h3>
                         <ul>
                             {formData.exercicios.map((exercicioId, index) => {
-                                const exercicio = exerciciosDisponiveis.find(e => e.id === exercicioId);
+                                const exercicio = exerciciosDisponiveis.find(e => e.id == exercicioId);
                                 return (
                                     <li key={index} className="selected-aula">
                                         <div className="aula">
