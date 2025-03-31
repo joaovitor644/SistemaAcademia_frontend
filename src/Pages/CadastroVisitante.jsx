@@ -15,7 +15,7 @@ export default function CadastroVisitante({ submitUrl }) {
     const [username, setUsername] = useState('');
     const [formData, setFormData] = useState({
         nome: '',
-        data_visita: '',
+        data_ultima_visita: '',
         qunt_visitas:1,
         telefone:'',
     });
@@ -85,12 +85,12 @@ export default function CadastroVisitante({ submitUrl }) {
 
                     {/* Data de Visita */}
                     <div className="form-group">
-                        <label htmlFor="data_visita">Data de Visita</label>
+                        <label htmlFor="data_ultima_visita">Data de Visita</label>
                         <input
                             type="date"
                             id="data_nascimento"
-                            name="data_visita"
-                            value={formData.data_visita}
+                            name="data_ultima_visita"
+                            value={formData.data_ultima_visita}
                             onChange={handleChange}
                             required
                         />
