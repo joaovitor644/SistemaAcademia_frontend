@@ -53,11 +53,11 @@ const submitUrlCadExercicio = 'http://localhost:5000/CadastrarExercicio';
 const submitUrlEditPlano = 'http://localhost:5000/AtualizarPlano/';
 const submitUrlEditAluno = 'http://localhost:5000/AtualizarAluno/';
 const submitUrlEditFuncionario = 'http://localhost:5000/AtualizarFuncionario';
-const submitUrlEditAvFisica = 'http://localhost:5000/AtualizarAvaliacaoFisica';
+const submitUrlEditAvFisica = 'http://localhost:5000/AtualizarAvaliacaoFisica/';
 const submitUrlEditAula = 'http://localhost:5000/AtualizarAula/';
 const submitUrlEditVisitante = 'http://localhost:5000/AtualizarVisitante';
 const submitUrlEditMaterial = 'http://localhost:5000/AtualizarAparelho/';
-const submitUrlEditTreino = 'http://localhost:5000/CadastrarPlano';
+const submitUrlEditTreino = 'http://localhost:5000/AtualizarTreino/';
 const submitUrlEditExercicio = 'http://localhost:5000/AtualizarExercicio';
 
 

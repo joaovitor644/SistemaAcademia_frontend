@@ -14,15 +14,67 @@ export default function EditarTreino({ submitUrl }) {
     const navigate = useNavigate();
     const [feedback, setFeedback] = useState({ message: '', type: '' });
     const [username, setUsername] = useState('');
+    const [isAdm,setIsAdmin] = useState('')
     const [formData, setFormData] = useState({
         objetivo: '',
         dificuldade: '',
-        exercicios: [], // Alterado para array
-        aluno_id: ''
+        ids_exercicio: [], // Alterado para array
     });
-    const [exerciciosDisponiveis, setExerciciosDisponiveis] = useState([{id:'1',nome:"Supino"},{id:'2',nome:"Agachamento"}]);
+    const [exerciciosDisponiveis, setExerciciosDisponiveis] = useState([]);
     const [exercicioSelecionado, setExercicioSelecionado] = useState('');
-    const [alunos, setAlunos] = useState([{id:'1',nome:"Aluno 1"},{id:'2',nome:"Aluno 2"}]);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/session', { withCredentials: true })
+            .then(response => {
+                if (response.data.permission === 'OK') {
+                    setUsername(response.data.user);
+                    setIsAdmin(response.data.isAdm);
+                } else {
+                    navigate('/');
+                }
+            })
+            .catch(() => navigate('/'));
+    }, [navigate]);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/FormAtualizarTreino/'+id, { withCredentials: true })
+            .then(response => {
+                if (response.data.treino.treino) {
+                    setFormData({
+                        objetivo:response.data.treino.treino.objetivo,
+                        dificuldade:response.data.treino.treino.dificuldade,
+                        ids_exercicio:response.data.treino.treino.ids_exercicio
+                    })
+                } else {
+      
+                }
+            })
+            .catch();
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/ListarExercicio', { withCredentials: true })
+            .then(response => {
+                if (response.data.dados) {
+                    setExerciciosDisponiveis(response.data.dados)
+                }
+            })
+            .catch();
+    }, []);
+    /*
+    useEffect(() => {
+        let ExerciciosFiltradas = [];
+        for (let x = 0; x < treinosDisp.length; x++) {
+            for (let y = 0; y < formData.ids_treino.length; y++) {
+                if (treinosDisp[x].id === formData.ids_treino[y]) {
+                    treinosFiltradas.push({ objetivo: treinosDisp[x].objetivo, id: formData.ids_treino[y] });
+                }
+            }
+        }
+       
+        setTreinos(treinosFiltradas);
+    }, [treinosDisp, formData.ids_treino,formData]);*/
 
     const closeFeedback = () => {
         setFeedback({ message: '', type: '' });
@@ -38,33 +90,33 @@ export default function EditarTreino({ submitUrl }) {
     };
 
     const adicionarExercicio = () => {
-        if (exercicioSelecionado && !formData.exercicios.includes(exercicioSelecionado)) {
+        if (exercicioSelecionado && !formData.ids_exercicio.includes(Number(exercicioSelecionado))) {
             setFormData(prevData => ({
                 ...prevData,
-                exercicios: [...prevData.exercicios, exercicioSelecionado]
+                ids_exercicio: [...prevData.ids_exercicio, Number(exercicioSelecionado)]
             }));
             setExercicioSelecionado(''); // Limpa a seleção após adicionar
         }
     };
-
-    const removerExercicio = (exercicio) => {
+    
+    const removerExercicio = (exercicioId) => {
         setFormData(prevData => ({
             ...prevData,
-            exercicios: prevData.exercicios.filter((item) => item !== exercicio)
+            ids_exercicio: prevData.ids_exercicio.filter(id => id !== exercicioId)
         }));
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(formData);
-        
-        /*axios.post(submitUrl, formData)
+        console.log(submitUrl)
+        axios.put(submitUrl + id, formData)
             .then((response) => {
                 setFeedback({ message: 'Treino cadastrado com sucesso!', type: 'success' });
             })
             .catch((error) => {
                 setFeedback({ message: 'Erro ao cadastrar treino!', type: 'error' });
-            });*/
+            });
     };
 
     return (
@@ -129,8 +181,8 @@ export default function EditarTreino({ submitUrl }) {
                     <div>
                         <h3>Exercícios Selecionados:</h3>
                         <ul>
-                            {formData.exercicios.map((exercicioId, index) => {
-                                const exercicio = exerciciosDisponiveis.find(e => e.id === exercicioId);
+                            {formData.ids_exercicio.map((exercicioId, index) => {
+                                const exercicio = exerciciosDisponiveis.find(e => e.id == exercicioId);
                                 return (
                                     <li key={index} className="selected-aula">
                                         <div className="aula">

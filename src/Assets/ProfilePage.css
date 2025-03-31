@@ -39,7 +39,7 @@
 
 .content {
   max-height: 600px; /* Defina uma altura máxima */
-  overflow-y: auto; /* Adiciona barra de rolagem se necessário */
+  overflow-y: scroll; /* Adiciona barra de rolagem se necessário */
   padding: 10px;
   border-top: 2px solid #ddd;
   background: #f8f9fa;
